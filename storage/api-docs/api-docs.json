@@ -1,0 +1,926 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/cars": {
+      "get": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Машины"
+        ],
+        "summary": "Получаем список машин",
+        "operationId": "all",
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getCars"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "get": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Машины"
+        ],
+        "summary": "Получаем машину по ID",
+        "operationId": "index",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующей машины",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getCarsId"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/create": {
+      "post": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Машины"
+        ],
+        "summary": "Добавляем новую машину",
+        "operationId": "store",
+        "parameters": [
+          {
+            "name": "prod",
+            "in": "query",
+            "description": "Производитель",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "mark",
+            "in": "query",
+            "description": "Марка",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "Модель",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Год выпуска",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/postCars200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}/update": {
+      "put": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Машины"
+        ],
+        "summary": "Обновляем данные о машине по ID",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующей машины",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Новый идентификатор",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "prod",
+            "in": "query",
+            "description": "Новый производитель",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "mark",
+            "in": "query",
+            "description": "Новая марка",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "Новая модель",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Новый год выпуска",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/putCars200"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{id}/delete": {
+      "delete": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Машины"
+        ],
+        "summary": "Удаляем машину по ID",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующей машины",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deleteCars200"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Пользователи"
+        ],
+        "summary": "Получаем список пользователей",
+        "operationId": "all2",
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getArend"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Пользователи"
+        ],
+        "summary": "Получаем пользователя по ID",
+        "operationId": "index2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующего пользователя",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getArendId"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/create": {
+      "post": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Пользователи"
+        ],
+        "summary": "Добавляем нового пользователя",
+        "operationId": "store2",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Имя",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Почта",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Пароль",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/postCars200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/update": {
+      "put": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Пользователи"
+        ],
+        "summary": "Обновляем данные об пользователе по ID",
+        "operationId": "update2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующего пользователя",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Новый идентификатор",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Новое имя",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Новая почта",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "Новый пароль",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/putCars200"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/delete": {
+      "delete": {
+        "servers": [
+          {
+            "url": "http://localhost/api/auth"
+          }
+        ],
+        "tags": [
+          "Пользователи"
+        ],
+        "summary": "Удаляем пользователя по ID",
+        "operationId": "delete2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор существующего пользователя",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deleteCars200"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response404"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {}
+  ],
+  "components": {
+    "schemas": {
+      "getCars": {
+        "type": "object",
+        "properties": {
+          "0": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1
+                },
+                "prod": {
+                  "type": "string",
+                  "example": "Audi AG"
+                },
+                "mark": {
+                  "type": "string",
+                  "example": "Audi"
+                },
+                "model": {
+                  "type": "string",
+                  "example": "A6"
+                },
+                "year": {
+                  "type": "integer",
+                  "example": 2005
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": null
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": null
+                },
+                "deleted_at": {
+                  "type": "string",
+                  "example": null
+                }
+              }
+            }
+          },
+          "1": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/getCarsId"
+            }
+          }
+        }
+      },
+      "getCarsId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "prod": {
+            "type": "string",
+            "example": "Mazda Motor Corporation"
+          },
+          "mark": {
+            "type": "string",
+            "example": "Mazda"
+          },
+          "model": {
+            "type": "string",
+            "example": 2
+          },
+          "year": {
+            "type": "integer",
+            "example": 2008
+          },
+          "created_at": {
+            "type": "string",
+            "example": null
+          },
+          "updated_at": {
+            "type": "string",
+            "example": null
+          },
+          "deleted_at": {
+            "type": "string",
+            "example": null
+          }
+        }
+      },
+      "postCars": {
+        "type": "object",
+        "properties": {
+          "prod": {
+            "type": "string",
+            "example": "Porsche AG"
+          },
+          "mark": {
+            "type": "string",
+            "example": "Porsche"
+          },
+          "model": {
+            "type": "string",
+            "example": "911"
+          },
+          "year": {
+            "type": "integer",
+            "example": 2015
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-12-15T14:43:33.000Z"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-12-15T14:43:33.000Z"
+          },
+          "id": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "postCars200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Created"
+          }
+        }
+      },
+      "putCars": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 5
+          },
+          "prod": {
+            "type": "string",
+            "example": "Porsche AG"
+          },
+          "mark": {
+            "type": "string",
+            "example": "Porsche"
+          },
+          "model": {
+            "type": "string",
+            "example": 911
+          },
+          "year": {
+            "type": "integer",
+            "example": 2015
+          }
+        }
+      },
+      "putCars200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Updated"
+          }
+        }
+      },
+      "deleteCars200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Deleted"
+          }
+        }
+      },
+      "getArend": {
+        "type": "object",
+        "properties": {
+          "0": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "bogomollov"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "viper@mail.ru"
+                },
+                "email_verified_at": {
+                  "type": "string",
+                  "example": null
+                },
+                "car": {
+                  "type": "integer",
+                  "example": null
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2023-12-15T14:43:33.000Z"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2023-12-15T14:43:33.000Z"
+                },
+                "deleted_at": {
+                  "type": "string",
+                  "example": null
+                }
+              }
+            }
+          },
+          "1": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/getArendId"
+            }
+          }
+        }
+      },
+      "getArendId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "name": {
+            "type": "string",
+            "example": "vanya"
+          },
+          "email": {
+            "type": "string",
+            "example": "van@mail.ru"
+          },
+          "email_verified_at": {
+            "type": "string",
+            "example": null
+          },
+          "car": {
+            "type": "integer",
+            "example": null
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-12-15T14:48:33.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-12-15T14:48:33.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "example": null
+          }
+        }
+      },
+      "postArend": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Dr. Kingdom"
+          },
+          "history_operations": {
+            "type": "string",
+            "example": null
+          },
+          "history_arends": {
+            "type": "string",
+            "example": "Audi A6"
+          },
+          "money": {
+            "type": "integer",
+            "example": 3100
+          },
+          "status": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "response404": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404
+          },
+          "message": {
+            "type": "string",
+            "example": "Not Found"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "scheme": "bearer",
+        "type": "http",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
