@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Bills;
 
 class Arendators extends Model
 {
@@ -30,7 +31,7 @@ class Arendators extends Model
 
     public function bills()
     {
-        return $this->belongsToMany(Bill::class, 'bill_renter', 'arendator_id', 'bill_id');
+        return $this->belongsToMany(Bills::class, 'bill_renter', 'arendator_id', 'bill_id');
     }
 
     protected static function boot()

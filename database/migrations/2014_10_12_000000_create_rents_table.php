@@ -18,7 +18,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('car_id')->comment("Идентификатор машины");
             $table->foreignUuid('arendator_id')->comment("Идентификатор арендателя");
-            $table->dateTime('datetime')->comment("Дата и время транзакции");
             $table->enum('status', RentsStatus::getValues())->default(RentsStatus::Open)->comment("Статус аренды");
             $table->dateTime('start_datetime')->comment("Дата и время начала аренды");
             $table->dateTime('end_datetime')->nullable()->comment("Дата и время окончания аренды");

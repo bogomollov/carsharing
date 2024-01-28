@@ -7,6 +7,7 @@ use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use App\Models\Arendators;
 use App\Models\Cars;
+use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
@@ -21,6 +22,9 @@ class RentsFactory extends Factory
     {
         $beginDateTime = fake()->dateTimeBetween($startDate = '-365 days', $endDate = 'now', $timezone = null);
         $endDateTime = fake()->dateTimeInInterval($beginDateTime, $endDate = '+1 days', $timezone = null);
+        
+        $status = RentsStatus::getRandomValue();
+
         return [
             'id' => Str::uuid(),
             'car_id' => function () use ($status) {
