@@ -8,11 +8,13 @@ use Carbon\Carbon;
 use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\UUID;
 
 class Rents extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use UUID;
 
     protected $fillable = [
         'car_id',

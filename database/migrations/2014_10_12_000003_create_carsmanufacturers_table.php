@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('carsmanufacturers', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('manufacturer_id')->nullable()->references('id')->on('carsmarks');
             $table->string('name')->comment("Название производителя машины");
             $table->timestamps();
             $table->softDeletes();
-        });
-        Schema::table('carsmanufacturers', function (Blueprint $table) {
-            $table->foreignUuid('manufacturer_id')->nullable()->references('id')->on('carsmarks');
         });
     }
 

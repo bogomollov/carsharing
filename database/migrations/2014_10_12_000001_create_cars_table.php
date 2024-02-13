@@ -15,15 +15,13 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('model_id')->comment("Идентификатор модели машины");
+            $table->foreignUuid('car_id')->nullable()->references('id')->on('rents');
             $table->enum('status', CarsStatus::getValues())->default(CarsStatus::Maintenance)->comment("Статус ТС");
             $table->unsignedInteger('mileage')->comment("Пробег ТС");
             $table->string('location')->comment("Координаты текущего местоположения ТС");
             $table->unsignedInteger('price_minute')->nullable()->comment("Минутная цена аренды");
             $table->timestamps();
             $table->softDeletes();
-        });
-        Schema::table('cars', function (Blueprint $table) {
-            $table->foreignUuid('car_id')->nullable()->references('id')->on('rents');
         });
     }
 

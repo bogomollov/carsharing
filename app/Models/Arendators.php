@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 use App\Models\Bills;
+use App\Traits\UUID;
 
 class Arendators extends Model
 {
     use HasFactory;
+    use UUID;
 
     protected $fillable = [
         'id',

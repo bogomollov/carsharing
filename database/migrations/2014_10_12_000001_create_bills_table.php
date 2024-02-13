@@ -17,13 +17,11 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
+            $table->foreignUuid('bill_id')->nullable()->references('id')->on('transactions');
             $table->decimal('balance', 10,2)->comment("Баланс счёта");
             $table->enum('status', BillsStatus::getValues())->default(BillsStatus::Open)->comment("Статус счёта");
             $table->timestamps();
             $table->softDeletes();
-        });
-        Schema::table('bills', function (Blueprint $table) {
-            $table->foreignUuid('bill_id')->nullable()->references('id')->on('transactions');
         });
     }
 

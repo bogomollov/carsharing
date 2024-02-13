@@ -19,7 +19,7 @@ class ArendatorsFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => Str::uuid()->toString(),
+            'id' => Str::uuid(),
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(null),
             'middle_name' => fake()->firstName(null),

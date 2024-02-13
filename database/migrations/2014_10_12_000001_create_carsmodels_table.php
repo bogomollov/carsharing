@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('carsmodels', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('mark_id')->comment("Идентификатор марки машины");
+            $table->foreignUuid('model_id')->nullable()->references('id')->on('cars');
             $table->string('name')->comment("Название модели машины");
             $table->timestamps();
             $table->softDeletes();
-        });
-        Schema::table('carsmodels', function (Blueprint $table) {
-            $table->foreignUuid('model_id')->nullable()->references('id')->on('cars');
         });
     }
 

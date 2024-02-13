@@ -8,11 +8,13 @@ use App\Models\Bills;
 use App\Models\Arendators;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use App\Traits\UUID;
 
 class Transactions extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use UUID;
 
     protected $fillable = [
         'bill_id',

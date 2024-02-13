@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Models\CarsMarks;
 use App\Models\Cars;
+use App\Traits\UUID;
 
 class CarsModel extends Model
 {
     use HasUuids;
     use HasFactory;
+    use UUID;
 
     protected $fillable = [
         'mark_id',

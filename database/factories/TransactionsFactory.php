@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -18,7 +19,8 @@ class TransactionsFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'arendator_id' => fake()->numberBetween(1, 20),
+            'bill_id' => Str::uuid(),
+            'arendator_id' => Str::uuid(),
             'datetime' => now()
         ];
     }
