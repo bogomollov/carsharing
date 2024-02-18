@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use App\Models\CarsMarks;
 
@@ -13,21 +13,19 @@ class CarsMarksSeeder extends Seeder
      */
     public function run(): void
     {
-        $brands = array(
-            1 => ['Audi', 'Porsche', 'Volkswagen'],
-            2 => ['Cadillac', 'Chevrolet'],
-            3 => ['Jeep', 'Ferrari'],
-            4 => ['Mercedes-Benz'],
-            5 => ['BMW', 'Rolls-Royce'],
+        $marks = array(
+            ['Audi', 'Porsche', 'Volkswagen'],
+            ['Cadillac', 'Chevrolet'],
+            ['Jeep', 'Ferrari'],
+            ['Mercedes-Benz'],
+            ['BMW', 'Rolls-Royce'],
         );
 
-        foreach ($brands as $key => $value) {
-            foreach ($value as $brand_name) {
-                CarsMarks::create([
-                    'manufacturer_id' => $key,
-                    'name' => $brand_name,
-                ]);
-            }
+        foreach ($marks as $mark_name) {
+            CarsMarks::create([
+                'manufacturer_id' => Str::uuid(),
+                'name' => $mark_name,
+            ]);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\UUID;
+use App\Models\Arendators;
 
 class Bills extends Model
 {
@@ -22,4 +23,9 @@ class Bills extends Model
     protected $hidden = [
         'balance'
     ];
+
+    public function arendator_id() {
+        return $this->hasMany(Arendators::class, 'arendator_id', 'id');
+    }
+
 }

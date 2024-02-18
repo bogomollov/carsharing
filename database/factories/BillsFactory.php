@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\BillsStatus;
 use Illuminate\Support\Str;
 use App\Models\Arendators;
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
- */
+
 class BillsFactory extends Factory
 {
     /**
@@ -20,7 +18,7 @@ class BillsFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'arendator_id' => Str::uuid(),
+            'arendator_id' => Arendators::inRandomOrder()->first()->id,
             'balance' => fake()->numberBetween(0, 1000000),
             'status' => BillsStatus::getRandomValue()
         ];

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use App\Models\CarsModel;
 
@@ -15,25 +15,23 @@ class CarsModelSeeder extends Seeder
     {
         //
         $models = array(
-            1 => ['Q6', 'Q3', 'Q5'],
-            2 => ['Cayene', '911'],
-            3 => ['Polo', 'Golf', 'Tuguan'],
-            4 => ['Escalade', 'CTS'],
-            5 => ['Impala', 'Cobalt', 'Camaro'],
-            6 => ['Grand Cherokee'],
-            7 => ['812'],
-            8 => ['CSL', '63AMG', 'GLE'],
-            9 => ['X5', 'X3'],
-            10 => ['Phantom'],
+            ['Q6', 'Q3', 'Q5'],
+            ['Cayene', '911'],
+            ['Polo', 'Golf', 'Tuguan'],
+            ['Escalade', 'CTS'],
+            ['Impala', 'Cobalt', 'Camaro'],
+            ['Grand Cherokee'],
+            ['812'],
+            ['CSL', '63AMG', 'GLE'],
+            ['X5', 'X3'],
+            ['Phantom'],
         );
 
-        foreach ($models as $key => $value) {
-            foreach ($value as $model_name) {
-                CarsModel::create([
-                    'name' => $model_name,
-                    'mark_id' => $key,
-                ]);
-            }
+        foreach ($models as $model_name) {
+            CarsModel::create([
+                'name' => $model_name,
+                'mark_id' => Str::uuid(),
+            ]);
         }
     }
 }
