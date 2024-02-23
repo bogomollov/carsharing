@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('carsmarks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('manufacturer_id')->comment("Идентификатор производителя машины");
-            $table->foreignUuid('mark_id')->nullable()->references('id')->on('carsmodels');
+            $table->foreignUuid('manufacturer_id')->comment("Идентификатор производителя ТС");
             $table->string('name')->unique()->comment("Марка ТС");
             $table->timestamps();
             $table->softDeletes();

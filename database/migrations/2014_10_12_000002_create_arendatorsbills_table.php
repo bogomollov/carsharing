@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carsmodels', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('mark_id')->comment("Идентификатор марки ТС");
-            $table->string('name')->unique()->comment("Название модели ТС");
+        Schema::create('arendatorsbills', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
+            $table->foreignUuid('bill_id')->comment("Идентификатор счёта");
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carsmodels');
+        Schema::dropIfExists('arendatorsbills');
     }
 };

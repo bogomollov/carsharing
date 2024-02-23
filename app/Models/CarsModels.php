@@ -9,7 +9,7 @@ use App\Models\CarsMarks;
 use App\Models\Cars;
 use App\Traits\UUID;
 
-class CarsModel extends Model
+class CarsModels extends Model
 {
     use HasUuids;
     use HasFactory;

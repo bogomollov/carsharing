@@ -21,8 +21,8 @@ class ArendatorsFactory extends Factory
         return [
             'id' => Str::uuid(),
             'last_name' => fake()->lastName(),
-            'first_name' => fake()->firstName(null),
-            'middle_name' => fake()->firstName(null),
+            'first_name' => fake()->firstName(),
+            'middle_name' => fake()->firstName(),
             'passport_series' => fake()->unique()->numerify('## ##'),
             'passport_number' => fake()->unique()->numerify('######'),
             'phone' => fake()->unique()->numerify('79########'),

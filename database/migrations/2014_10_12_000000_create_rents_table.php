@@ -16,13 +16,13 @@ return new class extends Migration
     {
         Schema::create('rents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('car_id')->comment("Идентификатор машины");
+            $table->foreignUuid('car_id')->comment("Идентификатор ТС");
             $table->foreignUuid('arendator_id')->comment("Идентификатор арендателя");
             $table->enum('status', RentsStatus::getValues())->default(RentsStatus::Open)->comment("Статус аренды");
-            $table->dateTime('start_datetime')->comment("Дата и время начала аренды");
+            $table->dateTime('start_datetime')->nullable()->comment("Дата и время начала аренды");
             $table->dateTime('end_datetime')->nullable()->comment("Дата и время окончания аренды");
             $table->integer('rented_time')->nullable()->comment("Общее время аренды");
-            $table->unsignedInteger('price')->nullable()->comment("Итоговая цена аренды");
+            $table->unsignedInteger('total_price')->nullable()->comment("Итоговая цена аренды");
             $table->timestamps();
             $table->softDeletes();
         });

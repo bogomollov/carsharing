@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\BillsStatus;
+use App\Enums\BillsType;
 
 return new class extends Migration
 {
@@ -16,9 +17,9 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
-            $table->foreignUuid('bill_id')->nullable()->references('id')->on('transactions');
+            $table->string("arendators_count")->default(1)->comment("Количество пользователей связанных со счётом");
             $table->decimal('balance', 10,2)->comment("Баланс счёта");
+            $table->enum("type", BillsType::getValues())->default(BillsType::Personal)->comment("Тип счёта");
             $table->enum('status', BillsStatus::getValues())->default(BillsStatus::Open)->comment("Статус счёта");
             $table->timestamps();
             $table->softDeletes();

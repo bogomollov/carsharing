@@ -16,8 +16,7 @@ return new class extends Migration
     {
         Schema::create('arendators', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('arendator_id')->nullable()->references('id')->on('bills');
-            $table->foreignUuid('arendator_id2')->nullable()->references('id')->on('rents');
+            $table->foreignUuid('default_bill_id')->nullable()->references('id')->on('bills')->comment("Выбранный пользователем счет по умолчанию");
             $table->string('last_name')->comment("Фамилия арендатора");
             $table->string('first_name')->comment("Имя арендатора");
             $table->string('middle_name')->comment("Отчество арендатора");

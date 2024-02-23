@@ -18,7 +18,6 @@ class BillsFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'arendator_id' => Arendators::inRandomOrder()->first()->id,
             'balance' => fake()->numberBetween(0, 1000000),
             'status' => BillsStatus::getRandomValue()
         ];
