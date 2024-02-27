@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('arendatorsbills', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
             $table->foreignUuid('bill_id')->comment("Идентификатор счёта");
             $table->timestamps();

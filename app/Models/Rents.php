@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\Cars;
+use App\Models\Arendators;
 use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\UUID;
 
 class Rents extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use UUID;
 
     protected $fillable = [
         'car_id',
@@ -23,8 +23,16 @@ class Rents extends Model
         'start_datetime',
         'end_datetime',
         'rented_time',
-        'price',
+        'total_price',
     ];
+
+    public function vehicle() {
+        return $this->belongsTo(Cars::class);
+    }
+
+    public function renter() {
+        return $this->belongsTo(Arendators::class);
+    }
 
     protected static function boot()
     {
@@ -32,14 +40,13 @@ class Rents extends Model
 
         static::saving(function ($rent) {
             // Если существует дата закрытия аренды, то необходимо посчитать время и стоимость
-            if ( $rent->end_datetime != null ) {
+            if ($rent->end_datetime != null) {
                 $rent->calculateRentedTime();
                 $rent->calculateTotalPrice();
             }
         });
     }
-
-    // Вынести в сервис
+    
     public function calculateRentedTime() {
         if ($this->end_datetime != null) {
             $end_datetime = new Carbon($this->end_datetime);
@@ -47,11 +54,9 @@ class Rents extends Model
             $this->rented_time = $end_datetime->diffInMinutes($start_datetime);
         }
     }
-
-    // Вынести в сервис
     public function calculateTotalPrice() {
-        if ( $this->rented_time ) {
-            $this->total_price = $this->vehicle->price_at_minute * $this->rented_time;
+        if ($this->rented_time) {
+            $this->total_price = $this->vehicle->price_minute * $this->rented_time;
         }
     }
 
@@ -60,7 +65,7 @@ class Rents extends Model
      *
      * @return void
      */
-    public function close() {
+    public function open() {
         $this->end_datetime = Carbon::now();
         $this->calculateRentedTime();
         $this->calculateTotalPrice();
@@ -76,11 +81,10 @@ class Rents extends Model
      *
      * @return void
      */
-    public function open($renterId, $vehicleId) {
-        $this->vehicle_id = $vehicleId;
-        $this->renter_id = $renterId;
+    public function close($renterId, $vehicleId) {
+        $this->car_id = $vehicleId;
+        $this->arendator_id = $renterId;
         $this->start_datetime = Carbon::now();
-
         $this->vehicle->status = CarsStatus::Rented;
 
         $this->vehicle->save();

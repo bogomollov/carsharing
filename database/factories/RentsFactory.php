@@ -9,7 +9,7 @@ use App\Models\Arendators;
 use App\Models\Cars;
 use Illuminate\Support\Str;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory>
  */
 class RentsFactory extends Factory
 {

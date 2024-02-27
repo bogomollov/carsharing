@@ -23,6 +23,7 @@ class CarsMarksSeeder extends Seeder
 
         foreach ($marks as $mark_name) {
             CarsMarks::create([
+                'id' => Str::uuid(),
                 'manufacturer_id' => Str::uuid(),
                 'name' => $mark_name,
             ]);

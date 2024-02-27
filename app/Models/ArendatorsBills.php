@@ -10,7 +10,6 @@ class ArendatorsBills extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
     protected $table = 'arendatorsbills';
 
     public function bill() {
@@ -31,7 +30,7 @@ class ArendatorsBills extends Model
         });
 
         static::saved(function ($bill) {
-            $bill->bill_id->updateArendatorsCount(); //добавить функции
+            $bill->bill_id->updateArendatorsCount();
             $bill->bill_id->updateBillsType();
         });
 

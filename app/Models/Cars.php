@@ -3,19 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\UUID;
 
 class Cars extends Model
 {
     use HasFactory;
-    use UUID;
+    use HasUuids;
     
     protected $fillable = [
         'id',
         'model_id',
         'status',
         'mileage',
+        'license_plate',
+        'year',
         'location',
         'price_minute'
     ];

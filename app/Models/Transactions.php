@@ -8,29 +8,29 @@ use App\Models\Bills;
 use App\Models\Arendators;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use App\Traits\UUID;
 
 class Transactions extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use UUID;
 
     protected $fillable = [
         'bill_id',
         'arendator_id',
+        'modification',
         'datetime',
     ];
 
     /**
      * Создает запись в истории операций
      * 
-     * @param Bill $bill
-     * @param Renter $renter
+     * @param Bills $bill
+     * @param Arendators $arendator
      */
-    public function createRecord(Bills $bill, Arendators $arendator_id) {
+    public function createRecord(Bills $bill, Arendators $arendator, int $modification) {
         $this->bill_id = $bill->id;
-        $this->arendator_id = $arendator_id->id;
+        $this->arendator_id = $arendator->id;
+        $this->modification = $modification;
         $this->datetime = Carbon::now();
 
         $this->save();

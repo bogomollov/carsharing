@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bills;
-use App\Traits\UUID;
 
 class Arendators extends Model
 {
     use HasFactory;
-    use UUID;
 
     protected $fillable = [
-        'id',
         'bill_id',
         'last_name',
         'first_name',
@@ -25,6 +22,7 @@ class Arendators extends Model
     ];
 
     protected $hidden = [
+        'bill_id',
         'passport_series',
         'passport_number',
         'phone',
@@ -32,24 +30,23 @@ class Arendators extends Model
 
     public function bills()
     {
-        return $this->belongsToMany(Bills::class, 'bill_renter', 'arendator_id', 'bill_id');
+        return $this->belongsToMany(Bills::class, 'arendatorsbills', 'arendator_id', 'bill_id');
     }
 
     protected static function boot()
     {
         parent::boot();
 
-        // При сохранении в модель
         static::saving(function ($renter) {
         });
     }
 
     /**
-     * Изменяет поле 'default_bill'
+     * Изменяет поле 'default_bill_id'
      *
      * @return void
      */
     public function setDefaultBill($billId) {
-        $this->default_bill = $billId;
+        $this->default_bill_id = $billId;
     }
 }

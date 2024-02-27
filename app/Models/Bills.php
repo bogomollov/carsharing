@@ -6,20 +6,18 @@ use App\Enums\BillsStatus;
 use App\Enums\BillsType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\UUID;
 use App\Models\Arendators;
 
 class Bills extends Model
 {
     use HasFactory;
-    use UUID;
 
     protected $fillable = [
-        'id',
         'arendator_id',
         'bill_id',
         'balance',
-        'status'
+        'status',
+        'type'
     ];
 
     protected $hidden = [
