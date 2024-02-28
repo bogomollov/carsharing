@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bills;
@@ -11,10 +12,14 @@ use Carbon\Carbon;
 
 class Transactions extends Model
 {
+    use HasUuids;
     use HasFactory;
     use SoftDeletes;
 
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'bill_id',
         'arendator_id',
         'modification',

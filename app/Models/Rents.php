@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -13,10 +14,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rents extends Model
 {
+    use HasUuids;
     use HasFactory;
     use SoftDeletes;
 
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'car_id',
         'arendator_id',
         'status',

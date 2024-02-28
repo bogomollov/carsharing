@@ -4,20 +4,26 @@ namespace App\Models;
 
 use App\Enums\BillsStatus;
 use App\Enums\BillsType;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Arendators;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bills extends Model
 {
+    use HasUuids;
     use HasFactory;
+    use SoftDeletes;
+
+    public $incrementing = false;
 
     protected $fillable = [
-        'arendator_id',
-        'bill_id',
+        'id',
+        'arendators_count',
         'balance',
+        'type',
         'status',
-        'type'
     ];
 
     protected $hidden = [

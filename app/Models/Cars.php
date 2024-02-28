@@ -11,6 +11,8 @@ class Cars extends Model
     use HasFactory;
     use HasUuids;
     
+    public $incrementing = false;
+
     protected $fillable = [
         'id',
         'model_id',

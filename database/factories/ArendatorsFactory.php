@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Enums\ArendatorsStatus;
 
 /**
@@ -19,7 +18,7 @@ class ArendatorsFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => Str::uuid(),
+            'id' => fake()->uuid(),
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->firstName(),

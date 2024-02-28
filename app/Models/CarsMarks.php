@@ -11,6 +11,10 @@ class CarsMarks extends Model
     use HasFactory;
     use HasUuids;
 
+    public $incrementing = false;
+
+    protected $table = 'carsmarks';
+
     protected $fillable = [
         'id',
         'manufacturer_id',

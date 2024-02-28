@@ -2,15 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArendatorsBills extends Model
 {
+    use HasUuids;
     use HasFactory;
     use SoftDeletes;
+
+    public $incrementing = false;
+
     protected $table = 'arendatorsbills';
+
+    protected $fillable = [
+        'id',
+        'arendator_id',
+        'bill_id',
+    ];
 
     public function bill() {
         return $this->belongsTo(Bills::class);

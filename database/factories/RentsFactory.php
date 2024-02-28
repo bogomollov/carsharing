@@ -7,7 +7,6 @@ use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use App\Models\Arendators;
 use App\Models\Cars;
-use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory>
  */
@@ -26,7 +25,7 @@ class RentsFactory extends Factory
         $status = RentsStatus::getRandomValue();
 
         return [
-            'id' => Str::uuid(),
+            'id' => fake()->uuid(),
             'car_id' => function () use ($status) {
                 if ($status == 'open') {
                     return Cars::factory()->create(['status' => CarsStatus::Rented])->id;
