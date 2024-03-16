@@ -7,6 +7,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.2/app
+        container_name: 'laravel'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -27,6 +28,7 @@ services:
             - redis
     pgsql:
         image: 'postgres:16'
+        container_name: 'pgsql'
         ports:
             - '5432:5432'
         environment:
@@ -51,6 +53,7 @@ services:
             timeout: 5s
     redis:
         image: 'redis:alpine'
+        container_name: 'redis'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
@@ -64,6 +67,21 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    rabbitmq:
+        image: rabbitmq:3.13.0-management
+        container_name: 'rabbitmq'
+        volumes:
+            - './rabbitmq/lib:/var/lib/rabbitmq'
+            - './rabbitmq/log:/var/log/rabbitmq'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        hostname: rabbitmq
+        environment:
+            - '${RABBITMQ_DEFAULT_USER}'
+            - '${RABBITMQ_DEFAULT_PASS}'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge

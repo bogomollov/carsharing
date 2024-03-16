@@ -103,6 +103,13 @@
       0 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
     ),
   ),
+  'vladimir-yuldashev/laravel-queue-rabbitmq' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'VladimirYuldashev\\LaravelQueueRabbitMQ\\LaravelQueueRabbitMQServiceProvider',
+    ),
+  ),
   'vyuldashev/laravel-openapi' => 
   array (
     'providers' => 
