@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class CarsManufacturers extends Model
+class CarMark extends Model
 {
     use HasFactory;
     use HasUuids;
-    
+
     public $incrementing = false;
 
-    protected $table = 'carsmanufacturers';
+    protected $table = 'carsmarks';
 
     protected $fillable = [
         'id',
-        'name',
+        'manufacturer_id',
+        'name'
     ];
 }

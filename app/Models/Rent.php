@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use App\Models\Cars;
-use App\Models\Arendators;
+use App\Models\Car;
+use App\Models\Arendator;
 use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Rents extends Model
+class Rent extends Model
 {
     use HasUuids;
     use HasFactory;
@@ -32,11 +32,11 @@ class Rents extends Model
     ];
 
     public function vehicle() {
-        return $this->belongsTo(Cars::class);
+        return $this->belongsTo(Car::class);
     }
 
     public function renter() {
-        return $this->belongsTo(Arendators::class);
+        return $this->belongsTo(Arendator::class);
     }
 
     protected static function boot()

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\CarsMarks;
+use App\Models\CarMark;
 
 class CarsMarksSeeder extends Seeder
 {
@@ -24,7 +24,7 @@ class CarsMarksSeeder extends Seeder
 
         foreach ($marks as $mark_name) {
             foreach ($mark_name as $name) {
-                CarsMarks::create([
+                CarMark::create([
                     'id' => Str::uuid(),
                     'manufacturer_id' => Str::uuid(),
                     'name' => $name,

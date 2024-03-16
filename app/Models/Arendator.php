@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Bills;
+use App\Models\Bill;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Arendators extends Model
+class Arendator extends Model
 {
     use HasUuids;
     use HasFactory;
@@ -35,7 +35,7 @@ class Arendators extends Model
 
     public function bills()
     {
-        return $this->belongsToMany(Bills::class, 'arendatorsbills', 'arendator_id', 'bill_id');
+        return $this->belongsToMany(Bill::class, 'arendatorsbills', 'arendator_id', 'bill_id');
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use App\Models\CarsModels;
+use App\Models\CarModel;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CarsModelsSeeder extends Seeder
@@ -30,7 +30,7 @@ class CarsModelsSeeder extends Seeder
 
         foreach ($models as $model_name) {
             foreach ($model_name as $name) {
-                CarsModels::create([
+                CarModel::create([
                     'id' => Str::uuid(),
                     'mark_id' => Str::uuid(),
                     'name' => $name,

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Arendators;
+use App\Models\Arendator;
 
 class ArendatorsSeeder extends Seeder
 {
@@ -13,6 +13,6 @@ class ArendatorsSeeder extends Seeder
      */
     public function run(): void
     {
-        Arendators::factory(20)->create();
+        Arendator::factory(20)->create();
     }
 }

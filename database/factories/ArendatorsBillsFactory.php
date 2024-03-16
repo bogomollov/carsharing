@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Arendators;
-use App\Models\Bills;
+use App\Models\Arendator;
+use App\Models\Bill;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,10 +20,10 @@ class ArendatorsBillsFactory extends Factory
     {
         return [
             'arendator_id' => function () {
-                return Arendators::all('id')->random();
+                return Arendator::all('id')->random();
             },
             'bill_id' => function () {
-                return Bills::all('id')->random();
+                return Bill::all('id')->random();
             },
         ];
     }

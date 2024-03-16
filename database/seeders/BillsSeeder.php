@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Bills;
+use App\Models\Bill;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +13,6 @@ class BillsSeeder extends Seeder
      */
     public function run(): void
     {
-        Bills::factory(20)->create();
+        Bill::factory(20)->create();
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ArendatorsBills extends Model
+class ArendatorBill extends Model
 {
     use HasUuids;
     use HasFactory;
@@ -24,10 +24,10 @@ class ArendatorsBills extends Model
     ];
 
     public function bill() {
-        return $this->belongsTo(Bills::class);
+        return $this->belongsTo(Bill::class);
     }
     public function arendator() {
-        return $this->belongsTo(Arendators::class);
+        return $this->belongsTo(Arendator::class);
     }
 
     protected static function boot() {
@@ -35,7 +35,7 @@ class ArendatorsBills extends Model
 
         static::saving(function ($bill) {
             if ($bill->arendator->default_bill_id == null) {
-                $bill->arendator->default_bill_id = $bill->bill_id->id;
+                $bill->arendator->default_bill_id = $bill->id;
                 $bill->arendator->save();
             }
         });
@@ -49,7 +49,7 @@ class ArendatorsBills extends Model
             $bill->bill_id->updateArendatorsCount();
             $bill->bill_id->updateBillsType();
 
-            if ($bill->arendator->default_bill_id == $bill->bill_id->id) {
+            if ($bill->arendator->default_bill_id == $bill->id) {
                 $bill->arendator->default_bill_id = null;
                 $bill->arendator->save();
             }

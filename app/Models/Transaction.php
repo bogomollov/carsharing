@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Bills;
-use App\Models\Arendators;
+use App\Models\Bill;
+use App\Models\Arendator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Transactions extends Model
+class Transaction extends Model
 {
     use HasUuids;
     use HasFactory;
@@ -29,10 +29,10 @@ class Transactions extends Model
     /**
      * Создает запись в истории операций
      * 
-     * @param Bills $bill
-     * @param Arendators $arendator
+     * @param Bill $bill
+     * @param Arendator $arendator
      */
-    public function createRecord(Bills $bill, Arendators $arendator, int $modification) {
+    public function createRecord(Bill $bill, Arendator $arendator, int $modification) {
         $this->bill_id = $bill->id;
         $this->arendator_id = $arendator->id;
         $this->modification = $modification;
