@@ -40,9 +40,9 @@ class ArendatorBill extends Model
             }
         });
 
-        static::saved(function ($bill) {
-            $bill->bill_id->updateArendatorsCount();
-            $bill->bill_id->updateBillsType();
+        static::saved(function ($arendatorbill) {
+            $arendatorbill->default_bill_id->updateArendatorsCount();
+            $arendatorbill->default_bill_id->updateBillsType();
         });
 
         static::deleted(function ($bill) {
