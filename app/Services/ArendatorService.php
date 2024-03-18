@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Enums\BillsStatus;
 use App\Exceptions\JsonException;
-use App\Models\Arendators;
-use App\Models\Bills;
+use App\Models\Arendator;
+use App\Models\Bill;
 use Illuminate\Http\JsonResponse;
 
 class ArendatorService
@@ -19,10 +19,10 @@ class ArendatorService
     /**
      * Получает статус пользователя
      *
-     * @param Arendators $renter Связанный пользователь
+     * @param Arendator $renter Связанный пользователь
      * @return string Статус
      */
-    public function getStatus(Arendators $renter) : string {
+    public function getStatus(Arendator $renter) : string {
         return $renter->status;
     }
 
@@ -30,11 +30,11 @@ class ArendatorService
      * Проверяет имеет ли пользователь статус(ы)
      * (Будет удалена после того как удостоверюсь что ничто не сломается)
      *
-     * @param Arendators $renter Пользователь
+     * @param Arendator $renter Пользователь
      * @param array $statuses Массив статусов
      * @return bool
      */
-    public function checkIsStatus(Arendators $renter, array $statuses) : bool {
+    public function checkIsStatus(Arendator $renter, array $statuses) : bool {
         if (in_array($this->getStatus($renter), $statuses)) {
             return true;
         } else {
@@ -49,8 +49,8 @@ class ArendatorService
      * @return JsonResponse
      */
     public function setdefaultBill(array $data) : JsonResponse {
-        $renter = Arendators::find($data['renterId']);
-        $bill = Bills::find($data['billId']);
+        $renter = Arendator::find($data['renterId']);
+        $bill = Bill::find($data['billId']);
 
         $badBillStatuses = [
             BillsStatus::Frozen,
@@ -64,7 +64,7 @@ class ArendatorService
         }
 
         // Проверяем что этот счет уже не выбран
-        if ($renter->default_bill === $bill->id) {
+        if ($renter->default_bill_id === $bill->id) {
             return response()->json(['error' => "Bill with id '$bill->id' is already the default bill"], 422);
         }
 
@@ -85,11 +85,11 @@ class ArendatorService
      /**
      * Проверяет есть ли у пользователя счет по умолчанию
      *
-     * @param Arendators $renter Пользователь
+     * @param Arendator $renter Пользователь
      * @return bool
      */
-    public function checkDefaultBill(Arendators $renter) : bool {
-        if ($renter->default_bill) {
+    public function checkDefaultBill(Arendator $renter) : bool {
+        if ($renter->default_bill_id) {
             return true;
         } else {
             return false;
@@ -100,12 +100,12 @@ class ArendatorService
      * Проверяет баланс у пользователя на счету по умолчанию
      * (Исправить)
      *
-     * @param Arendators $renter Пользователь
+     * @param Arendator $renter Пользователь
      * @return mixed
      */
-    public function checkBalanceOnDefaultBill(Arendators $renter) : mixed {
+    public function checkBalanceOnDefaultBill(Arendator $renter) : mixed {
         if ($renter->default_bill_id) {
-            return Bills::find($renter->default_bill_id)->balance;
+            return Bill::find($renter->default_bill_id)->balance;
         } else {
             return null;
         }

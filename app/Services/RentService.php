@@ -5,10 +5,10 @@ namespace App\Services;
 use App\Enums\RentsStatus;
 use App\Enums\ArendatorsStatus;
 use App\Enums\CarsStatus;
-use App\Models\Bills;
-use App\Models\Rents;
-use App\Models\Arendators;
-use App\Models\Cars;
+use App\Models\Bill;
+use App\Models\Rent;
+use App\Models\Arendator;
+use App\Models\Car;
 use Illuminate\Http\JsonResponse;
 
 class RentService
@@ -28,10 +28,10 @@ class RentService
     /**
      * Получает статус пользователя
      *
-     * @param Arendators $renter Пользователь
+     * @param Arendator $renter Пользователь
      * @return string
      */
-    public function getStatus(Arendators $rent) : string {
+    public function getStatus(Arendator $rent) : string {
         return $rent->status;
     }
 
@@ -39,11 +39,11 @@ class RentService
      * Получает статус пользователя
      * (После добавления Enum'ов потребность в функции пропала. Будет удалена после того как удостоверюсь что ничто не сломается)
      *
-     * @param Arendators $renter Пользователь
+     * @param Arendator $renter Пользователь
      * @param array $statuses Статус(ы) для поиска
      * @return string
      */
-    public function checkIsStatus(Arendators $rent, array $statuses) : bool {
+    public function checkIsStatus(Arendator $rent, array $statuses) : bool {
         if (in_array($this->getStatus($rent), $statuses)) {
             return true;
         } else {
@@ -58,8 +58,8 @@ class RentService
      * @return JsonResponce
      */
     public function open(array $data) : JsonResponse {
-        $renter = Arendators::find($data['renterId']);
-        $vehicle = Cars::find($data['vehicleId']);
+        $renter = Arendator::find($data['renterId']);
+        $vehicle = Car::find($data['vehicleId']);
 
         $badRenterStatuses = array(
             ArendatorsStatus::Frozen,
@@ -82,7 +82,7 @@ class RentService
             return response()->json(["error" => "Renter does not have enough money in the main bill account"], 403);
         }
 
-        $rent = new Arendators;
+        $rent = new Arendator;
         $rent->open($renter->id, $vehicle->id);
 
         return response()->json($rent, 200);
@@ -95,9 +95,9 @@ class RentService
      * @return JsonResponce
      */
     public function close(array $data) : JsonResponse {
-        $rent = Rents::find($data['rentId']);
-        $renter = Arendators::find($rent->renter_id);
-        $vehicle = Cars::find($rent->vehicle_id);
+        $rent = Rent::find($data['rentId']);
+        $renter = Arendator::find($rent->renter_id);
+        $vehicle = Car::find($rent->vehicle_id);
 
         if (!in_array($rent->status, [RentsStatus::Open])) {
             return response()->json(["error" => "Rent status in not open"], 403);
@@ -110,11 +110,11 @@ class RentService
         if (!$this->renterService->checkDefaultBill($renter)) {
             return response()->json(['error' => "Renter with id '$renter->id' dont have default bill"], 400);
         } else {
-            $bill = Bills::find($renter->default_bill_id);
+            $bill = Bill::find($renter->default_bill_id);
         }
 
         // Закрываем аренду
-        $rent->close();
+        $rent->close($renter,$vehicle);
 
         // Высчитываем цену по которую необходимо вычесть со счета
         $total_price = $rent->total_price;

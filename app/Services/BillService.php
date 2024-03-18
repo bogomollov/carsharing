@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Arendators;
-use App\Models\Bills;
+use App\Models\Arendator;
+use App\Models\Bill;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
 
@@ -18,10 +18,10 @@ class BillService
     /**
      * Получает статус счета
      *
-     * @param Bills $renter Пользователь для которого получаем статус
+     * @param Bill $renter Пользователь для которого получаем статус
      * @return string
      */
-    public function getStatus(Bills $bill) : string {
+    public function getStatus(Bill $bill) : string {
         return $bill->status;
     }
 
@@ -29,11 +29,11 @@ class BillService
      * Проверяет имеет ли счет статус(ы).
      * (После добавления Enum'ов потребность в функции пропала. Будет удалена после того как удостоверюсь что ничто не сломается)
      *
-     * @param Bills $renter Пользователь для которого проверяем наличие статуса(ов)
+     * @param Bill $renter Пользователь для которого проверяем наличие статуса(ов)
      * @param array $statuses Массив со статусами
      * @return bool
      */
-    public function checkIsStatus(Bills $bill, array $statuses) : bool {
+    public function checkIsStatus(Bill $bill, array $statuses) : bool {
         if (in_array($this->getStatus($bill), $statuses)) {
             return true;
         } else {
@@ -47,7 +47,7 @@ class BillService
      * @param array $data
      * @return JsonReaponse
      */
-    public function setBillStatus(Bills $bill, array $data) : JsonResponse {
+    public function setBillStatus(Bill $bill, array $data) : JsonResponse {
         $status = $data['status'];
 
         if ($this->getStatus($bill) === $status) {
@@ -62,12 +62,12 @@ class BillService
      /**
      * Изменяет баланс счета
      *
-     * @param Bills $bill Связанный счет
-     * @param Arendators $renter Инициатор изменения
+     * @param Bill $bill Связанный счет
+     * @param Arendator $renter Инициатор изменения
      * @param int $modification Изменение (положительное или отрицатеьлное число) в копейках
      * @param string $reason Причина изменения
      */
-    public function modificateBalance(Bills $bill, Arendators $renter, int $modification) {
+    public function modificateBalance(Bill $bill, Arendator $renter, int $modification) {
         $bill->modificateBalance($modification);
         $this->transactionService->createRecord($bill, $renter, $modification);
     }
