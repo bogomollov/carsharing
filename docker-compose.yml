@@ -71,10 +71,9 @@ services:
         image: rabbitmq:3.13.0-management
         container_name: 'rabbitmq'
         volumes:
-            - './rabbitmq/lib:/var/lib/rabbitmq'
+            - 'sail-rabbitmq:/var/lib/rabbitmq/mnesia'
             - './rabbitmq/log:/var/log/rabbitmq'
         ports:
-            - 5672:5672
             - 15672:15672
         hostname: rabbitmq
         environment:
@@ -89,4 +88,6 @@ volumes:
     sail-pgsql:
         driver: local
     sail-redis:
+        driver: local
+    sail-rabbitmq:
         driver: local
