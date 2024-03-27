@@ -16,7 +16,7 @@
         "tightenco/ziggy": "^1.0",
         "tymon/jwt-auth": "^2.0",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.0",
-        "vyuldashev/laravel-openapi": "^1.11"
+        "vyuldashev/laravel-openapi": "^1.12"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

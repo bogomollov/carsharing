@@ -72,7 +72,7 @@ services:
         container_name: 'rabbitmq'
         volumes:
             - 'sail-rabbitmq:/var/lib/rabbitmq/mnesia'
-            - './rabbitmq/log:/var/log/rabbitmq'
+            - 'sail-rabbitmq:/var/log/rabbitmq'
         ports:
             - 15672:15672
         hostname: rabbitmq
