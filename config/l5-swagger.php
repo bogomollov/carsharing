@@ -95,7 +95,7 @@ return [
             'swagger_ui_assets_path' => env('L5_SWAGGER_UI_ASSETS_PATH', 'vendor/swagger-api/swagger-ui/dist/'),
 
             /*
-             * Absolute path to directories that should be exclude from scanning
+             * Absolute path to directories that should be excluded from scanning
              * @deprecated Please use `scanOptions.exclude`
              * `scanOptions.exclude` overwrites this
             */
@@ -120,7 +120,7 @@ return [
             /**
              * Custom query path processors classes.
              *
-             * @link https://github.com/zircote/swagger-php/tree/master/Examples/schema-query-parameter-processor
+             * @link https://github.com/zircote/swagger-php/tree/master/Examples/processors/schema-query-parameter
              * @see \OpenApi\scan
              */
             'processors' => [
@@ -153,14 +153,16 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
-                'bearerAuth' => [ // Unique name of security
-                    'type' => 'http', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Введите bearer token',
-                    'name' => 'Authorization', // The name of the header or query parameter to be used.
-                    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
-                    'bearerFormat' => 'JWT'
-                ],
                 /*
+                 * Examples of Security schemes
+                */
+                /*
+                'api_key_security_example' => [ // Unique name of security
+                    'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                    'description' => 'A short description for security scheme',
+                    'name' => 'api_key', // The name of the header or query parameter to be used.
+                    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
+                ],
                 'oauth2_security_example' => [ // Unique name of security
                     'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'A short description for oauth2 security scheme.',

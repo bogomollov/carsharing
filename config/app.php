@@ -160,7 +160,6 @@ return [
          * Package Service Providers...
          */
         L5Swagger\L5SwaggerServiceProvider::class,
-        Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
         /*
          * Application Service Providers...
          */

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Arendators;
+use App\Models\Arendator;
 use App\Http\Resources\Arendators\ArendatorsResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -30,7 +30,7 @@ class ArendatorsController extends Controller
      */
     public function index() : JsonResponse
     {
-        return response()->json(Arendators::all());
+        return response()->json(Arendator::all());
     }
 
     /**
@@ -51,7 +51,8 @@ class ArendatorsController extends Controller
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/VehicleCreateRequest")
+     *          @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *          @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
      *      ),
      *      @OA\Response(
      *          response="200",
@@ -68,7 +69,7 @@ class ArendatorsController extends Controller
      */
     public function store(StoreRequest $request) : JsonResponse
     {
-        $a = Arendators::create($request->validated());
+        $a = Arendator::create($request->validated());
         return response()->json([
             'message' => 'Succesfully created',
             $a->id => $a
@@ -105,7 +106,7 @@ class ArendatorsController extends Controller
      */
     public function show(int $id) : JsonResponse
     {
-        $a = Arendators::find($id);
+        $a = Arendator::find($id);
         return response()->json([
             $a->id => $a
         ], 200);
@@ -114,7 +115,7 @@ class ArendatorsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $users)
+    public function edit(Arendator $users)
     {
         //
     }
@@ -135,7 +136,9 @@ class ArendatorsController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=false,
-     *          @OA\JsonContent(ref="#/components/schemas/VehicleUpdateRequest")
+     *          @OA\JsonContent(
+     *          example={"message": "Succesfully"},
+     *         )
      *      ),
      *      @OA\Response(
      *          response="200",
@@ -155,7 +158,7 @@ class ArendatorsController extends Controller
      * @param  Arendators $a
      * @return JsonResponse
      */
-    public function update(UpdateRequest $request, Arendators $a) : JsonResponse
+    public function update(UpdateRequest $request, Arendator $a) : JsonResponse
     {
         $a->update($request->validated());
 
@@ -195,7 +198,7 @@ class ArendatorsController extends Controller
      * @param  Arendators $a
      * @return JsonResponse
      */
-    public function destroy(Arendators $a) : JsonResponse
+    public function destroy(Arendator $a) : JsonResponse
     {
         $a->deleted();
         return response()->json(['message' => 'Succesfully destroyed'], 200);

@@ -7,21 +7,17 @@ import { getExtensions, fromJSOrdered, stringify } from "core/utils"
 import { getKnownSyntaxHighlighterLanguage } from "core/utils/jsonParse"
 
 
-const getExampleComponent = ( sampleResponse, HighlightCode, getConfigs ) => {
-  if (
-    sampleResponse !== undefined &&
-    sampleResponse !== null
-  ) {
-    let language = null
-    let testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
-    if (testValueForJson) {
-      language = "json"
-    }
-    return <div>
-      <HighlightCode className="example" getConfigs={ getConfigs } language={ language } value={ stringify(sampleResponse) } />
+const getExampleComponent = ( sampleResponse, HighlightCode ) => {
+  if (sampleResponse == null) return null
+
+  const testValueForJson = getKnownSyntaxHighlighterLanguage(sampleResponse)
+  const language = testValueForJson ? "json" : null
+
+  return (
+    <div>
+      <HighlightCode className="example" language={language}>{stringify(sampleResponse)}</HighlightCode>
     </div>
-  }
-  return null
+  )
 }
 
 export default class Response extends React.Component {
@@ -102,7 +98,7 @@ export default class Response extends React.Component {
     let links = response.get("links")
     const ResponseExtension = getComponent("ResponseExtension")
     const Headers = getComponent("headers")
-    const HighlightCode = getComponent("highlightCode")
+    const HighlightCode = getComponent("HighlightCode", true)
     const ModelExample = getComponent("modelExample")
     const Markdown = getComponent("Markdown", true)
     const OperationLink = getComponent("operationLink")
@@ -171,7 +167,7 @@ export default class Response extends React.Component {
       shouldOverrideSchemaExample ? mediaTypeExample : undefined
     )
 
-    let example = getExampleComponent( sampleResponse, HighlightCode, getConfigs )
+    const example = getExampleComponent( sampleResponse, HighlightCode )
 
     return (
       <tr className={ "response " + ( className || "") } data-code={code}>

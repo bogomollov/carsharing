@@ -110,11 +110,4 @@
       0 => 'VladimirYuldashev\\LaravelQueueRabbitMQ\\LaravelQueueRabbitMQServiceProvider',
     ),
   ),
-  'vyuldashev/laravel-openapi' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Vyuldashev\\LaravelOpenApi\\OpenApiServiceProvider',
-    ),
-  ),
 );
