@@ -7,6 +7,10 @@
 
 Если некоторые команды не работают, то их необходимо запускать внутри контейнера laravel
 
-## ER диаграмма
+## Swagger
+
+Для создания или обновления данных в [SwaggerUI](http:localhost/api/documentation) используйте `php artisan l5-swagger:generate`
+
+## ER диаграмма базы данных
 
 ![er](./github-images/bd.jpg)
