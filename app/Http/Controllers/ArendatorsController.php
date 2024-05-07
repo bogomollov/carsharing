@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 class ArendatorsController extends Controller
 {
 /**
-     * Display a listing of the resource.
      *
      * @OA\Get(
      *      path="/api/users/",
@@ -22,7 +21,22 @@ class ArendatorsController extends Controller
      *      tags={"Арендаторы"},
      *      @OA\Response(
      *          response="200",
-     *          description="Возвращает список пользователей",
+     *          description="Успех",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response="400",
+     *          description="Неправильный запрос",
+     *      ),
+     *      @OA\Response(
+     *          response="401",
+     *          description="Не авторизован",
+     *      ),
+     *      @OA\Response(
+     *          response="404",
+     *          description="Не найдено",
      *      )
      * ),
      *

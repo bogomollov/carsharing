@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\BillsStatus;
 
-class BillsFactory extends Factory
+class BillFactory extends Factory
 {
     /**
      * Define the model's default state.

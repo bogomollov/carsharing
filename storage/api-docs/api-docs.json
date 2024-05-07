@@ -33,7 +33,19 @@
                 "operationId": "35e50c1049176531dd8f4a7cb5b9ff55",
                 "responses": {
                     "200": {
-                        "description": "Возвращает список пользователей"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Неправильный запрос"
+                    },
+                    "401": {
+                        "description": "Не авторизован"
+                    },
+                    "404": {
+                        "description": "Не найдено"
                     }
                 }
             },

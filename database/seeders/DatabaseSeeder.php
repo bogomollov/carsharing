@@ -3,13 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Rent;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CarsMarksSeeder;
 use Database\Seeders\CarsModelsSeeder;
 use Database\Seeders\CarsManufacturerSeeder;
 use Database\Seeders\CarsSeeder;
-use Database\Seeders\ArendatorsBillsSeeder;
 use Database\Seeders\BillsSeeder;
 use Database\Seeders\TransactionsSeeder;
 
@@ -26,8 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CarsSeeder::class);
         $this->call(BillsSeeder::class);
         $this->call(ArendatorsSeeder::class);
-        $this->call(ArendatorsBillsSeeder::class);
-        $this->call(Rent::class);
         $this->call(TransactionsSeeder::class);
     }
 }

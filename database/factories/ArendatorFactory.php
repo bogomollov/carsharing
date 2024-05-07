@@ -8,7 +8,7 @@ use App\Enums\ArendatorsStatus;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class ArendatorsFactory extends Factory
+class ArendatorFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 use Illuminate\Support\Facades\Cache;
-use App\Models\Cars;
+use App\Models\Car;
 
 class CarsObserver
 {
     /**
      * Handle the Cars "created" event.
      */
-    public function created(Cars $cars): void
+    public function created(Car $cars): void
     {
         Cache::forget('cars:all');
     }
@@ -17,7 +17,7 @@ class CarsObserver
     /**
      * Handle the Cars "saved" event.
      */
-    public function saved(Cars $cars): void
+    public function saved(Car $cars): void
     {
         Cache::forget('cars:all');
     }
@@ -25,7 +25,7 @@ class CarsObserver
     /**
      * Handle the Cars "updated" event.
      */
-    public function updated(Cars $cars): void
+    public function updated(Car $cars): void
     {
         Cache::forget('cars:all');
     }
@@ -33,7 +33,7 @@ class CarsObserver
     /**
      * Handle the Cars "deleted" event.
      */
-    public function deleted(Cars $cars): void
+    public function deleted(Car $cars): void
     {
         Cache::forget('cars:all');
     }
@@ -62,7 +62,7 @@ class CarsObserver
     //     Cache::forget('cars:all');
     // }
 
-    public function forceDeleted(Cars $cars): void
+    public function forceDeleted(Car $cars): void
     {
         Cache::forget('cars:all');
     }

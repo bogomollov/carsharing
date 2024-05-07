@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 use Illuminate\Support\Facades\Cache;
-use App\Models\Arendators;
+use App\Models\Arendator;
 
 class ArendatorsObserver
 {
     /**
      * Handle the Arendators "created" event.
      */
-    public function created(Arendators $arendators): void
+    public function created(Arendator $arendators): void
     {
         Cache::forget('arendators:all');
     }
@@ -17,7 +17,7 @@ class ArendatorsObserver
     /**
      * Handle the Arendators "saved" event.
      */
-    public function saved(Arendators $arendators): void
+    public function saved(Arendator $arendators): void
     {
         Cache::forget('arendators:all');
     }
@@ -25,7 +25,7 @@ class ArendatorsObserver
     /**
      * Handle the Arendators "updated" event.
      */
-    public function updated(Arendators $arendators): void
+    public function updated(Arendator $arendators): void
     {
         Cache::forget('arendators:all');
     }
@@ -33,7 +33,7 @@ class ArendatorsObserver
     /**
      * Handle the Arendators "deleted" event.
      */
-    public function deleted(Arendators $arendators): void
+    public function deleted(Arendator $arendators): void
     {
         Cache::forget('arendators:all');
     }
@@ -62,7 +62,7 @@ class ArendatorsObserver
     //     Cache::forget('arendators:all');
     // }
 
-    public function forceDeleted(Arendators $arendators): void
+    public function forceDeleted(Arendator $arendators): void
     {
         Cache::forget('arendators:all');
     }

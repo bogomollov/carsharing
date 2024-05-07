@@ -4,13 +4,13 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\CarsStatus;
-use App\Models\CarsModels;
-use App\Models\Cars;
+use App\Models\CarModel;
+use App\Models\Car;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class CarsFactory extends Factory
+class CarFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -29,10 +29,10 @@ class CarsFactory extends Factory
                 ' ' .
                 rand(10, 199);
         }
-        while (!Cars::all()->where('license_plate', $licensePlate));
+        while (!Car::all()->where('license_plate', $licensePlate));
         return [
             'id' => fake()->uuid(),
-            'model_id' => CarsModels::all('id')->random(),
+            'model_id' => CarModel::all('id')->random(),
             'status' => CarsStatus::getRandomValue(),
             'mileage' => fake()->numberBetween(30000, 100000),
             'license_plate' => $licensePlate,

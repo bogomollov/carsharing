@@ -5,12 +5,12 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
-use App\Models\Arendators;
-use App\Models\Cars;
+use App\Models\Arendator;
+use App\Models\Car;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory>
  */
-class RentsFactory extends Factory
+class RentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -28,12 +28,12 @@ class RentsFactory extends Factory
             'id' => fake()->uuid(),
             'car_id' => function () use ($status) {
                 if ($status == 'open') {
-                    return Cars::factory()->create(['status' => CarsStatus::Rented])->id;
+                    return Car::factory()->create(['status' => CarsStatus::Rented])->id;
                 } else {
-                    return Cars::factory()->create()->id;
+                    return Car::factory()->create()->id;
                 }
             },
-            'arendator_id' => Arendators::all()->whereNotNull('default_bill_id')->random(),
+            'arendator_id' => Arendator::all()->whereNotNull('default_bill_id')->random(),
             'status' => $status,
             'start_datetime' => $beginDateTime,
             'end_datetime' => function () use ($status, $endDateTime) {

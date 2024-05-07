@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ArendatorsController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +32,9 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::post('cars/create', [CarsController::class, 'store']);
     Route::put('cars/{id}/update', [CarsController::class, 'update']);
     Route::delete('cars/{id}/delete', [CarsController::class, 'destroy']);
-    Route::get('users', [UsersController::class, 'index']);
-    Route::get('users/{id}', [UsersController::class, 'show']);
-    Route::post('users/create', [UsersController::class, 'store']);
-    Route::put('users/{id}/update', [UsersController::class, 'update']);
-    Route::delete('users/{id}/delete', [UsersController::class, 'destroy']);
+    Route::get('users', [ArendatorsController::class, 'index']);
+    Route::get('users/{id}', [ArendatorsController::class, 'show']);
+    Route::post('users/create', [ArendatorsController::class, 'store']);
+    Route::put('users/{id}/update', [ArendatorsController::class, 'update']);
+    Route::delete('users/{id}/delete', [ArendatorsController::class, 'destroy']);
 });
