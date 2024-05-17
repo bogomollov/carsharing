@@ -38,3 +38,16 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::put('users/{id}/update', [ArendatorsController::class, 'update']);
     Route::delete('users/{id}/delete', [ArendatorsController::class, 'destroy']);
 });
+
+// Route::group(['middleware' => 'api'], function () {
+//     Route::get('cars', [CarsController::class, 'index']);
+//     Route::get('cars/{id}', [CarsController::class, 'show']);
+//     Route::post('cars/create', [CarsController::class, 'store']);
+//     Route::put('cars/{id}/update', [CarsController::class, 'update']);
+//     Route::delete('cars/{id}/delete', [CarsController::class, 'destroy']);
+//     Route::get('users', [ArendatorsController::class, 'index']);
+//     Route::get('users/{id}', [ArendatorsController::class, 'show']);
+//     Route::post('users/create', [ArendatorsController::class, 'store']);
+//     Route::put('users/{id}/update', [ArendatorsController::class, 'update']);
+//     Route::delete('users/{id}/delete', [ArendatorsController::class, 'destroy']);
+// });

@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Request;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +27,24 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (HttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                if ($this->isHttpException($e)) {
+                    switch($e->getStatusCode()) {
+                        case 401:
+                            return response()->json(['message' => 'Unauthorized'], 401);
+                        break;
+                        case 403:
+                            return response()->json(['message' => 'Forbidden'], 403);
+                        break;
+                        case 404:
+                            return response()->json(['message' => 'Not Found'], 404); 
+                        break;
+                    }
+                }
+            }
         });
     }
 }
