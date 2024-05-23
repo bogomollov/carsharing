@@ -113,10 +113,60 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Возвращает запись пользователя"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Пользователь не найден"
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -129,15 +179,164 @@
                 "summary": "Создать пользователя",
                 "description": "Создает нового пользователя и возвращает его",
                 "operationId": "7a8b31f9b7c7cecdf9e99854f5f55dac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed"
+                        }
+                    },
+                    {
+                        "name": "default_bill_id",
+                        "in": "path",
+                        "description": "Идентификатор счёта по умолчанию",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "path",
+                        "description": "Фамилия пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Haley"
+                        }
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "path",
+                        "description": "Имя пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Carolyn"
+                        }
+                    },
+                    {
+                        "name": "middle_name",
+                        "in": "path",
+                        "description": "Отчество пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Berta"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Статус аккаунта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "active"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "path",
+                        "description": "Дата создания пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "updated_at",
+                        "in": "path",
+                        "description": "Дата обновления пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "deleted_at",
+                        "in": "path",
+                        "description": "Дата удаления пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "null"
+                        }
+                    }
+                ],
                 "requestBody": {
-                    "required": true
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
-                        "description": "Возвращает запись созданного пользователя"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    "422": {
-                        "description": "Неверно переданы данные в запросе"
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
