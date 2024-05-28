@@ -91,8 +91,7 @@ use Illuminate\Routing\Controller as BaseController;
  *          type="string",
  *          example="Not Found"
  *    )
- * ) 
- *
+ * ),
  */
 class Controller extends BaseController
 {

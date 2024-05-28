@@ -115,9 +115,12 @@ class ArendatorsController extends Controller
      * ),
      *
      */
-    public function show() : JsonResponse
+    public function show(int $id) : JsonResponse
     {
-        return response()->json(['Ok'], 200);
+        $a = Arendator::find($id);
+        return response()->json([
+            $a->id => $a
+        ], 200);
     }
 
     /**
@@ -128,98 +131,76 @@ class ArendatorsController extends Controller
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
+     *          request="PostUser",
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/User"),
-     *      ),
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/User")
+     *          }
+     *      )    
+     *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          in="path",
      *          description="Идентификатор пользователя",
      *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="integer", example=1)
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
-     *          in="path",
-     *          description="Идентификатор счёта по умолчанию",
+     *          description="Cчет по умолчанию",
      *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *              example="1"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="integer", example=1)
      *      ),
      *      @OA\Parameter(
      *          name="last_name",
-     *          in="path",
-     *          description="Фамилия пользователя",
+     *          description="Фамилия арендатора",
      *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="Haley"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="string", example="Haley")
      *      ),
      *      @OA\Parameter(
      *          name="first_name",
-     *          in="path",
-     *          description="Имя пользователя",
+     *          description="Имя арендатора",
      *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="Carolyn"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="string", example="Carolyn")
      *      ),
      *      @OA\Parameter(
      *          name="middle_name",
-     *          in="path",
-     *          description="Отчество пользователя",
+     *          description="Отчество арендатора",
      *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="Berta"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="string", example="Berta")
      *      ),
      *      @OA\Parameter(
      *          name="status",
-     *          in="path",
      *          description="Статус аккаунта",
      *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="active"
-     *          )
+     *          in="path",
+     *          @OA\Schema(type="string", example="active")
      *      ),
      *      @OA\Parameter(
      *          name="created_at",
+     *          description="Дата создания записи",
+     *          required=false,
      *          in="path",
-     *          description="Дата создания пользователя",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="2024-05-17T13:22:34.000000Z"
-     *          )
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Parameter(
      *          name="updated_at",
+     *          description="Дата обновления записи",
+     *          required=false,
      *          in="path",
-     *          description="Дата обновления пользователя",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="2024-05-17T13:22:34.000000Z"
-     *          )
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Parameter(
      *          name="deleted_at",
+     *          description="Дата удаления записи",
+     *          required=false,
      *          in="path",
-     *          description="Дата удаления пользователя",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string",
-     *              example="null"
-     *          )
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -276,31 +257,114 @@ class ArendatorsController extends Controller
      *      summary="Обновить пользователя",
      *      description="Обновляет запись о пользователе и возвращает его",
      *      tags={"Арендаторы"},
+     *      @OA\RequestBody(
+     *          request="PostUser",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/User")
+     *          }
+     *      )    
+     *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Идентификатор ТС",
+     *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
      *          @OA\Schema(type="integer", example=1)
      *      ),
-     *      @OA\RequestBody(
+     *      @OA\Parameter(
+     *          name="default_bill_id",
+     *          description="Cчет по умолчанию",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="integer", example=1)
+     *      ),
+     *      @OA\Parameter(
+     *          name="last_name",
+     *          description="Фамилия арендатора",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="Haley")
+     *      ),
+     *      @OA\Parameter(
+     *          name="first_name",
+     *          description="Имя арендатора",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="Carolyn")
+     *      ),
+     *      @OA\Parameter(
+     *          name="middle_name",
+     *          description="Отчество арендатора",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="Berta")
+     *      ),
+     *      @OA\Parameter(
+     *          name="status",
+     *          description="Статус аккаунта",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="active")
+     *      ),
+     *      @OA\Parameter(
+     *          name="created_at",
+     *          description="Дата создания записи",
      *          required=false,
+     *          in="path",
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
+     *      ),
+     *      @OA\Parameter(
+     *          name="updated_at",
+     *          description="Дата обновления записи",
+     *          required=false,
+     *          in="path",
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
+     *      ),
+     *      @OA\Parameter(
+     *          name="deleted_at",
+     *          description="Дата удаления записи",
+     *          required=false,
+     *          in="path",
+     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
      *          @OA\JsonContent(
-     *          example={"message": "Succesfully"},
-     *         )
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/User")
+     *              }
+     *          )
      *      ),
      *      @OA\Response(
-     *          response="200",
-     *          description="Возвращает запись пользователя",
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
      *      ),
      *      @OA\Response(
-     *          response="404",
-     *          description="Неверно передан идентификатор пользователя",
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
      *      ),
      *      @OA\Response(
-     *          response="422",
-     *          description="Неверно переданы данные в запросе",
-     *      )
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
      * ),
      *
      */
@@ -328,16 +392,41 @@ class ArendatorsController extends Controller
      *          @OA\Schema(type="integer", example=1)
      *      ),
      *      @OA\Response(
-     *          response="200",
-     *          description="Возвращает сообщение об успешном удалении",
+     *          response=200,
+     *          description="Успех",
      *          @OA\JsonContent(
-     *              example={"message": "Succesfully destroyed"}
-     *          ),
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/User")
+     *              }
+     *          )
      *      ),
      *      @OA\Response(
-     *          response="404",
-     *          description="Неверно передан идентификатор пользователя",
-     *      )
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
      * ),
      *
      */
