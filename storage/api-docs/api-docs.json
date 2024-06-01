@@ -186,24 +186,24 @@
                         "description": "Идентификатор пользователя",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "example": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed"
+                            "type": "integer",
+                            "example": 1
                         }
                     },
                     {
                         "name": "default_bill_id",
                         "in": "path",
-                        "description": "Идентификатор счёта по умолчанию",
+                        "description": "Cчет по умолчанию",
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "example": "1"
+                            "example": 1
                         }
                     },
                     {
                         "name": "last_name",
                         "in": "path",
-                        "description": "Фамилия пользователя",
+                        "description": "Фамилия арендатора",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -213,7 +213,7 @@
                     {
                         "name": "first_name",
                         "in": "path",
-                        "description": "Имя пользователя",
+                        "description": "Имя арендатора",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -223,7 +223,7 @@
                     {
                         "name": "middle_name",
                         "in": "path",
-                        "description": "Отчество пользователя",
+                        "description": "Отчество арендатора",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -243,8 +243,8 @@
                     {
                         "name": "created_at",
                         "in": "path",
-                        "description": "Дата создания пользователя",
-                        "required": true,
+                        "description": "Дата создания записи",
+                        "required": false,
                         "schema": {
                             "type": "string",
                             "example": "2024-05-17T13:22:34.000000Z"
@@ -253,8 +253,8 @@
                     {
                         "name": "updated_at",
                         "in": "path",
-                        "description": "Дата обновления пользователя",
-                        "required": true,
+                        "description": "Дата обновления записи",
+                        "required": false,
                         "schema": {
                             "type": "string",
                             "example": "2024-05-17T13:22:34.000000Z"
@@ -263,11 +263,11 @@
                     {
                         "name": "deleted_at",
                         "in": "path",
-                        "description": "Дата удаления пользователя",
-                        "required": true,
+                        "description": "Дата удаления записи",
+                        "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "null"
+                            "example": "2024-05-17T13:22:34.000000Z"
                         }
                     }
                 ],
@@ -276,7 +276,11 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                ]
                             }
                         }
                     }
@@ -353,34 +357,164 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Идентификатор ТС",
+                        "description": "Идентификатор пользователя",
                         "required": true,
                         "schema": {
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "default_bill_id",
+                        "in": "path",
+                        "description": "Cчет по умолчанию",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "path",
+                        "description": "Фамилия арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Haley"
+                        }
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "path",
+                        "description": "Имя арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Carolyn"
+                        }
+                    },
+                    {
+                        "name": "middle_name",
+                        "in": "path",
+                        "description": "Отчество арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Berta"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Статус аккаунта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "active"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "path",
+                        "description": "Дата создания записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "updated_at",
+                        "in": "path",
+                        "description": "Дата обновления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "deleted_at",
+                        "in": "path",
+                        "description": "Дата удаления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
                     }
                 ],
                 "requestBody": {
-                    "required": false,
+                    "required": true,
                     "content": {
                         "application/json": {
-                            "schema": {},
-                            "example": {
-                                "message": "Succesfully"
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                ]
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Возвращает запись пользователя"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Неверно передан идентификатор пользователя"
-                    },
-                    "422": {
-                        "description": "Неверно переданы данные в запросе"
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -407,18 +541,60 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Возвращает сообщение об успешном удалении",
+                        "description": "Успех",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Succesfully destroyed"
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Неверно передан идентификатор пользователя"
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -501,7 +677,60 @@
                 "operationId": "0df57a1470d202059ac99693a141b443",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Car"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -514,9 +743,188 @@
                 "summary": "Создать ТС",
                 "description": "Создает новое ТС и возвращает ее",
                 "operationId": "d386eb52bcdc6b956621bcbfa7b53908",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "model_id",
+                        "in": "path",
+                        "description": "Cчет по умолчанию",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "99447261-3369-4f90-abcd-f126664874d8"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Статус аренды",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "rented"
+                        }
+                    },
+                    {
+                        "name": "mileage",
+                        "in": "path",
+                        "description": "Пробег ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "10383"
+                        }
+                    },
+                    {
+                        "name": "license_plate",
+                        "in": "path",
+                        "description": "Гос.номер ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Н709ОM 147"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "path",
+                        "description": "Год производства ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "2003"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "path",
+                        "description": "Координаты текущего местоположения ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "-35.71 -45.96609"
+                        }
+                    },
+                    {
+                        "name": "price_minute",
+                        "in": "path",
+                        "description": "Минутная цена аренды",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "2"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "path",
+                        "description": "Дата создания записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "updated_at",
+                        "in": "path",
+                        "description": "Дата обновления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "deleted_at",
+                        "in": "path",
+                        "description": "Дата удаления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Car"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Car"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -529,9 +937,188 @@
                 "summary": "Обновить ТС",
                 "description": "Обновляет запись о ТС и возвращает ее",
                 "operationId": "e1657cc13f42ebbb8567bae67b90c854",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "model_id",
+                        "in": "path",
+                        "description": "Cчет по умолчанию",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "99447261-3369-4f90-abcd-f126664874d8"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "Статус аренды",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "rented"
+                        }
+                    },
+                    {
+                        "name": "mileage",
+                        "in": "path",
+                        "description": "Пробег ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "10383"
+                        }
+                    },
+                    {
+                        "name": "license_plate",
+                        "in": "path",
+                        "description": "Гос.номер ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Н709ОM 147"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "path",
+                        "description": "Год производства ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "2003"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "path",
+                        "description": "Координаты текущего местоположения ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "-35.71 -45.96609"
+                        }
+                    },
+                    {
+                        "name": "price_minute",
+                        "in": "path",
+                        "description": "Минутная цена аренды",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "2"
+                        }
+                    },
+                    {
+                        "name": "created_at",
+                        "in": "path",
+                        "description": "Дата создания записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "updated_at",
+                        "in": "path",
+                        "description": "Дата обновления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    },
+                    {
+                        "name": "deleted_at",
+                        "in": "path",
+                        "description": "Дата удаления записи",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2024-05-17T13:22:34.000000Z"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Car"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Car"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -544,9 +1131,74 @@
                 "summary": "Удалить ТС",
                 "description": "Удаляет запись о ТС",
                 "operationId": "d6aba5bd0cb7462d68f508df1788ea64",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Car"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
