@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Arendator;
-use App\Http\Resources\Arendators\ArendatorsResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Arendators\StoreRequest;
 use App\Http\Requests\Arendators\UpdateRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class ArendatorsController extends Controller
 {
@@ -59,7 +59,15 @@ class ArendatorsController extends Controller
      */
     public function index() : JsonResponse
     {
-        return response()->json(Arendator::all());
+        $cache = Redis::get('arend_index');
+        if ($cache) {
+            return $cache;
+        }
+        else {
+            $cache = response()->json(Arendator::all());
+            Redis::put('arend_index', $cache, now()->addMinutes(10));
+            return $cache;
+        }
     }
 
     /**
@@ -74,7 +82,7 @@ class ArendatorsController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="45c746aa-64e1-349c-8a94-9daf95d36c52")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -115,18 +123,15 @@ class ArendatorsController extends Controller
      * ),
      *
      */
-    public function show(int $id) : JsonResponse
+    public function show(string $id) : JsonResponse
     {
-        $a = Arendator::find($id);
-        return response()->json([
-            $a->id => $a
-        ], 200);
+        return response()->json(Arendator::where('id', $id)->first());
     }
 
     /**
      *
      * @OA\Post(
-     *      path="users/create",
+     *      path="/users/create",
      *      summary="Создать пользователя",
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
@@ -141,65 +146,86 @@ class ArendatorsController extends Controller
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          description="Идентификатор пользователя. Создается автоматически, если поле пустое",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(type="string", example="0d2301a8-f20e-32eb-87f4-3630d5999c0b")
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
      *          description="Cчет по умолчанию",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example=1)
      *      ),
      *      @OA\Parameter(
      *          name="last_name",
      *          description="Фамилия арендатора",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="Haley")
      *      ),
      *      @OA\Parameter(
      *          name="first_name",
      *          description="Имя арендатора",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="Carolyn")
      *      ),
      *      @OA\Parameter(
      *          name="middle_name",
      *          description="Отчество арендатора",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="Berta")
      *      ),
      *      @OA\Parameter(
      *          name="status",
      *          description="Статус аккаунта",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="active")
+     *      ),
+     *      @OA\Parameter(
+     *          name="passport_series",
+     *          description="Серия паспорта",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(type="string", example="21 52")
+     *      ),
+     *      @OA\Parameter(
+     *          name="passport_number",
+     *          description="Номер паспорта",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(type="string", example="026907")
+     *      ),
+     *      @OA\Parameter(
+     *          name="phone",
+     *          description="Номер телефона",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(type="integer", example="7525301782")
      *      ),
      *      @OA\Parameter(
      *          name="created_at",
      *          description="Дата создания записи",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Parameter(
      *          name="updated_at",
      *          description="Дата обновления записи",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Parameter(
      *          name="deleted_at",
      *          description="Дата удаления записи",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Response(
@@ -241,13 +267,10 @@ class ArendatorsController extends Controller
      * ),
      *
      */
-    public function store(StoreRequest $request) : JsonResponse
+    public function store($request) : JsonResponse
     {
-        $a = Arendator::create($request->validated());
-        return response()->json([
-            'message' => 'Succesfully created',
-            $a->id => $a
-        ], 200);
+        $a = Arendator::create($request);
+        return response()->json($a);
     }
 
     /**

@@ -30,7 +30,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (HttpException $e, Request $request) {
-            if ($request->is('api/*')) {
+            if ($request->is('api/auth*')) {
                 if ($this->isHttpException($e)) {
                     switch($e->getStatusCode()) {
                         case 401:

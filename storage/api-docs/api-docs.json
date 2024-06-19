@@ -106,8 +106,8 @@
                         "description": "Идентификатор пользователя",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
                         }
                     }
                 ],
@@ -171,28 +171,28 @@
                 }
             }
         },
-        "users/create": {
+        "/users/create": {
             "post": {
                 "tags": [
                     "Арендаторы"
                 ],
                 "summary": "Создать пользователя",
                 "description": "Создает нового пользователя и возвращает его",
-                "operationId": "7a8b31f9b7c7cecdf9e99854f5f55dac",
+                "operationId": "5a9a73d03d5ba945b8ed237483b33bfa",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "path",
-                        "description": "Идентификатор пользователя",
-                        "required": true,
+                        "in": "query",
+                        "description": "Идентификатор пользователя. Создается автоматически, если поле пустое",
+                        "required": false,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "0d2301a8-f20e-32eb-87f4-3630d5999c0b"
                         }
                     },
                     {
                         "name": "default_bill_id",
-                        "in": "path",
+                        "in": "query",
                         "description": "Cчет по умолчанию",
                         "required": true,
                         "schema": {
@@ -202,7 +202,7 @@
                     },
                     {
                         "name": "last_name",
-                        "in": "path",
+                        "in": "query",
                         "description": "Фамилия арендатора",
                         "required": true,
                         "schema": {
@@ -212,7 +212,7 @@
                     },
                     {
                         "name": "first_name",
-                        "in": "path",
+                        "in": "query",
                         "description": "Имя арендатора",
                         "required": true,
                         "schema": {
@@ -222,7 +222,7 @@
                     },
                     {
                         "name": "middle_name",
-                        "in": "path",
+                        "in": "query",
                         "description": "Отчество арендатора",
                         "required": true,
                         "schema": {
@@ -232,7 +232,7 @@
                     },
                     {
                         "name": "status",
-                        "in": "path",
+                        "in": "query",
                         "description": "Статус аккаунта",
                         "required": true,
                         "schema": {
@@ -241,8 +241,38 @@
                         }
                     },
                     {
+                        "name": "passport_series",
+                        "in": "query",
+                        "description": "Серия паспорта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "21 52"
+                        }
+                    },
+                    {
+                        "name": "passport_number",
+                        "in": "query",
+                        "description": "Номер паспорта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "026907"
+                        }
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "7525301782"
+                        }
+                    },
+                    {
                         "name": "created_at",
-                        "in": "path",
+                        "in": "query",
                         "description": "Дата создания записи",
                         "required": false,
                         "schema": {
@@ -252,7 +282,7 @@
                     },
                     {
                         "name": "updated_at",
-                        "in": "path",
+                        "in": "query",
                         "description": "Дата обновления записи",
                         "required": false,
                         "schema": {
@@ -262,7 +292,7 @@
                     },
                     {
                         "name": "deleted_at",
-                        "in": "path",
+                        "in": "query",
                         "description": "Дата удаления записи",
                         "required": false,
                         "schema": {
@@ -1211,7 +1241,7 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
+                        "example": "0d2301a8-f20e-32eb-87f4-3630d5999c0b"
                     },
                     "default_bill_id": {
                         "type": "string",
@@ -1233,6 +1263,18 @@
                         "type": "string",
                         "example": "active"
                     },
+                    "passport_series": {
+                        "type": "string",
+                        "example": "21 52"
+                    },
+                    "passport_number": {
+                        "type": "string",
+                        "example": "026907"
+                    },
+                    "phone": {
+                        "type": "integer",
+                        "example": "7525301782"
+                    },
                     "created_at": {
                         "type": "string",
                         "example": "2024-05-17T13:22:34.000000Z"
@@ -1243,7 +1285,7 @@
                     },
                     "deleted_at": {
                         "type": "string",
-                        "example": null
+                        "example": "2025-05-17T13:20:14.000000Z"
                     }
                 },
                 "type": "object"
