@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Arendators\StoreRequest;
 use App\Http\Requests\Arendators\UpdateRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class ArendatorsController extends Controller
 {
@@ -125,7 +124,15 @@ class ArendatorsController extends Controller
      */
     public function show(string $id) : JsonResponse
     {
-        return response()->json(Arendator::where('id', $id)->first());
+        $cache = Redis::get('arend_show');
+        if ($cache) {
+            return $cache;
+        }
+        else {
+            $cache = response()->json(Arendator::where('id', $id)->first());
+            Redis::put('arend_show', $cache, now()->addMinutes(10));
+            return $cache;
+        }
     }
 
     /**
@@ -146,17 +153,17 @@ class ArendatorsController extends Controller
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Идентификатор пользователя. Создается автоматически, если поле пустое",
-     *          required=false,
+     *          description="Идентификатор пользователя",
+     *          required=true,
      *          in="query",
-     *          @OA\Schema(type="string", example="0d2301a8-f20e-32eb-87f4-3630d5999c0b")
+     *          @OA\Schema(type="string", example="0n2301a8-f20e-32eb-21f4-9g32d4969c1z")
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
      *          description="Cчет по умолчанию",
      *          required=true,
      *          in="query",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b")
      *      ),
      *      @OA\Parameter(
      *          name="last_name",
@@ -267,9 +274,9 @@ class ArendatorsController extends Controller
      * ),
      *
      */
-    public function store($request) : JsonResponse
+    public function store(StoreRequest $request) : JsonResponse
     {
-        $a = Arendator::create($request);
+        $a = Arendator::create($request->validated());
         return response()->json($a);
     }
 
@@ -294,14 +301,14 @@ class ArendatorsController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="0n2301a8-f20e-32eb-21f4-9g32d4969c1z")
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
      *          description="Cчет по умолчанию",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b")
      *      ),
      *      @OA\Parameter(
      *          name="last_name",
@@ -394,11 +401,7 @@ class ArendatorsController extends Controller
     public function update(UpdateRequest $request, Arendator $a) : JsonResponse
     {
         $a->update($request->validated());
-
-        return response()->json([
-            'message' => 'Succesfully updated',
-            $a->id => $a
-        ], 200);
+        return response()->json($a);
     }
     /**
      *
@@ -412,7 +415,7 @@ class ArendatorsController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="0n2301a8-f20e-32eb-21f4-9g32d4969c1z")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -456,6 +459,6 @@ class ArendatorsController extends Controller
     public function destroy(Arendator $a) : JsonResponse
     {
         $a->delete();
-        return response()->json(['message' => 'Succesfully destroyed'], 200);
+        return response()->json($a);
     }
 }

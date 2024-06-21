@@ -40,8 +40,8 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Schema(
  *  schema="User",
  *  title="User",
- *      @OA\Property(property="id", type="string", example="0d2301a8-f20e-32eb-87f4-3630d5999c0b"),
- *      @OA\Property(property="default_bill_id", type="string", example=1),
+ *      @OA\Property(property="id", type="string", example="0n2301a8-f20e-32eb-21f4-9g32d4969c1z"),
+ *      @OA\Property(property="default_bill_id", type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b"),
  *      @OA\Property(property="last_name", type="string", example="Haley"),
  *      @OA\Property(property="first_name", type="string", example="Carolyn"),
  *      @OA\Property(property="middle_name", type="string", example="Berta"),

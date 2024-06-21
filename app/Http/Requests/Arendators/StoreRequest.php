@@ -22,8 +22,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'string',
-            'default_bill_id' => 'required|string',
+            'id' => 'required|uuid',
+            'default_bill_id' => 'required|uuid',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'middle_name' => 'required|string',

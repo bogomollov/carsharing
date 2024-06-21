@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
-use App\Http\Resources\Cars\CarsResource;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Cars\StoreRequest;
 use App\Http\Requests\Cars\UpdateRequest;

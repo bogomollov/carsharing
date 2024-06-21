@@ -183,11 +183,11 @@
                     {
                         "name": "id",
                         "in": "query",
-                        "description": "Идентификатор пользователя. Создается автоматически, если поле пустое",
-                        "required": false,
+                        "description": "Идентификатор пользователя",
+                        "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "0d2301a8-f20e-32eb-87f4-3630d5999c0b"
+                            "example": "0n2301a8-f20e-32eb-21f4-9g32d4969c1z"
                         }
                     },
                     {
@@ -196,8 +196,8 @@
                         "description": "Cчет по умолчанию",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
                         }
                     },
                     {
@@ -1241,11 +1241,11 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "example": "0d2301a8-f20e-32eb-87f4-3630d5999c0b"
+                        "example": "0n2301a8-f20e-32eb-21f4-9g32d4969c1z"
                     },
                     "default_bill_id": {
                         "type": "string",
-                        "example": 1
+                        "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
                     },
                     "last_name": {
                         "type": "string",

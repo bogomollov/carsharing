@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Observers;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cache as Redis;
 use App\Models\Arendator;
 
 class ArendatorsObserver
@@ -11,7 +11,7 @@ class ArendatorsObserver
      */
     public function created(Arendator $arendators): void
     {
-        Cache::forget('arendators:all');
+        Redis::forget('arendators:all');
     }
 
     /**
@@ -19,7 +19,7 @@ class ArendatorsObserver
      */
     public function saved(Arendator $arendators): void
     {
-        Cache::forget('arendators:all');
+        Redis::forget('arendators:all');
     }
 
     /**
@@ -27,7 +27,7 @@ class ArendatorsObserver
      */
     public function updated(Arendator $arendators): void
     {
-        Cache::forget('arendators:all');
+        Redis::forget('arendators:all');
     }
 
     /**
@@ -35,35 +35,35 @@ class ArendatorsObserver
      */
     public function deleted(Arendator $arendators): void
     {
-        Cache::forget('arendators:all');
+        Redis::forget('arendators:all');
     }
 
     /**
      * Handle the Arendators "deleting" event.
      */
-    // public function deleting(Arendators $arendators): void
-    // {
-    //     Cache::forget('arendators:all');
-    // }
+    public function deleting(Arendator $arendators): void
+    {
+        Redis::forget('arendators:all');
+    }
 
     /**
      * Handle the Cars "retrieved" event.
      */
-    // public function retrieved(Arendators $arendators): void
-    // {
-    //     Cache::forget('arendators:all');
-    // }
+    public function retrieved(Arendator $arendators): void
+    {
+        Redis::forget('arendators:all');
+    }
 
     /**
      * Handle the Arendators "restored" event.
      */
-    // public function restored(Arendators $arendators): void
-    // {
-    //     Cache::forget('arendators:all');
-    // }
+    public function restored(Arendator $arendators): void
+    {
+        Redis::forget('arendators:all');
+    }
 
     public function forceDeleted(Arendator $arendators): void
     {
-        Cache::forget('arendators:all');
+        Redis::forget('arendators:all');
     }
 }

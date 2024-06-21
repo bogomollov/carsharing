@@ -41,26 +41,26 @@ class CarsObserver
     /**
      * Handle the Cars "deleting" event.
      */
-    // public function deleting(Cars $cars): void
-    // {
-    //     Cache::forget('cars:all');
-    // }
+    public function deleting(Car $cars): void
+    {
+        Cache::forget('cars:all');
+    }
 
     /**
      * Handle the Cars "retrieved" event.
      */
-    // public function retrieved(Cars $cars): void
-    // {
-    //     Cache::forget('cars:all');
-    // }
+    public function retrieved(Car $cars): void
+    {
+        Cache::forget('cars:all');
+    }
 
     /**
      * Handle the Cars "restored" event.
      */
-    // public function restored(Cars $cars): void
-    // {
-    //     Cache::forget('cars:all');
-    // }
+    public function restored(Car $cars): void
+    {
+        Cache::forget('cars:all');
+    }
 
     public function forceDeleted(Car $cars): void
     {
