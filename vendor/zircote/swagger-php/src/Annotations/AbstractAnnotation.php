@@ -9,6 +9,7 @@ namespace OpenApi\Annotations;
 use OpenApi\Context;
 use OpenApi\Generator;
 use OpenApi\Annotations as OA;
+use OpenApi\OpenApiException;
 use OpenApi\Util;
 use Symfony\Component\Yaml\Yaml;
 
@@ -100,7 +101,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
         } elseif (Generator::$context) {
             $this->_context = Generator::$context;
         } else {
-            $this->_context = Context::detect(1);
+            $this->_context = new Context(['generated' => true]);
         }
 
         if ($this->_context->is('annotations') === false) {
@@ -284,6 +285,9 @@ abstract class AbstractAnnotation implements \JsonSerializable
         return $properties;
     }
 
+    /**
+     * @return mixed
+     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
@@ -546,7 +550,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
                     $this->_context->logger->warning($this->identity() . '->' . $property . ' "' . $value . '" is invalid, expecting "' . implode('", "', $type) . '" in ' . $this->_context);
                 }
             } else {
-                throw new \Exception('Invalid ' . get_class($this) . '::$_types[' . $property . ']');
+                throw new OpenApiException('Invalid ' . get_class($this) . '::$_types[' . $property . ']');
             }
         }
         $stack[] = $this;
@@ -747,7 +751,7 @@ abstract class AbstractAnnotation implements \JsonSerializable
             case 'scheme':
                 return in_array($value, ['http', 'https', 'ws', 'wss'], true);
             default:
-                throw new \Exception('Invalid type "' . $type . '"');
+                throw new OpenApiException('Invalid type "' . $type . '"');
         }
     }
 

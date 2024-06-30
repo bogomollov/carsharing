@@ -18,12 +18,14 @@ const defaultOptions = Object.freeze({
   oauth2RedirectUrl: undefined,
   persistAuthorization: false,
   configs: {},
-  custom: {},
   displayOperationId: false,
   displayRequestDuration: false,
   deepLinking: false,
   tryItOutEnabled: false,
-  requestInterceptor: (a) => a,
+  requestInterceptor: (request) => {
+    request.curlOptions = []
+    return request
+  },
   responseInterceptor: (a) => a,
   showMutatedRequest: true,
   defaultModelRendering: "example",
@@ -70,13 +72,6 @@ const defaultOptions = Object.freeze({
   // Plugins; ( loaded after presets )
   plugins: [],
 
-  pluginsOptions: {
-    // Behavior during plugin registration. Can be :
-    // - legacy (default) : the current behavior for backward compatibility – last plugin takes precedence over the others
-    // - chain : chain wrapComponents when targeting the same core component
-    pluginLoadType: "legacy",
-  },
-
   initialState: {},
 
   // Inline Plugin
@@ -87,6 +82,11 @@ const defaultOptions = Object.freeze({
     activated: true,
     theme: "agate",
   },
+  operationsSorter: null,
+  tagsSorter: null,
+  onComplete: null,
+  modelPropertyMacro: null,
+  parameterMacro: null,
 })
 
 export default defaultOptions

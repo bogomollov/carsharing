@@ -23,14 +23,14 @@
         }
     ],
     "paths": {
-        "/users": {
+        "/user": {
             "get": {
                 "tags": [
                     "Арендаторы"
                 ],
                 "summary": "Получить всех пользователей",
                 "description": "Получить пользователей",
-                "operationId": "bbb0f1f8ad5ee45993b7485084d854a3",
+                "operationId": "a09b4a9e85ae460c4259bd91492dfcad",
                 "responses": {
                     "200": {
                         "description": "Успех",
@@ -91,14 +91,14 @@
                 }
             }
         },
-        "/users/{id}": {
+        "/user/{id}": {
             "get": {
                 "tags": [
                     "Арендаторы"
                 ],
                 "summary": "Получить пользователя",
                 "description": "Получает пользователя по идентификатору и возвращает его",
-                "operationId": "39ad6cf6462823f927e5150362174982",
+                "operationId": "6e12f4621a3f7f30632c7f9ed096904c",
                 "parameters": [
                     {
                         "name": "id",
@@ -171,28 +171,28 @@
                 }
             }
         },
-        "/users/create": {
+        "/user/create": {
             "post": {
                 "tags": [
                     "Арендаторы"
                 ],
                 "summary": "Создать пользователя",
                 "description": "Создает нового пользователя и возвращает его",
-                "operationId": "5a9a73d03d5ba945b8ed237483b33bfa",
+                "operationId": "853f5a91dbf8a9e58c62b951eecf4097",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "Идентификатор пользователя",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "0n2301a8-f20e-32eb-21f4-9g32d4969c1z"
+                            "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
                         }
                     },
                     {
                         "name": "default_bill_id",
-                        "in": "query",
+                        "in": "path",
                         "description": "Cчет по умолчанию",
                         "required": true,
                         "schema": {
@@ -202,7 +202,7 @@
                     },
                     {
                         "name": "last_name",
-                        "in": "query",
+                        "in": "path",
                         "description": "Фамилия арендатора",
                         "required": true,
                         "schema": {
@@ -212,7 +212,7 @@
                     },
                     {
                         "name": "first_name",
-                        "in": "query",
+                        "in": "path",
                         "description": "Имя арендатора",
                         "required": true,
                         "schema": {
@@ -222,7 +222,7 @@
                     },
                     {
                         "name": "middle_name",
-                        "in": "query",
+                        "in": "path",
                         "description": "Отчество арендатора",
                         "required": true,
                         "schema": {
@@ -232,7 +232,7 @@
                     },
                     {
                         "name": "status",
-                        "in": "query",
+                        "in": "path",
                         "description": "Статус аккаунта",
                         "required": true,
                         "schema": {
@@ -242,7 +242,7 @@
                     },
                     {
                         "name": "passport_series",
-                        "in": "query",
+                        "in": "path",
                         "description": "Серия паспорта",
                         "required": true,
                         "schema": {
@@ -252,7 +252,7 @@
                     },
                     {
                         "name": "passport_number",
-                        "in": "query",
+                        "in": "path",
                         "description": "Номер паспорта",
                         "required": true,
                         "schema": {
@@ -262,8 +262,192 @@
                     },
                     {
                         "name": "phone",
-                        "in": "query",
+                        "in": "path",
                         "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "7525301782"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/update": {
+            "put": {
+                "tags": [
+                    "Арендаторы"
+                ],
+                "summary": "Обновить пользователя",
+                "description": "Обновляет запись о пользователе и возвращает его",
+                "operationId": "f6af798fd3f13d2854d37315919bd722",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Существующий идентификатор пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "64a7129a-fc61-3d3f-b44a-837d29f6531a"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Новый идентификатор пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
+                        }
+                    },
+                    {
+                        "name": "default_bill_id",
+                        "in": "query",
+                        "description": "Новый счет по умолчанию",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
+                        }
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "Новая фамилия арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Haley"
+                        }
+                    },
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "description": "Новое имя арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Carolyn"
+                        }
+                    },
+                    {
+                        "name": "middle_name",
+                        "in": "query",
+                        "description": "Новое отчество арендатора",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Berta"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Новый статус аккаунта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "active"
+                        }
+                    },
+                    {
+                        "name": "passport_series",
+                        "in": "query",
+                        "description": "Новая серия паспорта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "21 52"
+                        }
+                    },
+                    {
+                        "name": "passport_number",
+                        "in": "query",
+                        "description": "Новый номер паспорта",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "026907"
+                        }
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Новый номер телефона",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -273,8 +457,8 @@
                     {
                         "name": "created_at",
                         "in": "query",
-                        "description": "Дата создания записи",
-                        "required": false,
+                        "description": "Новая дата создания записи",
+                        "required": true,
                         "schema": {
                             "type": "string",
                             "example": "2024-05-17T13:22:34.000000Z"
@@ -283,8 +467,8 @@
                     {
                         "name": "updated_at",
                         "in": "query",
-                        "description": "Дата обновления записи",
-                        "required": false,
+                        "description": "Новая дата обновления записи",
+                        "required": true,
                         "schema": {
                             "type": "string",
                             "example": "2024-05-17T13:22:34.000000Z"
@@ -293,8 +477,8 @@
                     {
                         "name": "deleted_at",
                         "in": "query",
-                        "description": "Дата удаления записи",
-                        "required": false,
+                        "description": "Новая дата удаления записи",
+                        "required": true,
                         "schema": {
                             "type": "string",
                             "example": "2024-05-17T13:22:34.000000Z"
@@ -375,188 +559,14 @@
                 }
             }
         },
-        "/users/{id}/update": {
-            "patch": {
-                "tags": [
-                    "Арендаторы"
-                ],
-                "summary": "Обновить пользователя",
-                "description": "Обновляет запись о пользователе и возвращает его",
-                "operationId": "ddb791f6c5195462bd3bbfb7e901df8a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Идентификатор пользователя",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "default_bill_id",
-                        "in": "path",
-                        "description": "Cчет по умолчанию",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "last_name",
-                        "in": "path",
-                        "description": "Фамилия арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Haley"
-                        }
-                    },
-                    {
-                        "name": "first_name",
-                        "in": "path",
-                        "description": "Имя арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Carolyn"
-                        }
-                    },
-                    {
-                        "name": "middle_name",
-                        "in": "path",
-                        "description": "Отчество арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Berta"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "path",
-                        "description": "Статус аккаунта",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "active"
-                        }
-                    },
-                    {
-                        "name": "created_at",
-                        "in": "path",
-                        "description": "Дата создания записи",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "2024-05-17T13:22:34.000000Z"
-                        }
-                    },
-                    {
-                        "name": "updated_at",
-                        "in": "path",
-                        "description": "Дата обновления записи",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "2024-05-17T13:22:34.000000Z"
-                        }
-                    },
-                    {
-                        "name": "deleted_at",
-                        "in": "path",
-                        "description": "Дата удаления записи",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "example": "2024-05-17T13:22:34.000000Z"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/User"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Успех",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/User"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Не авторизован",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response401"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response403"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Не найдено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response404"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users/{id}/delete": {
+        "/user/{id}/delete": {
             "delete": {
                 "tags": [
                     "Арендаторы"
                 ],
                 "summary": "Удалить пользователя",
                 "description": "Удаляет запись о пользователе",
-                "operationId": "b3e633ef3046079bab63090f8578e49a",
+                "operationId": "e1a28746fae9607f2418c19fa93b06aa",
                 "parameters": [
                     {
                         "name": "id",
@@ -564,8 +574,8 @@
                         "description": "Идентификатор пользователя",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "string",
+                            "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
                         }
                     }
                 ],
@@ -636,7 +646,7 @@
                 ],
                 "summary": "Получить все ТС",
                 "description": "Получить список ТС",
-                "operationId": "848ef97d2b359a61f9f16b4529b28f9f",
+                "operationId": "d8232bc6a16fec784f4a5fca541f9856",
                 "responses": {
                     "200": {
                         "description": "Успех",
@@ -704,7 +714,7 @@
                 ],
                 "summary": "Получить ТС",
                 "description": "Получает ТС по идентификатору и возвращает его",
-                "operationId": "0df57a1470d202059ac99693a141b443",
+                "operationId": "8b43987d328663989329b7b6b01db674",
                 "responses": {
                     "200": {
                         "description": "Успех",
@@ -772,7 +782,7 @@
                 ],
                 "summary": "Создать ТС",
                 "description": "Создает новое ТС и возвращает ее",
-                "operationId": "d386eb52bcdc6b956621bcbfa7b53908",
+                "operationId": "ad3243493b9002adca9a356854ffb379",
                 "parameters": [
                     {
                         "name": "id",
@@ -966,7 +976,7 @@
                 ],
                 "summary": "Обновить ТС",
                 "description": "Обновляет запись о ТС и возвращает ее",
-                "operationId": "e1657cc13f42ebbb8567bae67b90c854",
+                "operationId": "ce5cd7aef0aaf9999ebb1d6965e8516b",
                 "parameters": [
                     {
                         "name": "id",
@@ -1160,7 +1170,7 @@
                 ],
                 "summary": "Удалить ТС",
                 "description": "Удаляет запись о ТС",
-                "operationId": "d6aba5bd0cb7462d68f508df1788ea64",
+                "operationId": "a125885440437af6125313a407551899",
                 "parameters": [
                     {
                         "name": "id",
@@ -1241,7 +1251,7 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "example": "0n2301a8-f20e-32eb-21f4-9g32d4969c1z"
+                        "example": "45c746aa-64e1-349c-8a94-9daf95d36c52"
                     },
                     "default_bill_id": {
                         "type": "string",
@@ -1281,11 +1291,11 @@
                     },
                     "updated_at": {
                         "type": "string",
-                        "example": "2024-05-17T13:22:34.000000Z"
+                        "example": "2024-05-17T13:22:44.000000Z"
                     },
                     "deleted_at": {
                         "type": "string",
-                        "example": "2025-05-17T13:20:14.000000Z"
+                        "example": "2024-06-17T13:22:34.000000Z"
                     }
                 },
                 "type": "object"
@@ -1331,11 +1341,11 @@
                     },
                     "updated_at": {
                         "type": "string",
-                        "example": "2024-05-17T13:22:34.000000Z"
+                        "example": "2024-05-17T13:22:44.000000Z"
                     },
                     "deleted_at": {
                         "type": "string",
-                        "example": null
+                        "example": "2024-06-17T13:22:34.000000Z"
                     }
                 },
                 "type": "object"

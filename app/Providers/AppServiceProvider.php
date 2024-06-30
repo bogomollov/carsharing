@@ -3,8 +3,8 @@
 namespace App\Providers;
 use App\Models\Car;
 use App\Models\Arendator;
-use App\Observers\CarsObserver;
-use App\Observers\ArendatorsObserver;
+use App\Observers\CarObserver;
+use App\Observers\ArendatorObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Car::observe(CarsObserver::class);
-        Arendator::observe(ArendatorsObserver::class);
+        Car::observe(CarObserver::class);
+        Arendator::observe(ArendatorObserver::class);
     }
 }

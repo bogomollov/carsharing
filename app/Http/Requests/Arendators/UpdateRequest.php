@@ -31,9 +31,9 @@ class UpdateRequest extends FormRequest
             'passport_series' => 'required|string',
             'passport_number' => 'required|string',
             'phone' => 'required|integer',
-            'created_at' => 'string',
-            'updated_at' => 'string',
-            'deleted_at' => 'string',
+            'created_at' => 'required|string',
+            'updated_at' => 'required|string',
+            'deleted_at' => 'required|string',
         ];
     }
 }

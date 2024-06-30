@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'id' => 'required|uuid',
-            'default_bill_id' => 'required|uuid',
+            'default_bill_id' => 'uuid',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
@@ -31,9 +31,6 @@ class StoreRequest extends FormRequest
             'passport_series' => 'required|string',
             'passport_number' => 'required|string',
             'phone' => 'required|integer',
-            'created_at' => 'string',
-            'updated_at' => 'string',
-            'deleted_at' => 'string',
         ];
     }
 }
