@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Arendators;
+namespace App\Http\Requests\Car;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,17 +23,13 @@ class UpdateRequest extends FormRequest
     {
         return [
             'id' => 'required|uuid',
-            'default_bill_id' => 'required|uuid',
-            'last_name' => 'required|string',
-            'first_name' => 'required|string',
-            'middle_name' => 'required|string',
+            'model_id' => 'required|uuid',
             'status' => 'required|string',
-            'passport_series' => 'required|string',
-            'passport_number' => 'required|string',
-            'phone' => 'required|integer',
-            'created_at' => 'required|string',
-            'updated_at' => 'required|string',
-            'deleted_at' => 'required|string',
+            'mileage' => 'required|integer',
+            'license_plate' => 'required|string',
+            'year' => 'required|integer',
+            'location' => 'required|string',
+            'price_minute' => 'required|integer',
         ];
     }
 }

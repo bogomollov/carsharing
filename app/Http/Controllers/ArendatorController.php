@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Arendator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache as Redis;
-use App\Http\Requests\Arendators\StoreRequest;
-use App\Http\Requests\Arendators\UpdateRequest;
+use App\Http\Requests\Arendator\StoreRequest;
+use App\Http\Requests\Arendator\UpdateRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
-use Illuminate\Http\Response;
 
 class ArendatorController extends Controller
 {
@@ -59,13 +57,13 @@ class ArendatorController extends Controller
      */
     public function index()
     {
-        $cache = Redis::get('arend_index');
+        $cache = Redis::get('arendator_index');
         if ($cache) {
             return $cache;
         }
         else {
             $cache = ArendatorResource::collection(Arendator::all());
-            Redis::put('arend_index', $cache, now()->addMinutes(10));
+            Redis::put('arendator_index', $cache, now()->addMinutes(10));
             return $cache;
         }
     }
@@ -82,7 +80,7 @@ class ArendatorController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="45c746aa-64e1-349c-8a94-9daf95d36c52")
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -123,14 +121,14 @@ class ArendatorController extends Controller
      * ),
      *
      */
-    public function show($id)
+    public function show(Arendator $id)
     {
         $cache = Redis::get($id);
         if ($cache) {
             return $cache;
         }
         else {
-            $cache = new ArendatorResource(Arendator::findOrFail($id));
+            $cache = new ArendatorResource($id);
             Redis::put($id, $cache, now()->addMinutes(10));
             return $cache;
         }
@@ -144,11 +142,11 @@ class ArendatorController extends Controller
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
-     *          request="PostUser",
+     *          request="PostPutUser",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/User")
+     *              @OA\Schema(ref="#/components/schemas/PostPutUser")
      *          }
      *      )    
      *  ),
@@ -157,7 +155,7 @@ class ArendatorController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="45c746aa-64e1-349c-8a94-9daf95d36c52")
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
@@ -268,11 +266,11 @@ class ArendatorController extends Controller
      *      description="Обновляет запись о пользователе и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
-     *          request="UpdateRequest",
+     *          request="PostPutUser",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/User")
+     *              @OA\Schema(ref="#/components/schemas/PostPutUser")
      *          }
      *      )    
      *  ),
@@ -288,7 +286,7 @@ class ArendatorController extends Controller
      *          description="Новый идентификатор пользователя",
      *          required=true,
      *          in="query",
-     *          @OA\Schema(type="string", example="45c746aa-64e1-349c-8a94-9daf95d36c52")
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
      *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
@@ -344,28 +342,7 @@ class ArendatorController extends Controller
      *          description="Новый номер телефона",
      *          required=true,
      *          in="query",
-     *          @OA\Schema(type="integer", example="7525301782")
-     *      ),
-     *      @OA\Parameter(
-     *          name="created_at",
-     *          description="Новая дата создания записи",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="updated_at",
-     *          description="Новая дата обновления записи",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="deleted_at",
-     *          description="Новая дата удаления записи",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
+     *          @OA\Schema(type="integer", example=7525301782)
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -406,23 +383,10 @@ class ArendatorController extends Controller
      * ),
      *
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, Arendator $id)
     {
-        $a = Arendator::findOrFail($id)->update($request->validated());
-        // $a->id = $request['id'];
-        // $a->default_bill_id = $request['default_bill_id'];
-        // $a->last_name = $request['last_name'];
-        // $a->first_name =  $request['first_name'];
-        // $a->middle_name = $request['middle_name'];
-        // $a->status = $request['status'];
-        // $a->passport_series = $request['passport_series'];
-        // $a->passport_number = $request['passport_number'];
-        // $a->phone = $request['phone'];
-        // $a->created_at = $request['created_at'];
-        // $a->updated_at = $request['updated_at'];
-        // $a->deleted_at = $request['deleted_at'];
-        // $a->save();
-        return new ArendatorResource($a);
+        $id->update($request->validated());
+        return new ArendatorResource($id);
     }
     /**
      *
@@ -436,14 +400,14 @@ class ArendatorController extends Controller
      *          description="Идентификатор пользователя",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="45c746aa-64e1-349c-8a94-9daf95d36c52")
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/User")
+     *                  @OA\Schema(ref="#/components/schemas/DeleteUser")
      *              }
      *          )
      *      ),
@@ -477,9 +441,9 @@ class ArendatorController extends Controller
      * ),
      *
      */
-    public function destroy(Arendator $arendator)
+    public function destroy(Arendator $id)
     {
-        $arendator->delete();
-        return response(null,Response::HTTP_NO_CONTENT);
+        $id->delete();
+        return new ArendatorResource($id);
     }
 }

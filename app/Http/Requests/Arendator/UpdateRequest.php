@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Arendators;
+namespace App\Http\Requests\Arendator;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'id' => 'required|uuid',
-            'default_bill_id' => 'uuid',
+            'default_bill_id' => 'required|uuid',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'middle_name' => 'required|string',

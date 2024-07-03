@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use App\Http\Requests\Cars\StoreRequest;
-use App\Http\Requests\Cars\UpdateRequest;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache as Redis;
+use App\Http\Requests\Car\StoreRequest;
+use App\Http\Requests\Car\UpdateRequest;
+use App\Http\Resources\Car\CarResource;
 
 class CarController extends Controller
 {
     /**
+     * 
      * @OA\Get(
-     *      path="/cars",
+     *      path="/car",
      *      summary="Получить все ТС",
      *      description="Получить список ТС",
      *      tags={"Машины"},
@@ -55,17 +55,33 @@ class CarController extends Controller
      *      ),
      * ),
      */
-    public function index() : JsonResponse
+    public function index()
     {
-        return response()->json(Car::all());
+        $cache = Redis::get('car_index');
+        if ($cache) {
+            return $cache;
+        }
+        else {
+            $cache = CarResource::collection(Car::all());
+            Redis::put('car_index', $cache, now()->addMinutes(10));
+            return $cache;
+        }
     }
 
     /**
+     * 
      * @OA\Get(
-     *      path="/cars/{id}",
+     *      path="/car/{id}",
      *      summary="Получить ТС",
      *      description="Получает ТС по идентификатору и возвращает его",
      *      tags={"Машины"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор пользователя",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
@@ -105,26 +121,32 @@ class CarController extends Controller
      * )
      *
      */
-    public function show(int $id) : JsonResponse
+    public function show(Car $id)
     {
-        $cars = Car::find($id);
-        return response()->json([
-            $cars->id => $cars
-        ], 200);
+        $cache = Redis::get($id);
+        if ($cache) {
+            return $cache;
+        }
+        else {
+            $cache = new CarResource($id);
+            Redis::put($id, $cache, now()->addMinutes(10));
+            return $cache;
+        }
     }
 
     /**
+     * 
      * @OA\Post(
-     *      path="/cars/create",
+     *      path="/car/create",
      *      summary="Создать ТС",
      *      description="Создает новое ТС и возвращает ее",
      *      tags={"Машины"},
      *      @OA\RequestBody(
-     *          request="PostUser",
+     *          request="PostPutCar",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/PostPutCar")
      *          }
      *      )    
      *  ),
@@ -133,14 +155,14 @@ class CarController extends Controller
      *          description="Идентификатор ТС",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
      *      ),
      *      @OA\Parameter(
      *          name="model_id",
      *          description="Cчет по умолчанию",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="99447261-3369-4f90-abcd-f126664874d8")
+     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
      *      ),
      *      @OA\Parameter(
      *          name="status",
@@ -183,27 +205,6 @@ class CarController extends Controller
      *          required=true,
      *          in="path",
      *          @OA\Schema(type="integer", example="2")
-     *      ),
-     *      @OA\Parameter(
-     *          name="created_at",
-     *          description="Дата создания записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="updated_at",
-     *          description="Дата обновления записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="deleted_at",
-     *          description="Дата удаления записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -243,107 +244,90 @@ class CarController extends Controller
      *      ),
      *  ),
      */
-    public function store(StoreRequest $request) : JsonResponse
+    public function store(StoreRequest $request)
     {
-        $cars = Car::create($request->validated());
-
-        return response()->json([
-            'message' => 'Succesfully created',
-            $cars->id => $cars
-        ], 200);
+        $c = Car::create($request->validated());
+        return CarResource::make($c)->resolve();
     }
 
     /**
-     * @OA\Patch(
-     *      path="/cars/{id}/update",
+     * 
+     * @OA\Put(
+     *      path="/car/{id}/update",
      *      summary="Обновить ТС",
      *      description="Обновляет запись о ТС и возвращает ее",
      *      tags={"Машины"},
      *      @OA\RequestBody(
-     *          request="Car",
+     *          request="PostPutCar",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/PostPutCar")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Идентификатор ТС",
+     *          description="Существующий идентификатор ТС",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *      ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор ТС",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
      *      ),
      *      @OA\Parameter(
      *          name="model_id",
      *          description="Cчет по умолчанию",
      *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="99447261-3369-4f90-abcd-f126664874d8")
+     *          in="query",
+     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
      *      ),
      *      @OA\Parameter(
      *          name="status",
      *          description="Статус аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="rented")
      *      ),
      *      @OA\Parameter(
      *          name="mileage",
      *          description="Пробег ТС",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example="10383")
      *      ),
      *      @OA\Parameter(
      *          name="license_plate",
      *          description="Гос.номер ТС",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="Н709ОM 147")
      *      ),
      *      @OA\Parameter(
      *          name="year",
      *          description="Год производства ТС",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example="2003")
      *      ),
      *      @OA\Parameter(
      *          name="location",
      *          description="Координаты текущего местоположения ТС",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="-35.71 -45.96609")
      *      ),
      *      @OA\Parameter(
      *          name="price_minute",
      *          description="Минутная цена аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example="2")
-     *      ),
-     *      @OA\Parameter(
-     *          name="created_at",
-     *          description="Дата создания записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="updated_at",
-     *          description="Дата обновления записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
-     *      ),
-     *      @OA\Parameter(
-     *          name="deleted_at",
-     *          description="Дата удаления записи",
-     *          required=false,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-05-17T13:22:34.000000Z")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -383,20 +367,16 @@ class CarController extends Controller
      *      ),
      * ),
      */
-    public function update(UpdateRequest $request, Car $cars) : JsonResponse
+    public function update(UpdateRequest $request, Car $id)
     {
-        $cars->update($request->validated());
-
-        return response()->json([
-            'message' => 'Succesfully updated',
-            $cars->id => $cars
-        ], 200);
-
+        $id->update($request->validated());
+        return new CarResource($id);
     }
 
     /**
+     * 
      * @OA\Delete(
-     *      path="/cars/{id}/delete",
+     *      path="/car/{id}/delete",
      *      summary="Удалить ТС",
      *      description="Удаляет запись о ТС",
      *      tags={"Машины"},
@@ -405,7 +385,7 @@ class CarController extends Controller
      *          description="Идентификатор ТС",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example=1)
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -445,9 +425,9 @@ class CarController extends Controller
      *      ),
      * ),
      */
-    public function destroy(Car $cars) : JsonResponse
+    public function destroy(Car $id)
     {
-        $cars->deleted($cars);
-        return response()->json(['message' => 'Succesfully destroyed'], 200);
+        $id->delete();
+        return new CarResource($id);
     }
 }

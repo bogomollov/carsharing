@@ -24,9 +24,6 @@ class Arendator extends Model
         'passport_series',
         'passport_number',
         'phone',
-        'created_at',
-        'updated_at',
-        'deleted_at'
     ];
 
     protected $hidden = [

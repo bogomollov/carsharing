@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Cars;
+namespace App\Http\Requests\Arendator;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,10 +22,15 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'prod' => 'required|string',
-            'mark' => 'required|string',
-            'model' => 'required|string',
-            'year' => 'required|integer'
+            'id' => 'required|uuid',
+            'default_bill_id' => 'required|uuid',
+            'last_name' => 'required|string',
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'status' => 'required|string',
+            'passport_series' => 'required|string',
+            'passport_number' => 'required|string',
+            'phone' => 'required|integer',
         ];
     }
 }

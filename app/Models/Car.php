@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Car extends Model
 {
     use HasFactory;
     use HasUuids;
+    use SoftDeletes;
     
     public $incrementing = false;
 
@@ -21,6 +23,6 @@ class Car extends Model
         'license_plate',
         'year',
         'location',
-        'price_minute'
+        'price_minute',
     ];
 }
