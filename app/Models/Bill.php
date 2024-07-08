@@ -30,28 +30,28 @@ class Bill extends Model
         'balance'
     ];
 
-    public function renters()
+    public function bills()
     {
-        return $this->belongsToMany(Arendator::class, 'arendatorsbills', 'bill_id', 'arendator_id');
+        return $this->hasMany(Arendator::class, 'default_bill_id');
     }
 
     public function updateRentersCount() {
-        $this->arendators_count = $this->renters()->count();
+        $this->arendators_count = $this->bills()->count();
         $this->save();
     }
 
     public function updateBillType() {
-        if ($this->renters_count > 1)
+        if ($this->arendators_count > 1)
         {
             $this->type = BillsType::Corporated;
         }
 
-        elseif ($this->renters_count == 1)
+        elseif ($this->arendators_count == 1)
         {
             $this->type = BillsType::Personal;
         }
 
-        elseif ($this->renters_count == 0) {
+        elseif ($this->arendators_count == 0) {
             $this->status = BillsStatus::Blocked;
         }
 

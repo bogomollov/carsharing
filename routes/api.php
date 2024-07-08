@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ArendatorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\RentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,9 +21,9 @@ use App\Http\Controllers\AuthController;
 
 // Route::apiResources(['cars' => CarsController::class,'arendators' => ArendatorsController::class]);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 // Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
 //     Route::post('login', [AuthController::class, 'login']);
@@ -45,9 +48,22 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('user/create', [ArendatorController::class, 'store']);
     Route::put('user/{id}/update', [ArendatorController::class, 'update']);
     Route::delete('user/{id}/delete', [ArendatorController::class, 'destroy']);
+
     Route::get('car', [CarController::class, 'index']);
     Route::get('car/{id}', [CarController::class, 'show']);
     Route::post('car/create', [CarController::class, 'store']);
     Route::put('car/{id}/update', [CarController::class, 'update']);
     Route::delete('car/{id}/delete', [CarController::class, 'destroy']);
+
+    Route::get('bill', [BillController::class, 'index']);
+    Route::get('bill/{id}', [BillController::class, 'show']);
+    Route::post('bill/create', [BillController::class, 'store']);
+    Route::put('bill/{id}/update', [BillController::class, 'update']);
+    Route::delete('bill/{id}/delete', [BillController::class, 'destroy']);
+
+    Route::get('rent', [RentController::class, 'index']);
+    Route::get('rent/{id}', [RentController::class, 'show']);
+    Route::post('rent/create', [RentController::class, 'store']);
+    Route::put('rent/{id}/update', [RentController::class, 'update']);
+    Route::delete('rent/{id}/delete', [RentController::class, 'destroy']);
 });

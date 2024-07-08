@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Arendator extends Model
@@ -31,6 +32,10 @@ class Arendator extends Model
         'passport_number',
         'phone',
     ];
+
+    // public function bill() {
+    //     return $this->belongsTo(Bill::class, 'default_bill_id', 'id');
+    // }
 
     /**
      * Изменяет поле 'default_bill_id'

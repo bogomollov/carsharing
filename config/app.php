@@ -1,5 +1,10 @@
 <?php
 
+use App\Services\ArendatorService;
+use App\Services\BillService;
+use App\Services\CarService;
+use App\Services\RentService;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -169,6 +174,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        //ArendatorService::class,
+        //BillService::class,
+        //CarService::class,
+        //RentService::class,
+        //TransactionService::class,
     ])->toArray(),
 
     /*

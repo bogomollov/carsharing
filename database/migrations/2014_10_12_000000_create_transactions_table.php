@@ -17,8 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
             $table->foreignUuid('bill_id')->comment("Идентификатор счёта");
-            $table->integer('modification')->comment("Изменение баланса у счёта");
-            $table->dateTime('datetime')->comment("Дата и время транзакции");
+            $table->decimal('modification',10,2)->comment("Изменение баланса");
             $table->timestamps();
             $table->softDeletes();
         });

@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\BillsStatus;
+use App\Enums\BillsType;
+use App\Models\Bill;
 
 class BillFactory extends Factory
 {
@@ -16,8 +18,7 @@ class BillFactory extends Factory
     {
         return [
             'id' => fake()->uuid(),
-            'balance' => fake()->numberBetween(0, 1000000),
-            'status' => BillsStatus::getRandomValue()
+            'balance' => fake()->randomFloat(null, 100.00, 5000.99),
         ];
     }
 }

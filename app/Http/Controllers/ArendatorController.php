@@ -142,11 +142,11 @@ class ArendatorController extends Controller
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
-     *          request="PostPutUser",
+     *          request="User",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/PostPutUser")
+     *              @OA\Schema(ref="#/components/schemas/User")
      *          }
      *      )    
      *  ),
@@ -266,11 +266,11 @@ class ArendatorController extends Controller
      *      description="Обновляет запись о пользователе и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
-     *          request="PostPutUser",
+     *          request="User",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/PostPutUser")
+     *              @OA\Schema(ref="#/components/schemas/User")
      *          }
      *      )    
      *  ),
@@ -407,7 +407,7 @@ class ArendatorController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/DeleteUser")
+     *                  @OA\Schema(ref="#/components/schemas/User")
      *              }
      *          )
      *      ),

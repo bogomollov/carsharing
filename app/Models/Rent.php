@@ -20,6 +20,10 @@ class Rent extends Model
 
     public $incrementing = false;
 
+    protected $casts = [
+        'status' => RentsStatus::class,
+    ];
+
     protected $fillable = [
         'id',
         'car_id',

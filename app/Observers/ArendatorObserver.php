@@ -3,15 +3,16 @@
 namespace App\Observers;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Models\Arendator;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class ArendatorObserver
+class ArendatorObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the Arendators "created" event.
      */
     public function created(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -19,7 +20,7 @@ class ArendatorObserver
      */
     public function saved(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -27,7 +28,7 @@ class ArendatorObserver
      */
     public function updated(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -35,7 +36,7 @@ class ArendatorObserver
      */
     public function deleted(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -43,7 +44,7 @@ class ArendatorObserver
      */
     public function deleting(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -51,7 +52,7 @@ class ArendatorObserver
      */
     public function retrieved(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     /**
@@ -59,11 +60,11 @@ class ArendatorObserver
      */
     public function restored(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 
     public function forceDeleted(Arendator $arendator): void
     {
-        Redis::forget('arend_index');
+        Redis::forget('arendator_index');
     }
 }

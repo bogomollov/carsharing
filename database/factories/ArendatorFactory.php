@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\ArendatorsStatus;
+use App\Models\Arendator;
+use App\Models\Bill;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -19,6 +21,7 @@ class ArendatorFactory extends Factory
     {
         return [
             'id' => fake()->uuid(),
+            'default_bill_id' => Bill::all()->where('id')->random(),
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->firstName(),

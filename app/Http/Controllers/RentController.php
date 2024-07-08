@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Car;
+use App\Models\Rent;
 use Illuminate\Support\Facades\Cache as Redis;
-use App\Http\Requests\Car\StoreRequest;
-use App\Http\Requests\Car\UpdateRequest;
-use App\Http\Resources\Car\CarResource;
+use App\Http\Requests\Rent\StoreRequest;
+use App\Http\Requests\Rent\UpdateRequest;
+use App\Http\Resources\Rent\RentResource;
 
-class CarController extends Controller
+class RentController extends Controller
 {
     /**
      * 
      * @OA\Get(
-     *      path="/car",
-     *      summary="Получить все ТС",
-     *      description="Получить список ТС",
-     *      tags={"Машины"},
+     *      path="/rent",
+     *      summary="Получить все аренды",
+     *      description="Получить аренды",
+     *      tags={"Аренды"},
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/Rent")
      *              }
      *          )
      *      ),
@@ -57,37 +57,37 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cache = Redis::get('car_index');
+        $cache = Redis::get('rent_index');
         if ($cache) {
             return $cache;
         }
         else {
-            $cache = CarResource::collection(Car::all());
-            Redis::put('car_index', $cache, now()->addMinutes(10));
+            $cache = RentResource::collection(Rent::all());
+            Redis::put('rent_index', $cache, now()->addMinutes(10));
             return $cache;
         }
     }
 
     /**
-     * 
+     *
      * @OA\Get(
-     *      path="/car/{id}",
-     *      summary="Получить ТС",
-     *      description="Получает ТС по идентификатору и возвращает его",
-     *      tags={"Машины"},
+     *      path="/rent/{id}",
+     *      summary="Получить аренду",
+     *      description="Получает аренду по идентификатору и возвращает его",
+     *      tags={"Аренды"},
      *      @OA\Parameter(
      *          name="id",
-     *          description="Идентификатор пользователя",
+     *          description="Идентификатор аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/Rent")
      *              }
      *          )
      *      ),
@@ -118,100 +118,100 @@ class CarController extends Controller
      *              }
      *          )
      *      ),
-     * )
+     * ),
      *
      */
-    public function show(Car $id)
+    public function show(Rent $id)
     {
         $cache = Redis::get($id);
         if ($cache) {
             return $cache;
         }
         else {
-            $cache = new CarResource($id);
+            $cache = new RentResource($id);
             Redis::put($id, $cache, now()->addMinutes(10));
             return $cache;
         }
     }
 
     /**
-     * 
+     *
      * @OA\Post(
-     *      path="/car/create",
-     *      summary="Создать ТС",
-     *      description="Создает новое ТС и возвращает ее",
-     *      tags={"Машины"},
+     *      path="/rent/create",
+     *      summary="Открыть аренду",
+     *      description="Открывает новую аренду и возвращает её",
+     *      tags={"Аренды"},
      *      @OA\RequestBody(
-     *          request="Car",
+     *          request="Rent",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/Rent")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
      *          name="id",
+     *          description="Идентификатор аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
+     *      ),
+     *      @OA\Parameter(
+     *          name="car_id",
      *          description="Идентификатор ТС",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *          @OA\Schema(type="string", example="88315283-5248-416f-b788-567b981b6d89")
      *      ),
      *      @OA\Parameter(
-     *          name="model_id",
-     *          description="Cчет по умолчанию",
+     *          name="arendator_id",
+     *          description="Идентификатор арендатора",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
+     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
      *      ),
      *      @OA\Parameter(
      *          name="status",
      *          description="Статус аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="rented")
+     *          @OA\Schema(type="string", example="open")
      *      ),
      *      @OA\Parameter(
-     *          name="mileage",
-     *          description="Пробег ТС",
+     *          name="start_datetime",
+     *          description="Дата и время начала аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example="10383")
+     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
      *      ),
      *      @OA\Parameter(
-     *          name="license_plate",
-     *          description="Гос.номер ТС",
+     *          name="end_datetime",
+     *          description="Дата и время окончания аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="Н709ОM 147")
+     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
      *      ),
      *      @OA\Parameter(
-     *          name="year",
-     *          description="Год производства ТС",
+     *          name="rented_time",
+     *          description="Общее время аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="integer", example="2003")
+     *          @OA\Schema(type="integer", example=720)
      *      ),
      *      @OA\Parameter(
-     *          name="location",
-     *          description="Координаты текущего местоположения ТС",
+     *          name="total_price",
+     *          description="Итоговая цена аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="-35.71 -45.96609")
-     *      ),
-     *      @OA\Parameter(
-     *          name="price_minute",
-     *          description="Минутная цена аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example="2")
+     *          @OA\Schema(type="numeric", example=8658.32)
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/Rent")
      *              }
      *          )
      *      ),
@@ -242,157 +242,93 @@ class CarController extends Controller
      *              }
      *          )
      *      ),
-     *  ),
+     * ),
+     *
      */
     public function store(StoreRequest $request)
     {
-        $c = Car::create($request->validated());
-        return CarResource::make($c)->resolve();
+        $a = Rent::create($request->validated());
+        return RentResource::make($a)->resolve();
     }
 
     /**
-     * 
+     *
      * @OA\Put(
-     *      path="/car/{id}/update",
-     *      summary="Обновить ТС",
-     *      description="Обновляет запись о ТС и возвращает ее",
-     *      tags={"Машины"},
+     *      path="/rent/{id}/update",
+     *      summary="Обновить аренду",
+     *      description="Обновляет аренду и возвращает её",
+     *      tags={"Аренды"},
      *      @OA\RequestBody(
-     *          request="Car",
+     *          request="Rent",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/Rent")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Существующий идентификатор ТС",
+     *          description="Существующий идентификатор аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
      *      ),
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
+     *          name="car_id",
+     *          description="Новый идентификатор ТС",
      *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *          in="path",
+     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
      *      ),
      *      @OA\Parameter(
-     *          name="model_id",
-     *          description="Cчет по умолчанию",
+     *          name="arendator_id",
+     *          description="Новый идентификатор арендатора",
      *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
+     *          in="path",
+     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
      *      ),
      *      @OA\Parameter(
      *          name="status",
-     *          description="Статус аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="rented")
-     *      ),
-     *      @OA\Parameter(
-     *          name="mileage",
-     *          description="Пробег ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="10383")
-     *      ),
-     *      @OA\Parameter(
-     *          name="license_plate",
-     *          description="Гос.номер ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="Н709ОM 147")
-     *      ),
-     *      @OA\Parameter(
-     *          name="year",
-     *          description="Год производства ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="2003")
-     *      ),
-     *      @OA\Parameter(
-     *          name="location",
-     *          description="Координаты текущего местоположения ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="-35.71 -45.96609")
-     *      ),
-     *      @OA\Parameter(
-     *          name="price_minute",
-     *          description="Минутная цена аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="2")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
-    public function update(UpdateRequest $request, Car $id)
-    {
-        $id->update($request->validated());
-        return new CarResource($id);
-    }
-
-    /**
-     * 
-     * @OA\Delete(
-     *      path="/car/{id}/delete",
-     *      summary="Удалить ТС",
-     *      description="Удаляет запись о ТС",
-     *      tags={"Машины"},
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
+     *          description="Новый статус аренды",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *          @OA\Schema(type="string", example="open")
+     *      ),
+     *      @OA\Parameter(
+     *          name="start_datetime",
+     *          description="Новая дата и время начала аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
+     *      ),
+     *      @OA\Parameter(
+     *          name="end_datetime",
+     *          description="Новая дата и время окончания аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
+     *      ),
+     *      @OA\Parameter(
+     *          name="rented_time",
+     *          description="Новое общее время аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="integer", example=720)
+     *      ),
+     *      @OA\Parameter(
+     *          name="total_price",
+     *          description="Новая итоговая цена аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="numeric", example=8658.32)
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/Rent")
      *              }
      *          )
      *      ),
@@ -424,10 +360,69 @@ class CarController extends Controller
      *          )
      *      ),
      * ),
+     *
      */
-    public function destroy(Car $id)
+    public function update(UpdateRequest $request, Rent $id)
+    {
+        $id->update($request->validated());
+        return new RentResource($id);
+    }
+    /**
+     *
+     * @OA\Delete(
+     *      path="/rent/{id}/delete",
+     *      summary="Закрыть аренду",
+     *      description="Закрывает аренду",
+     *      tags={"Аренды"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     *
+     */
+    public function destroy(Rent $id)
     {
         $id->delete();
-        return new CarResource($id);
+        return new RentResource($id);
     }
 }
