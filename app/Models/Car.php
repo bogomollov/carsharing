@@ -25,4 +25,8 @@ class Car extends Model
         'location',
         'price_minute',
     ];
+
+    public function car() {
+        return $this->belongsTo(Rent::class, 'id', 'car_id');
+    }
 }

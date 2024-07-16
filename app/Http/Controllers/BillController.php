@@ -169,7 +169,7 @@ class BillController extends Controller
      *          description="Баланс счёта",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="numeric", example=48658.00)
+     *          @OA\Schema(type="string", example="48658.52")
      *      ),
      *      @OA\Parameter(
      *          name="type",
@@ -258,34 +258,34 @@ class BillController extends Controller
      *          description="Новый идентификатор счета",
      *          required=true,
      *          in="query",
-     *          @OA\Schema(type="string", example="bde57b13-9cd4-3984-9351-e64d25d9741f")
+     *          @OA\Schema(type="string", example="8afe0a60-944f-3fa7-a493-f907632084fb")
      *      ),
      *      @OA\Parameter(
      *          name="arendators_count",
      *          description="Новое количество пользователей связанных со счётом",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example=1)
      *      ),
      *      @OA\Parameter(
      *          name="balance",
      *          description="Новый баланс счёта",
      *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="numeric", example=48658.00)
+     *          in="query",
+     *          @OA\Schema(type="string", example="48658.52")
      *      ),
      *      @OA\Parameter(
      *          name="type",
      *          description="Новый тип счёта",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="personal")
      *      ),
      *      @OA\Parameter(
      *          name="status",
      *          description="Новый статус счёта",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="open")
      *      ),
      *      @OA\Response(

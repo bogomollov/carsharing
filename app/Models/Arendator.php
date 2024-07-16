@@ -33,9 +33,13 @@ class Arendator extends Model
         'phone',
     ];
 
-    // public function bill() {
-    //     return $this->belongsTo(Bill::class, 'default_bill_id', 'id');
-    // }
+    public function bill() {
+        return $this->belongsTo(Bill::class, 'default_bill_id', 'id');
+    }
+
+    public function arendator() {
+        return $this->belongsTo(Rent::class, 'id', 'arendator_id');
+    }
 
     /**
      * Изменяет поле 'default_bill_id'

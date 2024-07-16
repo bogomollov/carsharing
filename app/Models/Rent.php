@@ -36,7 +36,7 @@ class Rent extends Model
     ];
 
     public function vehicle() {
-        return $this->belongsTo(Car::class);
+        return $this->hasOne(Car::class, 'id', 'car_id');
     }
 
     public function renter() {
@@ -48,7 +48,6 @@ class Rent extends Model
         parent::boot();
 
         static::saving(function ($rent) {
-            // Если существует дата закрытия аренды, то необходимо посчитать время и стоимость
             if ($rent->end_datetime != null) {
                 $rent->calculateRentedTime();
                 $rent->calculateTotalPrice();

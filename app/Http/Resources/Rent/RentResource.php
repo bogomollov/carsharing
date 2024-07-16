@@ -15,8 +15,8 @@ class RentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'car_id' => $this->arendators_count,
-            'arendator_id' => $this->balance,
+            'car_id' => $this->car_id,
+            'arendator_id' => $this->arendator_id,
             'status' => $this->status,
             'start_datetime' => $this->start_datetime,
             'end_datetime' => $this->end_datetime,

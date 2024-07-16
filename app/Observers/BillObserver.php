@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Bill;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Illuminate\Support\Facades\Cache as Redis;
 
 class BillObserver implements ShouldHandleEventsAfterCommit
 {
@@ -12,7 +13,7 @@ class BillObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(Bill $bill): void
     {
-        
+        Redis::forget('bill_index');
     }
 
     /**
@@ -20,7 +21,7 @@ class BillObserver implements ShouldHandleEventsAfterCommit
      */
     public function updated(Bill $bill): void
     {
-        $bill->bills();
+        Redis::forget('bill_index');
         $bill->updateRentersCount();
         $bill->updateBillType();
     }
@@ -30,7 +31,7 @@ class BillObserver implements ShouldHandleEventsAfterCommit
      */
     public function deleted(Bill $bill): void
     {
-        $bill->bills();
+        Redis::forget('bill_index');
         $bill->updateRentersCount();
         $bill->updateBillType();
     }
@@ -40,7 +41,7 @@ class BillObserver implements ShouldHandleEventsAfterCommit
      */
     public function restored(Bill $bill): void
     {
-        $bill->bills();
+        Redis::forget('bill_index');
         $bill->updateRentersCount();
         $bill->updateBillType();
     }
@@ -50,7 +51,7 @@ class BillObserver implements ShouldHandleEventsAfterCommit
      */
     public function forceDeleted(Bill $bill): void
     {
-        $bill->bills();
+        Redis::forget('bill_index');
         $bill->updateRentersCount();
         $bill->updateBillType();
     }

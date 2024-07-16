@@ -21,7 +21,7 @@ class ArendatorFactory extends Factory
     {
         return [
             'id' => fake()->uuid(),
-            'default_bill_id' => Bill::all()->where('id')->random(),
+            'default_bill_id' => Bill::factory(),
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->firstName(),

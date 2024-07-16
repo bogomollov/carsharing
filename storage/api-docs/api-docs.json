@@ -792,8 +792,8 @@
                         "description": "Баланс счёта",
                         "required": true,
                         "schema": {
-                            "type": "numeric",
-                            "example": 48658
+                            "type": "string",
+                            "example": "48658.52"
                         }
                     },
                     {
@@ -917,12 +917,12 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "bde57b13-9cd4-3984-9351-e64d25d9741f"
+                            "example": "8afe0a60-944f-3fa7-a493-f907632084fb"
                         }
                     },
                     {
                         "name": "arendators_count",
-                        "in": "path",
+                        "in": "query",
                         "description": "Новое количество пользователей связанных со счётом",
                         "required": true,
                         "schema": {
@@ -932,17 +932,17 @@
                     },
                     {
                         "name": "balance",
-                        "in": "path",
+                        "in": "query",
                         "description": "Новый баланс счёта",
                         "required": true,
                         "schema": {
-                            "type": "numeric",
-                            "example": 48658
+                            "type": "string",
+                            "example": "48658.52"
                         }
                     },
                     {
                         "name": "type",
-                        "in": "path",
+                        "in": "query",
                         "description": "Новый тип счёта",
                         "required": true,
                         "schema": {
@@ -952,7 +952,7 @@
                     },
                     {
                         "name": "status",
-                        "in": "path",
+                        "in": "query",
                         "description": "Новый статус счёта",
                         "required": true,
                         "schema": {
@@ -2383,7 +2383,7 @@
                     },
                     "balance": {
                         "type": "decimal",
-                        "example": 48658
+                        "example": 48658.52
                     },
                     "type": {
                         "type": "string",
@@ -2405,11 +2405,11 @@
                     },
                     "car_id": {
                         "type": "uuid",
-                        "example": "1"
+                        "example": "40644966-2862-35d0-a7c6-ad87c512625a"
                     },
                     "arendator_id": {
                         "type": "uuid",
-                        "example": 48658
+                        "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
                     },
                     "status": {
                         "type": "string",
@@ -2446,12 +2446,12 @@
                         "example": "ae05a42b-9464-43df-83ed-dea6acf36f41"
                     },
                     "bill_id": {
-                        "type": "decimal",
-                        "example": 48658
+                        "type": "uuid",
+                        "example": "4d380caf-18a7-31e8-93ed-e5d2b5d93251"
                     },
                     "modification": {
                         "type": "decimal",
-                        "example": 200
+                        "example": 200.22
                     }
                 },
                 "type": "object"

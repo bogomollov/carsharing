@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Observers;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Models\Arendator;
-use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class ArendatorObserver implements ShouldHandleEventsAfterCommit
 {
