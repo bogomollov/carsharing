@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Arendator;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Bill extends Model
 {
@@ -28,12 +27,17 @@ class Bill extends Model
     ];
 
     protected $hidden = [
-        'balance'
+       'balance'
     ];
 
     public function bills()
     {
         return $this->hasMany(Arendator::class, 'default_bill_id');
+    }
+
+    public function transactions()
+    {
+        return $this->belongsTo(Transaction::class, 'id', 'bill_id');
     }
 
     public function updateRentersCount() {
@@ -55,16 +59,6 @@ class Bill extends Model
         elseif ($this->arendators_count == 0) {
             $this->status = BillsStatus::Blocked;
         }
-
-        $this->save();
-    }
-
-    public function setStatus($status) {
-        $this->status = $status;
-    }
-
-    public function modificateBalance($modification) {
-        $this->balance += $modification;
         $this->save();
     }
 }

@@ -5,123 +5,108 @@ namespace App\Services;
 use App\Enums\RentsStatus;
 use App\Enums\ArendatorsStatus;
 use App\Enums\CarsStatus;
+use App\Http\Resources\Rent\RentResource;
 use App\Models\Bill;
 use App\Models\Rent;
 use App\Models\Arendator;
 use App\Models\Car;
 use Illuminate\Http\JsonResponse;
+use App\Services\ArendatorService;
+use App\Services\CarService;
+use App\Services\BillService;
+use Carbon\Carbon;
 
 class RentService
 {
-    protected $renterService;
-    protected $vehicleService;
+    protected $arendatorService;
+    protected $carService;
     protected $billService;
-    protected $transactionService;
 
-    public function __construct(ArendatorService $renterService, CarService $vehicleService, BillService $billService, TransactionService $transactionService) {
-        $this->renterService = $renterService;
-        $this->vehicleService = $vehicleService;
+    public function __construct(ArendatorService $arendatorService, CarService $carService, BillService $billService) {
+        $this->arendatorService = $arendatorService;
+        $this->carService = $carService;
         $this->billService = $billService;
-        $this->transactionService = $transactionService;
     }
 
-    /**
-     * Получает статус пользователя
-     *
-     * @param Arendator $renter Пользователь
-     * @return string
-     */
-    public function getStatus(Arendator $rent) : string {
+    public function getStatus(Rent $rent) : string {
         return $rent->status;
     }
 
-    /**
-     * Получает статус пользователя
-     * (После добавления Enum'ов потребность в функции пропала. Будет удалена после того как удостоверюсь что ничто не сломается)
-     *
-     * @param Arendator $renter Пользователь
-     * @param array $statuses Статус(ы) для поиска
-     * @return string
-     */
-    public function checkIsStatus(Arendator $rent, array $statuses) : bool {
-        if (in_array($this->getStatus($rent), $statuses)) {
-            return true;
-        } else {
-            return false;
+    public function open($id, $id2) : JsonResponse {
+        $arendator = Arendator::find($id);
+        $car = Car::find($id2);
+
+        $badRenterStatuses = array(ArendatorsStatus::Frozen, ArendatorsStatus::Blocked,);
+
+        if (in_array($arendator->status, $badRenterStatuses)) {
+            return response()->json(["error" => "Renter with id '$arendator->id' has '$arendator->status' status"], 403);
         }
-    }
-
-    /**
-     * Открывает аренду
-     *
-     * @param array $data
-     * @return JsonResponce
-     */
-    public function open(array $data) : JsonResponse {
-        $renter = Arendator::find($data['renterId']);
-        $vehicle = Car::find($data['vehicleId']);
-
-        $badRenterStatuses = array(
-            ArendatorsStatus::Frozen,
-            ArendatorsStatus::Blocked,
-        );
-
-        if (in_array($renter->status, $badRenterStatuses)) {
-            return response()->json(["error" => "Renter with id '$renter->id' has '$renter->status' status"], 403);
+        if (!in_array($car->status, [CarsStatus::Expectation])) {
+            return response()->json(["error" => "Car with id '$car->id' can not be rented"], 403);
         }
-
-        if (!in_array($vehicle->status, [CarsStatus::Expectation])) {
-            return response()->json(["error" => "Vehicle with id '$vehicle->id' can not be rented"], 403);
-        }
-
-        if (!$this->renterService->checkDefaultBill($renter)) {
+        if (!$this->arendatorService->checkDefaultBill($arendator)) {
             return response()->json(["error" => "Renter does not have default bill account"], 403);
         }
-
-        if ($this->renterService->checkBalanceOnDefaultBill($renter) < 100000) {
+        if ($this->arendatorService->checkBalanceOnDefaultBill($arendator) < 1) {
             return response()->json(["error" => "Renter does not have enough money in the main bill account"], 403);
         }
+        else {
+            $rent = Rent::create([
+                'car_id' => $car->id,
+                'arendator_id' => $arendator->id,
+                'status' => RentsStatus::Open,
+                'start_datetime' => Carbon::now(),
+            ]);
+            $rent->save();
+            $car->status = CarsStatus::Rented;
+            $car->save();
 
-        $rent = new Arendator;
-        $rent->open($renter->id, $vehicle->id);
-
-        return response()->json($rent, 200);
+            return new RentResource($rent);
+        }
     }
 
-    /**
-     * Закрывает аренду
-     *
-     * @param array $data
-     * @return JsonResponce
-     */
-    public function close(array $data) : JsonResponse {
-        $rent = Rent::find($data['rentId']);
-        $renter = Arendator::find($rent->renter_id);
-        $vehicle = Car::find($rent->vehicle_id);
+    public function close($id) : JsonResponse {
+
+        $rent = Rent::find($id);
+        $arendator = Arendator::find($rent->arendator_id);
+        $car = Car::find($rent->car_id);
 
         if (!in_array($rent->status, [RentsStatus::Open])) {
             return response()->json(["error" => "Rent status in not open"], 403);
         }
 
-        if (!in_array($vehicle->status, [CarsStatus::Rented])) {
+        if (!in_array($car->status, [CarsStatus::Rented])) {
             return response()->json(["error" => "Vehicle status is not rented"], 403);
         }
 
-        if (!$this->renterService->checkDefaultBill($renter)) {
-            return response()->json(['error' => "Renter with id '$renter->id' dont have default bill"], 400);
-        } else {
-            $bill = Bill::find($renter->default_bill_id);
+        if (!$this->arendatorService->checkDefaultBill($arendator)) {
+            return response()->json(['error' => "Renter with id '$arendator->id' dont have default bill"], 400);
         }
+        else {
+            $rent->status = RentsStatus::Closed;
+            $rent->end_datetime = Carbon::now();
+            $rent->update();
+    
+            $car->status = CarsStatus::Expectation;
+            $car->update();
+    
+            $this->calculateRentedTime($rent);
+            $this->calculateTotalPrice($rent, $car);
+            $this->billService->modificateBalance(Bill::find($arendator->default_bill_id), -$rent->total_price);
 
-        // Закрываем аренду
-        $rent->close($renter,$vehicle);
+            $rent->delete();
+            return new RentResource($rent);
+        }      
+    }
 
-        // Высчитываем цену по которую необходимо вычесть со счета
-        $total_price = $rent->total_price;
+    public function calculateRentedTime($rent) {
+        $rent->rented_time = $rent->end_datetime->diffInMinutes($rent->start_datetime);
+        $rent->update();
+    }
 
-        // Модифицируем баланс
-        $this->billService->modificateBalance($bill, $renter, -$total_price);
-
-        return response()->json($rent, 200);
+    public function calculateTotalPrice($rent, $car) {
+        $res = $car->price_minute * $rent->rented_time;
+        $rent->total_price = $res;
+        $rent->update();
     }
 }

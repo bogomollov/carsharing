@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Rents;
+use App\Models\Rent;
 
 class RentsSeeder extends Seeder
 {
@@ -13,6 +13,6 @@ class RentsSeeder extends Seeder
      */
     public function run(): void
     {
-        Rents::factory(20)->create();
+        Rent::factory(20)->create();
     }
 }

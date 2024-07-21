@@ -3,9 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\BillsStatus;
-use App\Enums\BillsType;
-use App\Models\Bill;
 
 class BillFactory extends Factory
 {

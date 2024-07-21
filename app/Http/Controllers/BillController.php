@@ -7,6 +7,9 @@ use App\Models\Bill;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Bill\StoreRequest;
 use App\Http\Requests\Bill\UpdateRequest;
+use App\Http\Requests\Bill\UpdateStatusRequest;
+use App\Services\BillService;
+use Illuminate\Http\JsonResponse;
 
 class BillController extends Controller
 {
@@ -142,21 +145,14 @@ class BillController extends Controller
      *      description="Создает новый счет и возвращает его",
      *      tags={"Счета"},
      *      @OA\RequestBody(
-     *          request="Bill",
+     *          request="BillCreate",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Bill")
+     *              @OA\Schema(ref="#/components/schemas/BillCreate")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор счета",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
-     *      ),
      *      @OA\Parameter(
      *          name="arendators_count",
      *          description="Количество пользователей связанных со счётом",
@@ -389,5 +385,78 @@ class BillController extends Controller
     {
         $id->delete();
         return new BillResource($id);
+    }
+
+        /**
+     *
+     * @OA\Patch(
+     *      path="/bill/{id}",
+     *      summary="Обновить статус счета",
+     *      description="Обновляет статус счета",
+     *      tags={"Счета"},
+     *      @OA\RequestBody(
+     *          request="BillStatus",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/BillStatus")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор счета",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
+     *      ),
+     *      @OA\Parameter(
+     *          name="status",
+     *          description="Новый статус счета",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="closed")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     *
+     */
+    public function setStatus(UpdateStatusRequest $request, BillService $billService) : JsonResponse {
+        return $billService->setBillStatus(Bill::find($request->id), $request->validated());
     }
 }

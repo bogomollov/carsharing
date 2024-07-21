@@ -17,10 +17,10 @@ class TransactionsSeeder extends Seeder
     {
         foreach (Rent::all()->where('status', 'closed') as $rents) {
             Transaction::create([
-                'id' => Str::uuid(),
+                'id' => fake()->uuid(),
                 'arendator_id' => $rents->arendator_id,
                 'bill_id' => Arendator::find($rents->arendator_id)->default_bill_id,
-                'datetime' => $rents->end_datetime,
+                'modification' => fake()->randomFloat(2, -5000, 5000),
             ]);
         }
     }

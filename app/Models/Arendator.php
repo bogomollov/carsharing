@@ -40,13 +40,4 @@ class Arendator extends Model
     public function arendator() {
         return $this->belongsTo(Rent::class, 'id', 'arendator_id');
     }
-
-    /**
-     * Изменяет поле 'default_bill_id'
-     *
-     * @return void
-     */
-    public function setDefaultBill($bill) {
-        $this->default_bill_id = $bill;
-    }
 }

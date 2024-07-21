@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\CarMark;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use App\Models\CarModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CarsModelsSeeder extends Seeder
 {
@@ -14,7 +14,6 @@ class CarsModelsSeeder extends Seeder
      */
     public function run()
     {
-        //
         $models = array(
             ['Q6', 'Q3', 'Q5'],
             ['Cayene', '911'],
@@ -27,12 +26,12 @@ class CarsModelsSeeder extends Seeder
             ['X5', 'X3'],
             ['Phantom'],
         );
-
-        foreach ($models as $model_name) {
-            foreach ($model_name as $name) {
+        
+        foreach ($models as $model) {
+            foreach ($model as $name) {
                 CarModel::create([
-                    'id' => Str::uuid(),
-                    'mark_id' => Str::uuid(),
+                    'id' => fake()->uuid(),
+                    'mark_id' => CarMark::all('id')->random()->id,
                     'name' => $name,
                 ]);
             }

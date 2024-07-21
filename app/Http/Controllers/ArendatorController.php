@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Arendator;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Arendator\StoreRequest;
+use App\Http\Requests\Arendator\UpdateDefaultBillRequest;
 use App\Http\Requests\Arendator\UpdateRequest;
+use App\Http\Requests\Arendator\UpdateStatusRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
+use App\Services\ArendatorService;
 
 class ArendatorController extends Controller
 {
@@ -142,21 +145,14 @@ class ArendatorController extends Controller
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
      *      @OA\RequestBody(
-     *          request="User",
+     *          request="UserCreate",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/User")
+     *              @OA\Schema(ref="#/components/schemas/UserCreate")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
-     *      ),
      *      @OA\Parameter(
      *          name="default_bill_id",
      *          description="Cчет по умолчанию",
@@ -445,5 +441,151 @@ class ArendatorController extends Controller
     {
         $id->delete();
         return new ArendatorResource($id);
+    }
+
+    /**
+     *
+     * @OA\Patch(
+     *      path="/user/{id}/bill",
+     *      summary="Изменить счет по умолчанию",
+     *      description="Изменяет счет по умолчанию у арендатора",
+     *      tags={"Арендаторы"},
+     *      @OA\RequestBody(
+     *          request="UserDefaultBill",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/UserDefaultBill")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор пользователя",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
+     *      ),
+     *      @OA\Parameter(
+     *          name="default_bill_id",
+     *          description="Новый идентификатор счета",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/User")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     *
+     */
+    public function setDefaultBill(UpdateDefaultBillRequest $request, ArendatorService $arendatorService) {
+        return $arendatorService->setDefaultBill($request->id, $request->default_bill_id);
+    }
+
+    /**
+     *
+     * @OA\Patch(
+     *      path="/user/{id}/status",
+     *      summary="Изменить статус пользователя",
+     *      description="Изменяет статус у пользователя",
+     *      tags={"Арендаторы"},
+     *      @OA\RequestBody(
+     *          request="UserStatus",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/UserStatus")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор пользователя",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
+     *      ),
+     *      @OA\Parameter(
+     *          name="status",
+     *          description="Новый статус пользователя",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="frozen")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/User")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     *
+     */
+    public function setStatus(UpdateStatusRequest $request, ArendatorService $arendatorService) {
+        return $arendatorService->setStatus($request->id, $request->status);
     }
 }

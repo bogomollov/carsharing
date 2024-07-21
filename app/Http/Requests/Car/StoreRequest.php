@@ -22,7 +22,6 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid',
             'model_id' => 'required|uuid',
             'status' => 'required|string',
             'mileage' => 'required|integer',

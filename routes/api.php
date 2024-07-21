@@ -7,6 +7,7 @@ use App\Http\Controllers\ArendatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\RentController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,8 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('user/create', [ArendatorController::class, 'store']);
     Route::put('user/{id}/update', [ArendatorController::class, 'update']);
     Route::delete('user/{id}/delete', [ArendatorController::class, 'destroy']);
+    Route::patch('user/{id}/bill', [ArendatorController::class, 'setDefaultBill']);
+    Route::patch('user/{id}/status', [ArendatorController::class, 'setStatus']);
 
     Route::get('car', [CarController::class, 'index']);
     Route::get('car/{id}', [CarController::class, 'show']);
@@ -60,10 +63,17 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('bill/create', [BillController::class, 'store']);
     Route::put('bill/{id}/update', [BillController::class, 'update']);
     Route::delete('bill/{id}/delete', [BillController::class, 'destroy']);
+    Route::patch('bill/{id}', [BillController::class, 'setStatus']);
 
     Route::get('rent', [RentController::class, 'index']);
     Route::get('rent/{id}', [RentController::class, 'show']);
     Route::post('rent/create', [RentController::class, 'store']);
     Route::put('rent/{id}/update', [RentController::class, 'update']);
     Route::delete('rent/{id}/delete', [RentController::class, 'destroy']);
+
+    Route::get('transaction', [TransactionController::class, 'index']);
+    Route::get('transaction/{id}', [TransactionController::class, 'show']);
+    Route::post('transaction/create', [TransactionController::class, 'store']);
+    Route::put('transaction/{id}/update', [TransactionController::class, 'update']);
+    Route::delete('transaction/{id}/delete', [TransactionController::class, 'destroy']);
 });

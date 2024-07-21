@@ -142,24 +142,17 @@ class CarController extends Controller
      *      description="Создает новое ТС и возвращает ее",
      *      tags={"Машины"},
      *      @OA\RequestBody(
-     *          request="Car",
+     *          request="CarCreate",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/CarCreate")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Parameter(
      *          name="model_id",
-     *          description="Cчет по умолчанию",
+     *          description="Идентификатор модели",
      *          required=true,
      *          in="path",
      *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
@@ -183,7 +176,7 @@ class CarController extends Controller
      *          description="Гос.номер ТС",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="Н709ОM 147")
+     *          @OA\Schema(type="string", example="J949YJ 93")
      *      ),
      *      @OA\Parameter(
      *          name="year",

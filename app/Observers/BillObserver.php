@@ -22,8 +22,6 @@ class BillObserver implements ShouldHandleEventsAfterCommit
     public function updated(Bill $bill): void
     {
         Redis::forget('bill_index');
-        $bill->updateRentersCount();
-        $bill->updateBillType();
     }
 
     /**
@@ -32,8 +30,6 @@ class BillObserver implements ShouldHandleEventsAfterCommit
     public function deleted(Bill $bill): void
     {
         Redis::forget('bill_index');
-        $bill->updateRentersCount();
-        $bill->updateBillType();
     }
 
     /**
@@ -42,8 +38,6 @@ class BillObserver implements ShouldHandleEventsAfterCommit
     public function restored(Bill $bill): void
     {
         Redis::forget('bill_index');
-        $bill->updateRentersCount();
-        $bill->updateBillType();
     }
 
     /**
@@ -52,7 +46,5 @@ class BillObserver implements ShouldHandleEventsAfterCommit
     public function forceDeleted(Bill $bill): void
     {
         Redis::forget('bill_index');
-        $bill->updateRentersCount();
-        $bill->updateBillType();
     }
 }

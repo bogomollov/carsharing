@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(CarsManufacturerSeeder::class);
-        $this->call(CarsModelsSeeder::class);
         $this->call(CarsMarksSeeder::class);
+        $this->call(CarsModelsSeeder::class);
         $this->call(CarsSeeder::class);
         $this->call(BillsSeeder::class);
         $this->call(ArendatorsSeeder::class);
-        $this->call(TransactionsSeeder::class);
         $this->call(RentsSeeder::class);
+        $this->call(TransactionsSeeder::class);
     }
 }

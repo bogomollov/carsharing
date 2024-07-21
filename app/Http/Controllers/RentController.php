@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Rent\CloseRequest;
+use App\Http\Requests\Rent\OpenRequest;
 use App\Models\Rent;
 use Illuminate\Support\Facades\Cache as Redis;
-use App\Http\Requests\Rent\StoreRequest;
 use App\Http\Requests\Rent\UpdateRequest;
 use App\Http\Resources\Rent\RentResource;
+use App\Services\RentService;
 
 class RentController extends Controller
 {
@@ -146,17 +148,10 @@ class RentController extends Controller
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Rent")
+     *              @OA\Schema(ref="#/components/schemas/RentOpen")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
-     *      ),
      *      @OA\Parameter(
      *          name="car_id",
      *          description="Идентификатор ТС",
@@ -170,41 +165,6 @@ class RentController extends Controller
      *          required=true,
      *          in="path",
      *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Статус аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="open")
-     *      ),
-     *      @OA\Parameter(
-     *          name="start_datetime",
-     *          description="Дата и время начала аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
-     *      ),
-     *      @OA\Parameter(
-     *          name="end_datetime",
-     *          description="Дата и время окончания аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
-     *      ),
-     *      @OA\Parameter(
-     *          name="rented_time",
-     *          description="Общее время аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example=720)
-     *      ),
-     *      @OA\Parameter(
-     *          name="total_price",
-     *          description="Итоговая цена аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="numeric", example=8658.32)
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -245,10 +205,9 @@ class RentController extends Controller
      * ),
      *
      */
-    public function store(StoreRequest $request)
+    public function store(OpenRequest $request, RentService $rentService)
     {
-        $a = Rent::create($request->validated());
-        return RentResource::make($a)->resolve();
+        return $rentService->open($request->arendator_id, $request->car_id);
     }
 
     /**
@@ -278,49 +237,49 @@ class RentController extends Controller
      *          name="car_id",
      *          description="Новый идентификатор ТС",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
      *      ),
      *      @OA\Parameter(
      *          name="arendator_id",
      *          description="Новый идентификатор арендатора",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
      *      ),
      *      @OA\Parameter(
      *          name="status",
      *          description="Новый статус аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="open")
      *      ),
      *      @OA\Parameter(
      *          name="start_datetime",
      *          description="Новая дата и время начала аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
      *      ),
      *      @OA\Parameter(
      *          name="end_datetime",
      *          description="Новая дата и время окончания аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
      *      ),
      *      @OA\Parameter(
      *          name="rented_time",
      *          description="Новое общее время аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="integer", example=720)
      *      ),
      *      @OA\Parameter(
      *          name="total_price",
      *          description="Новая итоговая цена аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="numeric", example=8658.32)
      *      ),
      *      @OA\Response(
@@ -378,7 +337,7 @@ class RentController extends Controller
      *          name="id",
      *          description="Идентификатор аренды",
      *          required=true,
-     *          in="path",
+     *          in="query",
      *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
      *      ),
      *      @OA\Response(
@@ -386,7 +345,7 @@ class RentController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *                  @OA\Schema(ref="#/components/schemas/RentClose")
      *              }
      *          )
      *      ),
@@ -420,9 +379,8 @@ class RentController extends Controller
      * ),
      *
      */
-    public function destroy(Rent $id)
+    public function destroy(CloseRequest $request, RentService $rentService)
     {
-        $id->delete();
-        return new RentResource($id);
+        return $rentService->close($request->id);
     }
 }

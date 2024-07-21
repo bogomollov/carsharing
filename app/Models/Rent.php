@@ -20,10 +20,6 @@ class Rent extends Model
 
     public $incrementing = false;
 
-    protected $casts = [
-        'status' => RentsStatus::class,
-    ];
-
     protected $fillable = [
         'id',
         'car_id',
@@ -35,67 +31,11 @@ class Rent extends Model
         'total_price',
     ];
 
-    public function vehicle() {
+    public function car() {
         return $this->hasOne(Car::class, 'id', 'car_id');
     }
 
     public function renter() {
         return $this->belongsTo(Arendator::class);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($rent) {
-            if ($rent->end_datetime != null) {
-                $rent->calculateRentedTime();
-                $rent->calculateTotalPrice();
-            }
-        });
-    }
-    
-    public function calculateRentedTime() {
-        if ($this->end_datetime != null) {
-            $end_datetime = new Carbon($this->end_datetime);
-            $start_datetime = new Carbon($this->start_datetime);
-            $this->rented_time = $end_datetime->diffInMinutes($start_datetime);
-        }
-    }
-    public function calculateTotalPrice() {
-        if ($this->rented_time) {
-            $this->total_price = $this->vehicle->price_minute * $this->rented_time;
-        }
-    }
-
-    /**
-     * Открывает аренду
-     *
-     * @return void
-     */
-    public function open() {
-        $this->end_datetime = Carbon::now();
-        $this->calculateRentedTime();
-        $this->calculateTotalPrice();
-        $this->status = RentsStatus::Closed;
-        $this->vehicle->status = CarsStatus::Expectation;
-
-        $this->vehicle->update();
-        $this->update();
-    }
-
-    /**
-     * Закрывает аренду
-     *
-     * @return void
-     */
-    public function close($renterId, $vehicleId) {
-        $this->car_id = $vehicleId;
-        $this->arendator_id = $renterId;
-        $this->start_datetime = Carbon::now();
-        $this->vehicle->status = CarsStatus::Rented;
-
-        $this->vehicle->save();
-        $this->save();
     }
 }

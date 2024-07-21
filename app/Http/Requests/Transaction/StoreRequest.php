@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Rent;
+namespace App\Http\Requests\Transaction;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,14 +22,9 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid',
-            'car_id' => 'required|uuid',
             'arendator_id' => 'required|uuid',
-            'status' => 'required|string',
-            'start_datetime' => 'required|string',
-            'end_datetime' => 'required|string',
-            'rented_time' => 'required|integer',
-            'total_price' => 'required|numeric',
+            'bill_id' => 'required|uuid',
+            'modification' => 'required|numeric',
         ];
     }
 }

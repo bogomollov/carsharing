@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Bill;
 use App\Models\Arendator;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
 
 class Transaction extends Model
 {
@@ -20,24 +19,21 @@ class Transaction extends Model
 
     protected $fillable = [
         'id',
-        'bill_id',
         'arendator_id',
+        'bill_id',
         'modification',
-        'datetime',
     ];
 
-    /**
-     * Создает запись в истории операций
-     * 
-     * @param Bill $bill
-     * @param Arendator $arendator
-     */
-    public function createRecord(Bill $bill, Arendator $arendator, int $modification) {
-        $this->bill_id = $bill->id;
-        $this->arendator_id = $arendator->id;
-        $this->modification = $modification;
-        $this->datetime = Carbon::now();
+    public function bill() {
+        return $this->belongsTo(Bill::class, 'bill_id');
+    }
 
-        $this->save();
+    public function arendator() {
+        return $this->belongsTo(Arendator::class, 'arendator_id');
+    }
+
+    public function updateBalance() {
+        $this->bill->balance += $this->modification;
+        $this->bill->save();
     }
 }

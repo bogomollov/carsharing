@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CarManufacturer;
-use Illuminate\Support\Str;
 
 class CarsManufacturerSeeder extends Seeder
 {
@@ -14,18 +12,17 @@ class CarsManufacturerSeeder extends Seeder
      */
     public function run()
     {
-        $names = array(
+        $manufacturers_names = array(
             'VAG',
             'General Motors',
             'FCA',
             'Daimler',
             'BMW',
         );
-
-        foreach ($names as $manufacturer_name) {
+        foreach ($manufacturers_names as $name) {
             CarManufacturer::create([
-                'id' => Str::uuid(),
-                'name' => $manufacturer_name,
+                'id' => fake()->uuid(),
+                'name' => $name,
             ]);
         }
     }

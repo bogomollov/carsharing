@@ -19,17 +19,13 @@ class CarFactory extends Factory
      */
     public function definition(): array
     {
-        do {
-            $letters = ['A','B','E','K','M','Р','С','Т','У','Н','О'];
-            $licensePlate =
-                $letters[array_rand($letters)] .
-                rand(0, 999) .
-                $letters[array_rand($letters)] .
-                $letters[array_rand($letters)] .
-                ' ' .
-                rand(10, 199);
-        }
-        while (!Car::all()->where('license_plate', $licensePlate));
+        $licensePlate = mb_strtoupper(fake()->randomLetter() . 
+        fake()->randomDigit() .
+        fake()->randomDigit() .
+        fake()->randomDigit() . 
+        fake()->randomLetter() . fake()->randomLetter()
+        . ' ' . fake()->randomDigit() . fake()->randomDigit());
+
         return [
             'id' => fake()->uuid(),
             'model_id' => CarModel::all('id')->random(),
@@ -37,7 +33,7 @@ class CarFactory extends Factory
             'mileage' => fake()->numberBetween(30000, 100000),
             'license_plate' => $licensePlate,
             'year' => fake()->year(),
-            'location' => fake()->randomFloat(2, -35, -50) . ' ' . fake()->randomFloat(5, -35, -50),
+            'location' => fake()->randomFloat(2, -35, -50) . ' ' . fake()->randomFloat(2, -35, -50),
             'price_minute' => fake()->numberBetween(3, 18)
         ];
     }
