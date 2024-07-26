@@ -11,6 +11,7 @@ use App\Observers\ArendatorObserver;
 use App\Observers\BillObserver;
 use App\Observers\RentObserver;
 use App\Observers\TransactionObserver;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

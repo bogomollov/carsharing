@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BillsStatus;
 use App\Http\Resources\Bill\BillResource;
 use App\Models\Bill;
 use Illuminate\Support\Facades\Cache as Redis;
@@ -9,7 +10,9 @@ use App\Http\Requests\Bill\StoreRequest;
 use App\Http\Requests\Bill\UpdateRequest;
 use App\Http\Requests\Bill\UpdateStatusRequest;
 use App\Services\BillService;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class BillController extends Controller
 {
@@ -25,7 +28,7 @@ class BillController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillAll")
      *              }
      *          )
      *      ),
@@ -90,7 +93,7 @@ class BillController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillId")
      *              }
      *          )
      *      ),
@@ -140,53 +143,25 @@ class BillController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/bill/create",
+     *      path="/bill",
      *      summary="Создать счет",
      *      description="Создает новый счет и возвращает его",
      *      tags={"Счета"},
      *      @OA\RequestBody(
-     *          request="BillCreate",
+     *          request="BillRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/BillCreate")
+     *              @OA\Schema(ref="#/components/schemas/BillRequest")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="arendators_count",
-     *          description="Количество пользователей связанных со счётом",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example=1)
-     *      ),
-     *      @OA\Parameter(
-     *          name="balance",
-     *          description="Баланс счёта",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="48658.52")
-     *      ),
-     *      @OA\Parameter(
-     *          name="type",
-     *          description="Тип счёта",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="personal")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Статус счёта",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="open")
-     *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillChange")
      *              }
      *          )
      *      ),
@@ -222,23 +197,22 @@ class BillController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $a = Bill::create($request->validated());
-        return BillResource::make($a)->resolve();
+        return new BillResource(Bill::create($request->validated()));
     }
 
     /**
      *
      * @OA\Put(
-     *      path="/bill/{id}/update",
+     *      path="/bill/{id}",
      *      summary="Обновить счет",
      *      description="Обновляет данные счета и возвращает его",
      *      tags={"Счета"},
      *      @OA\RequestBody(
-     *          request="Bill",
+     *          request="BillRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Bill")
+     *              @OA\Schema(ref="#/components/schemas/BillRequest")
      *          }
      *      )    
      *  ),
@@ -249,47 +223,12 @@ class BillController extends Controller
      *          in="path",
      *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
      *      ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Новый идентификатор счета",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="8afe0a60-944f-3fa7-a493-f907632084fb")
-     *      ),
-     *      @OA\Parameter(
-     *          name="arendators_count",
-     *          description="Новое количество пользователей связанных со счётом",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example=1)
-     *      ),
-     *      @OA\Parameter(
-     *          name="balance",
-     *          description="Новый баланс счёта",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="48658.52")
-     *      ),
-     *      @OA\Parameter(
-     *          name="type",
-     *          description="Новый тип счёта",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="personal")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Новый статус счёта",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="open")
-     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillChange")
      *              }
      *          )
      *      ),
@@ -331,7 +270,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/bill/{id}/delete",
+     *      path="/bill/{id}",
      *      summary="Удалить счет",
      *      description="Удаляет запись о счете",
      *      tags={"Счета"},
@@ -347,7 +286,7 @@ class BillController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillChange")
      *              }
      *          )
      *      ),
@@ -387,10 +326,10 @@ class BillController extends Controller
         return new BillResource($id);
     }
 
-        /**
+    /**
      *
      * @OA\Patch(
-     *      path="/bill/{id}",
+     *      path="/bill/{id}/status",
      *      summary="Обновить статус счета",
      *      description="Обновляет статус счета",
      *      tags={"Счета"},
@@ -410,19 +349,12 @@ class BillController extends Controller
      *          in="path",
      *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
      *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Новый статус счета",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="closed")
-     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Bill")
+     *                  @OA\Schema(ref="#/components/schemas/BillChange")
      *              }
      *          )
      *      ),
@@ -456,7 +388,7 @@ class BillController extends Controller
      * ),
      *
      */
-    public function setStatus(UpdateStatusRequest $request, BillService $billService) : JsonResponse {
-        return $billService->setBillStatus(Bill::find($request->id), $request->validated());
+    public function setStatus(UpdateStatusRequest $request, Bill $id, BillService $billService) {
+        return $billService->setBillStatus($id, $request->validated()['status']);
     }
 }

@@ -7,11 +7,15 @@ use App\Enums\CarsStatus;
 use App\Enums\RentsStatus;
 use App\Models\Arendator;
 use App\Models\Car;
+use App\Models\Rent;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory>
  */
 class RentFactory extends Factory
 {
+    protected $model = Rent::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,30 +23,32 @@ class RentFactory extends Factory
      */
     public function definition(): array
     {
-        $beginDateTime = fake()->dateTimeBetween($startDate = '-365 days', $endDate = 'now', $timezone = null);
-        $endDateTime = fake()->dateTimeInInterval($beginDateTime, $endDate = '+1 days', $timezone = null);
+        $beginDateTime = fake()->dateTimeBetween('-365 days','now',null);
+        $endDateTime = fake()->dateTimeInInterval($beginDateTime,'+1 days',null);
         
-        $status = RentsStatus::getRandomValue();
-
         return [
             'id' => fake()->uuid(),
-            'car_id' => function () use ($status) {
-                if ($status == 'open') {
-                    return Car::factory()->create(['status' => CarsStatus::Rented])->id;
-                } else {
-                    return Car::factory()->create()->id;
-                }
-            },
-            'arendator_id' => Arendator::all()->random(),
-            'status' => $status,
+            'car_id' => Car::factory(),
+            'arendator_id' => Arendator::factory(),
+            'status' => RentsStatus::getRandomValue(),
             'start_datetime' => $beginDateTime,
-            'end_datetime' => function () use ($status, $endDateTime) {
-                if ($status === RentsStatus::Open) {
-                    return null;
-                } else {
-                    return $endDateTime;
-                }
-            },
+            'end_datetime' => rand(0, 1) ? $endDateTime : null,
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Rent $rent) {
+            if ($rent->status == RentsStatus::Open) {
+                $car = Car::find($rent->car_id);
+                $car->status == CarsStatus::Rented;
+                $car->update();
+            }
+            elseif ($rent->status == RentsStatus::Closed) {
+                $car = Car::find($rent->car_id);
+                $car->status == rand(0, 1) ? CarsStatus::Maintenance : CarsStatus::Expectation;
+                $car->update();
+            }
+        });
     }
 }

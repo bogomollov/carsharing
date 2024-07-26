@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CarsStatus;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +27,22 @@ class Car extends Model
         'location',
         'price_minute',
     ];
+
+    protected $hidden = [
+        'location',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => CarsStatus::class,
+        ];
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function car() {
         return $this->belongsTo(Rent::class, 'id', 'car_id');

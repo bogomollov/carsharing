@@ -6,7 +6,9 @@ use App\Models\Car;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Car\StoreRequest;
 use App\Http\Requests\Car\UpdateRequest;
+use App\Http\Requests\Car\UpdateStatusRequest;
 use App\Http\Resources\Car\CarResource;
+use App\Services\CarService;
 
 class CarController extends Controller
 {
@@ -22,7 +24,7 @@ class CarController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/CarAll")
      *              }
      *          )
      *      ),
@@ -87,7 +89,7 @@ class CarController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/CarId")
      *              }
      *          )
      *      ),
@@ -137,74 +139,25 @@ class CarController extends Controller
     /**
      * 
      * @OA\Post(
-     *      path="/car/create",
+     *      path="/car",
      *      summary="Создать ТС",
      *      description="Создает новое ТС и возвращает ее",
      *      tags={"Машины"},
      *      @OA\RequestBody(
-     *          request="CarCreate",
+     *          request="CarRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/CarCreate")
+     *              @OA\Schema(ref="#/components/schemas/CarRequest")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="model_id",
-     *          description="Идентификатор модели",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Статус аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="rented")
-     *      ),
-     *      @OA\Parameter(
-     *          name="mileage",
-     *          description="Пробег ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example="10383")
-     *      ),
-     *      @OA\Parameter(
-     *          name="license_plate",
-     *          description="Гос.номер ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="J949YJ 93")
-     *      ),
-     *      @OA\Parameter(
-     *          name="year",
-     *          description="Год производства ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example="2003")
-     *      ),
-     *      @OA\Parameter(
-     *          name="location",
-     *          description="Координаты текущего местоположения ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="-35.71 -45.96609")
-     *      ),
-     *      @OA\Parameter(
-     *          name="price_minute",
-     *          description="Минутная цена аренды",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer", example="2")
-     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/CarChange")
      *              }
      *          )
      *      ),
@@ -246,7 +199,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Put(
-     *      path="/car/{id}/update",
+     *      path="/car/{id}",
      *      summary="Обновить ТС",
      *      description="Обновляет запись о ТС и возвращает ее",
      *      tags={"Машины"},
@@ -255,7 +208,7 @@ class CarController extends Controller
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Car")
+     *              @OA\Schema(ref="#/components/schemas/CarRequest")
      *          }
      *      )    
      *  ),
@@ -266,68 +219,12 @@ class CarController extends Controller
      *          in="path",
      *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
      *      ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Parameter(
-     *          name="model_id",
-     *          description="Cчет по умолчанию",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="0b4932f2-5c19-4de2-9ddc-17ce2375d164")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Статус аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="rented")
-     *      ),
-     *      @OA\Parameter(
-     *          name="mileage",
-     *          description="Пробег ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="10383")
-     *      ),
-     *      @OA\Parameter(
-     *          name="license_plate",
-     *          description="Гос.номер ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="Н709ОM 147")
-     *      ),
-     *      @OA\Parameter(
-     *          name="year",
-     *          description="Год производства ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="2003")
-     *      ),
-     *      @OA\Parameter(
-     *          name="location",
-     *          description="Координаты текущего местоположения ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="-35.71 -45.96609")
-     *      ),
-     *      @OA\Parameter(
-     *          name="price_minute",
-     *          description="Минутная цена аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example="2")
-     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/CarChange")
      *              }
      *          )
      *      ),
@@ -369,7 +266,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Delete(
-     *      path="/car/{id}/delete",
+     *      path="/car/{id}",
      *      summary="Удалить ТС",
      *      description="Удаляет запись о ТС",
      *      tags={"Машины"},
@@ -385,7 +282,7 @@ class CarController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Car")
+     *                  @OA\Schema(ref="#/components/schemas/CarChange")
      *              }
      *          )
      *      ),
@@ -422,5 +319,70 @@ class CarController extends Controller
     {
         $id->delete();
         return new CarResource($id);
+    }
+
+    /**
+     * 
+     * @OA\Patch(
+     *      path="/car/{id}/status",
+     *      summary="Обновить статус ТС",
+     *      description="Обновляет статус ТС",
+     *      tags={"Машины"},
+     *      @OA\RequestBody(
+     *          request="CarStatus",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/CarStatus")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор ТС",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/CarChange")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     */
+    public function setStatus(UpdateStatusRequest $request, Car $id, CarService $carService) {
+        return $carService->setStatus($id, $request->validated()['status']);
     }
 }

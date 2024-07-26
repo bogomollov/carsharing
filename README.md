@@ -13,4 +13,4 @@
 
 ## ER диаграмма базы данных
 
-![er](./github-images/bd.jpg)
+![er](./github-images/bd.png)

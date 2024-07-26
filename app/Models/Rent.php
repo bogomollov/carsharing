@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use App\Models\Car;
 use App\Models\Arendator;
-use App\Enums\CarsStatus;
-use App\Enums\RentsStatus;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rent extends Model
@@ -31,11 +29,16 @@ class Rent extends Model
         'total_price',
     ];
 
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function car() {
         return $this->hasOne(Car::class, 'id', 'car_id');
     }
 
     public function renter() {
-        return $this->belongsTo(Arendator::class);
+        return $this->hasOne(Arendator::class, 'id', 'arendator_id');
     }
 }

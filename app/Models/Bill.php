@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Enums\BillsStatus;
-use App\Enums\BillsType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Arendator;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bill extends Model
@@ -27,38 +27,26 @@ class Bill extends Model
     ];
 
     protected $hidden = [
-       'balance'
+       'balance',
     ];
 
-    public function bills()
+    protected function casts(): array
     {
+        return [
+            'status' => BillsStatus::class,
+        ];
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    public function bills() {
         return $this->hasMany(Arendator::class, 'default_bill_id');
     }
 
-    public function transactions()
-    {
+    public function transactions() {
         return $this->belongsTo(Transaction::class, 'id', 'bill_id');
-    }
-
-    public function updateRentersCount() {
-        $this->arendators_count = $this->bills()->count();
-        $this->save();
-    }
-
-    public function updateBillType() {
-        if ($this->arendators_count > 1)
-        {
-            $this->type = BillsType::Corporated;
-        }
-
-        elseif ($this->arendators_count == 1)
-        {
-            $this->type = BillsType::Personal;
-        }
-
-        elseif ($this->arendators_count == 0) {
-            $this->status = BillsStatus::Blocked;
-        }
-        $this->save();
     }
 }

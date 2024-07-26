@@ -22,6 +22,7 @@ class RentObserver
     public function updated(Rent $rent): void
     {
         Redis::forget('rent_index');
+        Redis::forget($rent);
     }
 
     /**
@@ -30,6 +31,7 @@ class RentObserver
     public function deleted(Rent $rent): void
     {
         Redis::forget('rent_index');
+        Redis::forget($rent);
     }
 
     /**

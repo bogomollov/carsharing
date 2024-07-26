@@ -20,6 +20,8 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    protected $withoutDuplicates = true;
+
     /**
      * Register the exception handling callbacks for the application.
      */
@@ -29,20 +31,27 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (HttpException $e, Request $request) {
-            if ($request->is('api/auth*')) {
-                if ($this->isHttpException($e)) {
-                    switch($e->getStatusCode()) {
-                        case 401:
-                            return response()->json(['message' => 'Unauthorized'], 401);
-                        break;
-                        case 403:
-                            return response()->json(['message' => 'Forbidden'], 403);
-                        break;
-                        case 404:
-                            return response()->json(['message' => 'Not Found'], 404); 
-                        break;
-                    }
+        $this->renderable(function (HttpException $exception, Request $request) {
+            if ($request->is('api/*') && $this->isHttpException($exception)) {
+                switch($exception->getStatusCode()) {
+                    case 401:
+                        return response()->json([
+                            'status' => 401,
+                            'message' => 'Unauthorized'
+                        ], 401);
+                    break;
+                    case 403:
+                        return response()->json([
+                            'status' => 403,
+                            'message' => 'Forbidden'
+                        ], 403);
+                    break;
+                    case 404:
+                        return response()->json([
+                            'status' => 404,
+                            'message' => 'Not Found'
+                        ], 404);
+                    break;
                 }
             }
         });

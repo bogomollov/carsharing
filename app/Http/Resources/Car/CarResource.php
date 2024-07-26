@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Car;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,8 +22,15 @@ class CarResource extends JsonResource
             'mileage' => $this->mileage,
             'license_plate' => $this->license_plate,
             'year' => $this->year,
-            'location' => $this->location,
+            'location' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->location),
             'price_minute' => $this->price_minute,
         ];
+    }
+
+    public function withResponse(Request $request, JsonResponse $response): void
+    {
+        if (!$request->isMethod('DELETE')) {
+            $response->header('Location', "car/{$this->id}");
+        }
     }
 }

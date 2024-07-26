@@ -24,8 +24,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid',
-            'status' => 'required', new EnumValue(BillsStatus::class),
+            'status' => ['required', new EnumValue(BillsStatus::class)],
         ];
     }
 }

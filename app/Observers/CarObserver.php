@@ -25,23 +25,25 @@ class CarObserver
     /**
      * Handle the Cars "updated" event.
      */
-    public function updated(Car $cars): void
+    public function updated(Car $car): void
     {
         Redis::forget('car_index');
+        Redis::forget($car);
     }
 
     /**
      * Handle the Cars "deleted" event.
      */
-    public function deleted(Car $cars): void
+    public function deleted(Car $car): void
     {
         Redis::forget('car_index');
+        Redis::forget($car);
     }
 
     /**
      * Handle the Cars "deleting" event.
      */
-    public function deleting(Car $cars): void
+    public function deleting(Car $car): void
     {
         Redis::forget('car_index');
     }
@@ -49,7 +51,7 @@ class CarObserver
     /**
      * Handle the Cars "retrieved" event.
      */
-    public function retrieved(Car $cars): void
+    public function retrieved(Car $car): void
     {
         Redis::forget('car_index');
     }
@@ -57,12 +59,12 @@ class CarObserver
     /**
      * Handle the Cars "restored" event.
      */
-    public function restored(Car $cars): void
+    public function restored(Car $car): void
     {
         Redis::forget('car_index');
     }
 
-    public function forceDeleted(Car $cars): void
+    public function forceDeleted(Car $car): void
     {
         Redis::forget('car_index');
     }

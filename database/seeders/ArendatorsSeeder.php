@@ -12,6 +12,6 @@ class ArendatorsSeeder extends Seeder
      */
     public function run(): void
     {
-        Arendator::factory(20)->create();
+        Arendator::factory()->count(20)->create();
     }
 }

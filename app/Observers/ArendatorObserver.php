@@ -29,6 +29,7 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
     public function updated(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
+        Redis::forget($arendator);
     }
 
     /**
@@ -37,6 +38,7 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
     public function deleted(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
+        Redis::forget($arendator);
     }
 
     /**

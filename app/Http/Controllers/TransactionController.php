@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Cache as Redis;
 
 class TransactionController extends Controller
 {
-    public function __construct(
-        protected Transaction $transaction,
-    ) {}
-
     /**
      * 
      * @OA\Get(

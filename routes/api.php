@@ -44,26 +44,33 @@ use App\Http\Controllers\TransactionController;
 // });
 
 Route::group(['middleware' => 'api'], function () {
-    Route::get('user', [ArendatorController::class, 'index']);
-    Route::get('user/{id}', [ArendatorController::class, 'show']);
-    Route::post('user/create', [ArendatorController::class, 'store']);
-    Route::put('user/{id}/update', [ArendatorController::class, 'update']);
-    Route::delete('user/{id}/delete', [ArendatorController::class, 'destroy']);
-    Route::patch('user/{id}/bill', [ArendatorController::class, 'setDefaultBill']);
-    Route::patch('user/{id}/status', [ArendatorController::class, 'setStatus']);
-
-    Route::get('car', [CarController::class, 'index']);
-    Route::get('car/{id}', [CarController::class, 'show']);
-    Route::post('car/create', [CarController::class, 'store']);
-    Route::put('car/{id}/update', [CarController::class, 'update']);
-    Route::delete('car/{id}/delete', [CarController::class, 'destroy']);
+    Route::get('arendator', [ArendatorController::class, 'index']);
+    Route::get('arendator/{id}', [ArendatorController::class, 'show']);
+    Route::post('arendator', [ArendatorController::class, 'store']);
+    Route::put('arendator/{id}', [ArendatorController::class, 'update']);
+    Route::delete('arendator/{id}', [ArendatorController::class, 'destroy']);
+    Route::patch('arendator/{id}/bill', [ArendatorController::class, 'setDefaultBill']);
+    Route::patch('arendator/{id}/status', [ArendatorController::class, 'setStatus']);
 
     Route::get('bill', [BillController::class, 'index']);
     Route::get('bill/{id}', [BillController::class, 'show']);
-    Route::post('bill/create', [BillController::class, 'store']);
-    Route::put('bill/{id}/update', [BillController::class, 'update']);
-    Route::delete('bill/{id}/delete', [BillController::class, 'destroy']);
-    Route::patch('bill/{id}', [BillController::class, 'setStatus']);
+    Route::post('bill', [BillController::class, 'store']);
+    Route::put('bill/{id}', [BillController::class, 'update']);
+    Route::delete('bill/{id}', [BillController::class, 'destroy']);
+    Route::patch('bill/{id}/status', [BillController::class, 'setStatus']);
+
+    Route::get('car', [CarController::class, 'index']);
+    Route::get('car/{id}', [CarController::class, 'show']);
+    Route::post('car', [CarController::class, 'store']);
+    Route::put('car/{id}', [CarController::class, 'update']);
+    Route::delete('car/{id}', [CarController::class, 'destroy']);
+    Route::patch('car/{id}/status', [CarController::class, 'setStatus']);
+
+    Route::get('car_manufacturer', [CarController::class, 'index']);
+    Route::get('car_manufacturer/{id}', [CarController::class, 'show']);
+    Route::post('car_manufacturer', [CarController::class, 'store']);
+    Route::put('car_manufacturer/{id}', [CarController::class, 'update']);
+    Route::delete('car_manufacturer/{id}', [CarController::class, 'destroy']);
 
     Route::get('rent', [RentController::class, 'index']);
     Route::get('rent/{id}', [RentController::class, 'show']);

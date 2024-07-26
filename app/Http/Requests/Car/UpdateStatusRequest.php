@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Arendator;
+namespace App\Http\Requests\Car;
 
-use App\Enums\ArendatorsStatus;
+use App\Enums\CarsStatus;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required', new EnumValue(ArendatorsStatus::class),
+            'status' => ['required', new EnumValue(CarsStatus::class)],
         ];
     }
 }

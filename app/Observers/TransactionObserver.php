@@ -21,6 +21,7 @@ class TransactionObserver
     public function updated(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
+        Redis::forget($transaction);
     }
 
     /**
@@ -29,6 +30,7 @@ class TransactionObserver
     public function deleted(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
+        Redis::forget($transaction);
     }
 
     /**

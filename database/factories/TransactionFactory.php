@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Enums\BillsStatus;
-use App\Enums\BillsType;
 use App\Models\Arendator;
 use App\Models\Bill;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class BillFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
+ */
+class TransactionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +21,9 @@ class BillFactory extends Factory
     {
         return [
             'id' => fake()->uuid(),
-            'balance' => fake()->randomFloat(null, 100.00, 5000.99),
-            'type' => BillsType::Personal,
-            'status' => BillsStatus::getRandomValue(),
+            'arendator_id' => Arendator::factory(),
+            'bill_id' => Bill::factory(),
+            'modification' => fake()->randomFloat(2, -5000, 5000),
         ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Bill;
 use App\Models\Arendator;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
@@ -24,16 +25,16 @@ class Transaction extends Model
         'modification',
     ];
 
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function bill() {
-        return $this->belongsTo(Bill::class, 'bill_id');
+        return $this->hasMany(Bill::class, 'id', 'bill_id');
     }
 
     public function arendator() {
-        return $this->belongsTo(Arendator::class, 'arendator_id');
-    }
-
-    public function updateBalance() {
-        $this->bill->balance += $this->modification;
-        $this->bill->save();
+        return $this->hasMany(Arendator::class, 'id', 'arendator_id');
     }
 }

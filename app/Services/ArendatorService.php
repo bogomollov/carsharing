@@ -21,9 +21,7 @@ class ArendatorService
         return Arendator::find($id)->status;
     }
 
-    public function setStatus($id, $status) {
-        $arendator = Arendator::find($id);
-
+    public function setStatus(Arendator $arendator, $status) {
         if ($arendator->status == $status) {
             return response()->json(['error' => "User already has this status"], 422);
         }
@@ -35,30 +33,29 @@ class ArendatorService
         else {
             $arendator->status = $status;
             $arendator->update();
-            return new ArendatorResource($arendator);
         }
+        return new ArendatorResource($arendator);
     }
 
-    public function setDefaultBill($id, $default_bill_id) : JsonResponse {
-        $arendator = Arendator::find($id);
-
+    public function setDefaultBill(Arendator $arendator, $bill_id) {
+        $bill = Bill::find($bill_id);
         $badBillStatuses = [
             BillsStatus::Frozen,
             BillsStatus::Closed,
             BillsStatus::Blocked,
         ];
 
-        if (!Bill::find($default_bill_id)) {
+        if (!$bill) {
             return response()->json(['error' => "No such payment account exists"], 404);
         }
-        if ($arendator->default_bill_id === $default_bill_id) {
-            return response()->json(['error' => "Bill with id '$default_bill_id' is already the default bill"], 422);
+        if ($arendator->default_bill_id === $bill_id) {
+            return response()->json(['error' => "Bill with id '$bill' is already the default bill"], 422);
         }
-        if (in_array(Bill::find($default_bill_id)->status, $badBillStatuses)) {
-            return response()->json(['error' => "Bill with status '$default_bill_id->status' cannot be selected as the default bill"], 400);
+        if (in_array($bill->status, $badBillStatuses)) {
+            return response()->json(['error' => "Bill with status '$bill->status' cannot be selected as the default bill"], 400);
         }
         else {
-            $arendator->default_bill_id = $default_bill_id;
+            $arendator->default_bill_id = $bill_id;
             $arendator->update();
             return new ArendatorResource($arendator);
         }

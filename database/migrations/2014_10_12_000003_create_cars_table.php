@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('model_id')->comment("Идентификатор модели ТС");
-            $table->enum('status', CarsStatus::getValues())->default(CarsStatus::Maintenance)->comment("Статус ТС");
+            $table->string('status')->comment("Статус ТС");
             $table->unsignedInteger('mileage')->comment("Пробег ТС");
             $table->string("license_plate")->unique()->comment("Номер ТС");
             $table->year('year')->comment('Год производства ТС');

@@ -22,7 +22,6 @@ class UpdateDefaultBillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid',
             'default_bill_id' => 'required|uuid',
         ];
     }
