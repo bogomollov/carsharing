@@ -24,7 +24,9 @@ class CarModelResource extends JsonResource
             'door_count' => $this->door_count,
             'seat_count' => $this->seat_count,
             'gear_box' => $this->gear_box,
+            'drive_type' => $this->drive_type,
             'engine_power' => $this->engine_power,
+            'year' => $this->year,
         ];
     }
 

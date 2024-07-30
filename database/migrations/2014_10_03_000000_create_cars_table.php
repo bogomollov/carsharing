@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedInteger('mileage')->comment("Пробег ТС");
             $table->string("license_plate")->unique()->comment("Номер ТС");
             $table->string("vin")->unique()->comment("Идентификационный номер ТС");
-            $table->year('year')->comment('Год производства ТС');
             $table->string('location')->comment("Координаты текущего местоположения ТС");
             $table->unsignedInteger('price_minute')->nullable()->comment("Минутная цена аренды");
             $table->timestamps();

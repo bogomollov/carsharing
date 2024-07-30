@@ -21,7 +21,6 @@ class CarResource extends JsonResource
             'status' => $this->status,
             'mileage' => $this->mileage,
             'license_plate' => $this->license_plate,
-            'year' => $this->year,
             'location' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->location),
             'price_minute' => $this->price_minute,
         ];

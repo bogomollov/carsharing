@@ -2765,6 +2765,100 @@
                 }
             }
         },
+        "/car_model/{id}/drive": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить тип привода у модели ТС",
+                "description": "Обновляет тип привода у модели ТС",
+                "operationId": "413e4d46c0878f8aacf2db21e41cc577",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelDriveType"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rent": {
             "get": {
                 "tags": [
@@ -4073,10 +4167,6 @@
                                     "type": "string",
                                     "example": "J949YJ 93"
                                 },
-                                "year": {
-                                    "type": "integer",
-                                    "example": 2003
-                                },
                                 "price_minute": {
                                     "type": "integer",
                                     "example": 2
@@ -4113,10 +4203,6 @@
                                 "type": "string",
                                 "example": "J949YJ 93"
                             },
-                            "year": {
-                                "type": "integer",
-                                "example": 2003
-                            },
                             "price_minute": {
                                 "type": "integer",
                                 "example": 2
@@ -4145,10 +4231,6 @@
                     "license_plate": {
                         "type": "string",
                         "example": "J949YJ 93"
-                    },
-                    "year": {
-                        "type": "integer",
-                        "example": 2003
                     },
                     "location": {
                         "type": "string",
@@ -4185,10 +4267,6 @@
                             "license_plate": {
                                 "type": "string",
                                 "example": "J949YJ 93"
-                            },
-                            "year": {
-                                "type": "integer",
-                                "example": 2003
                             },
                             "location": {
                                 "type": "string",
@@ -4323,9 +4401,17 @@
                                     "type": "string",
                                     "example": "manual"
                                 },
+                                "drive_type": {
+                                    "type": "string",
+                                    "example": "full"
+                                },
                                 "engine_power": {
                                     "type": "integer",
                                     "example": 140
+                                },
+                                "year": {
+                                    "type": "integer",
+                                    "example": 2022
                                 }
                             },
                             "type": "object"
@@ -4371,9 +4457,17 @@
                                 "type": "string",
                                 "example": "automatic"
                             },
+                            "drive_type": {
+                                "type": "string",
+                                "example": "full"
+                            },
                             "engine_power": {
                                 "type": "integer",
                                 "example": 300
+                            },
+                            "year": {
+                                "type": "integer",
+                                "example": 2022
                             }
                         },
                         "type": "object"
@@ -4412,9 +4506,17 @@
                         "type": "string",
                         "example": "manual"
                     },
+                    "drive_type": {
+                        "type": "string",
+                        "example": "full"
+                    },
                     "engine_power": {
                         "type": "integer",
                         "example": 220
+                    },
+                    "year": {
+                        "type": "integer",
+                        "example": 2022
                     }
                 },
                 "type": "object"
@@ -4456,9 +4558,17 @@
                                 "type": "string",
                                 "example": "automatic"
                             },
+                            "drive_type": {
+                                "type": "string",
+                                "example": "full"
+                            },
                             "engine_power": {
                                 "type": "integer",
                                 "example": 152
+                            },
+                            "year": {
+                                "type": "integer",
+                                "example": 2022
                             }
                         },
                         "type": "object"
@@ -4502,6 +4612,16 @@
                     "gear_box": {
                         "type": "string",
                         "example": "manual"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelDriveType": {
+                "title": "CarModelDriveType",
+                "properties": {
+                    "drive_type": {
+                        "type": "string",
+                        "example": "full"
                     }
                 },
                 "type": "object"

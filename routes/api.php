@@ -83,6 +83,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::patch('car_model/{id}/type', [CarModelController::class, 'setType']);
     Route::patch('car_model/{id}/fuel', [CarModelController::class, 'setFuelType']);
     Route::patch('car_model/{id}/gearbox', [CarModelController::class, 'setGearBox']);
+    Route::patch('car_model/{id}/drive', [CarModelController::class, 'setDriveType']);
 
     Route::get('rent', [RentController::class, 'index']);
     Route::get('rent/{id}', [RentController::class, 'show']);

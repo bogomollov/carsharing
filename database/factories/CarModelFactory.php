@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\DrivesType;
 use App\Models\CarMark;
 use Faker\Provider\FakeCarData;
 use Faker\Provider\FakeCarHelper;
@@ -32,7 +33,9 @@ class CarModelFactory extends Factory
             'door_count' => $faker->vehicleDoorCount,
             'seat_count' => $faker->vehicleSeatCount,
             'gear_box' => $faker->vehicleGearBoxType,
+            'drive_type' => DrivesType::getRandomValue(),
             'engine_power' => fake()->numberBetween(120, 300),
+            'year' => fake()->year(),
         ];
     }
 }

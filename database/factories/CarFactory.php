@@ -27,7 +27,6 @@ class CarFactory extends Factory
             'mileage' => fake()->numberBetween(30000, 100000),
             'license_plate' => $faker->vehicleRegistration('[A-Z]{1}[0-9]{3}[A-Z]{2} [0-9]{2}'),
             'vin' => strtoupper($faker->vin),
-            'year' => fake()->year(),
             'location' => fake()->randomFloat(2, -35, -50) . ' ' . fake()->randomFloat(2, -35, -50),
             'price_minute' => fake()->numberBetween(3, 18)
         ];

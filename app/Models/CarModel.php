@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CarsType;
+use App\Enums\DrivesType;
 use App\Enums\FuelsType;
 use App\Enums\GearBoxesType;
 use DateTimeInterface;
@@ -37,6 +38,7 @@ class CarModel extends Model
         'car_type' => CarsType::class,
         'fuel_type' => FuelsType::class,
         'gear_box' => GearBoxesType::class,
+        'drive_type' => DrivesType::class,
     ];
 
     protected function serializeDate(DateTimeInterface $date)

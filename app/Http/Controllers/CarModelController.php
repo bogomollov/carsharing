@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CarModel\StoreRequest;
+use App\Http\Requests\CarModel\UpdateDriveTypeRequest;
 use App\Http\Requests\CarModel\UpdateFuelTypeRequest;
 use App\Http\Requests\CarModel\UpdateGearBoxTypeRequest;
 use App\Http\Requests\CarModel\UpdateMarkRequest;
@@ -587,6 +588,73 @@ class CarModelController extends Controller
      */
     public function setGearBox(UpdateGearBoxTypeRequest $request, CarModel $id) {
         $id->gear_box = $request->validated()['gear_box'];
+        $id->update();
+        return new CarModelResource($id);
+    }
+
+    /**
+     * 
+     * @OA\Patch(
+     *      path="/car_model/{id}/drive",
+     *      summary="Обновить тип привода у модели ТС",
+     *      description="Обновляет тип привода у модели ТС",
+     *      tags={"Машины"},
+     *      @OA\RequestBody(
+     *          request="CarModelDriveType",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/CarModelDriveType")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор модели ТС",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/CarModelChange")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     */
+    public function setDriveType(UpdateDriveTypeRequest $request, CarModel $id) {
+        $id->drive_type = $request->validated()['drive_type'];
         $id->update();
         return new CarModelResource($id);
     }
