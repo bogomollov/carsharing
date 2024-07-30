@@ -31,12 +31,9 @@ class Arendator extends Model
 
     protected $hidden = ['passport_series', 'passport_number'];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => ArendatorsStatus::class,
-        ];
-    }
+    protected $casts = [
+        'status' => ArendatorsStatus::class,
+    ];
 
     protected function serializeDate(DateTimeInterface $date)
     {

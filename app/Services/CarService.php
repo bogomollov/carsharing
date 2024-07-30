@@ -13,17 +13,22 @@ class CarService
     }
 
     public function setStatus(Car $car, $status) {      
-        if (!in_array($status, CarsStatus::getValues())) {
-            return response()->json(['error' => "This status cannot be applied"], 404);
+        if ($this->getStatus($car) == $status) {
+            return response()->json([
+                'status' => 422,
+                'message' => "Car already has '$status' status"
+            ], 422);
         }
-        elseif ($this->getStatus($car) == $status) {
-            return response()->json(['error' => "Car already has '$status' status"], 422);
+        elseif ($status == CarsStatus::Expectation) {
+            $car->status = CarsStatus::Expectation;
+            $car->update();
+            $car->delete();
         }
         else {
             $car->status = $status;
             $car->update();
-            return new CarResource($car);
-        }       
+        }
+        return new CarResource($car);
     }
 
     public function checkIsStatus(Car $vehicle, array $statuses) : bool {

@@ -32,7 +32,7 @@ class RentFactory extends Factory
             'arendator_id' => Arendator::factory(),
             'status' => RentsStatus::getRandomValue(),
             'start_datetime' => $beginDateTime,
-            'end_datetime' => rand(0, 1) ? $endDateTime : null,
+            'end_datetime' => fake()->randomElement([$endDateTime, null]),
         ];
     }
 
@@ -44,9 +44,9 @@ class RentFactory extends Factory
                 $car->status == CarsStatus::Rented;
                 $car->update();
             }
-            elseif ($rent->status == RentsStatus::Closed) {
+            if ($rent->status == RentsStatus::Closed) {
                 $car = Car::find($rent->car_id);
-                $car->status == rand(0, 1) ? CarsStatus::Maintenance : CarsStatus::Expectation;
+                $car->status == fake()->randomElement([CarsStatus::Maintenance, CarsStatus::Expectation]);
                 $car->update();
             }
         });

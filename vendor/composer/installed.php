@@ -682,6 +682,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'pelmered/fake-car' => array(
+            'pretty_version' => '2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => '9820b78f4c43a0c6b1db4fc6e9d39829dfbae9a3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../pelmered/fake-car',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.4',
             'version' => '2.0.4.0',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ArendatorsStatus;
 use App\Models\Arendator;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Arendator\StoreRequest;
@@ -10,6 +11,9 @@ use App\Http\Requests\Arendator\UpdateRequest;
 use App\Http\Requests\Arendator\UpdateStatusRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
 use App\Services\ArendatorService;
+use Faker\Provider\FakeCarData;
+use Faker\Provider\FakeCarHelper;
+use Illuminate\Http\Request;
 
 class ArendatorController extends Controller
 {
@@ -317,10 +321,9 @@ class ArendatorController extends Controller
      * ),
      *
      */
-    public function destroy(Arendator $id)
+    public function destroy(Arendator $id, ArendatorService $arendatorService)
     {
-        $id->delete();
-        return new ArendatorResource($id);
+        return $arendatorService->setStatus($id, ArendatorsStatus::Deleted);
     }
 
     /**
@@ -386,7 +389,7 @@ class ArendatorController extends Controller
      *
      */
     public function setDefaultBill(UpdateDefaultBillRequest $request, Arendator $id, ArendatorService $arendatorService) {
-        return $arendatorService->setDefaultBill($id, $request->validated()['default_bill_id']);
+        return $arendatorService->setDefaultBill($id, $request['default_bill_id']);
     }
 
     /**

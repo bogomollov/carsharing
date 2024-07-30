@@ -10,9 +10,7 @@ use App\Http\Requests\Bill\StoreRequest;
 use App\Http\Requests\Bill\UpdateRequest;
 use App\Http\Requests\Bill\UpdateStatusRequest;
 use App\Services\BillService;
-use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
@@ -320,10 +318,9 @@ class BillController extends Controller
      * ),
      *
      */
-    public function destroy(Bill $id)
+    public function destroy(Bill $id, BillService $billService)
     {
-        $id->delete();
-        return new BillResource($id);
+        return $billService->setStatus($id, BillsStatus::Closed);
     }
 
     /**
@@ -389,6 +386,6 @@ class BillController extends Controller
      *
      */
     public function setStatus(UpdateStatusRequest $request, Bill $id, BillService $billService) {
-        return $billService->setBillStatus($id, $request->validated()['status']);
+        return $billService->setStatus($id, $request->validated()['status']);
     }
 }

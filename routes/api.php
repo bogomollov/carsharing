@@ -6,6 +6,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\ArendatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\CarMarkController;
+use App\Http\Controllers\CarModelController;
 use App\Http\Controllers\RentController;
 use App\Http\Controllers\TransactionController;
 
@@ -66,11 +68,21 @@ Route::group(['middleware' => 'api'], function () {
     Route::delete('car/{id}', [CarController::class, 'destroy']);
     Route::patch('car/{id}/status', [CarController::class, 'setStatus']);
 
-    Route::get('car_manufacturer', [CarController::class, 'index']);
-    Route::get('car_manufacturer/{id}', [CarController::class, 'show']);
-    Route::post('car_manufacturer', [CarController::class, 'store']);
-    Route::put('car_manufacturer/{id}', [CarController::class, 'update']);
-    Route::delete('car_manufacturer/{id}', [CarController::class, 'destroy']);
+    Route::get('car_mark', [CarMarkController::class, 'index']);
+    Route::get('car_mark/{id}', [CarMarkController::class, 'show']);
+    Route::post('car_mark', [CarMarkController::class, 'store']);
+    Route::put('car_mark/{id}', [CarMarkController::class, 'update']);
+    Route::delete('car_mark/{id}', [CarMarkController::class, 'destroy']);
+
+    Route::get('car_model', [CarModelController::class, 'index']);
+    Route::get('car_model/{id}', [CarModelController::class, 'show']);
+    Route::post('car_model', [CarModelController::class, 'store']);
+    Route::put('car_model/{id}', [CarModelController::class, 'update']);
+    Route::delete('car_model/{id}', [CarModelController::class, 'destroy']);
+    Route::patch('car_model/{id}/mark', [CarModelController::class, 'setMark']);
+    Route::patch('car_model/{id}/type', [CarModelController::class, 'setType']);
+    Route::patch('car_model/{id}/fuel', [CarModelController::class, 'setFuelType']);
+    Route::patch('car_model/{id}/gearbox', [CarModelController::class, 'setGearBox']);
 
     Route::get('rent', [RentController::class, 'index']);
     Route::get('rent/{id}', [RentController::class, 'show']);

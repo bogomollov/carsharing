@@ -32,12 +32,9 @@ class Car extends Model
         'location',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => CarsStatus::class,
-        ];
-    }
+    protected $casts = [
+        'status' => CarsStatus::class,
+    ];
 
     protected function serializeDate(DateTimeInterface $date)
     {

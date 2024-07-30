@@ -1593,14 +1593,14 @@
                 }
             }
         },
-        "/car_manufacturer": {
+        "/car_mark": {
             "get": {
                 "tags": [
                     "Машины"
                 ],
-                "summary": "Получить всех производителей ТС",
-                "description": "Получить список производителей ТС",
-                "operationId": "bb39f9d96cd8371093e9a188ceadfa16",
+                "summary": "Получить все марки ТС",
+                "description": "Получить список марок ТС",
+                "operationId": "44e45da892cb9f0c4fc8f850b4253cce",
                 "responses": {
                     "200": {
                         "description": "Успех",
@@ -1609,7 +1609,1111 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/CarManufacturerAll"
+                                            "$ref": "#/components/schemas/CarMarkAll"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Создать марку ТС",
+                "description": "Создает новую марку ТС и возвращает ее",
+                "operationId": "26bc0e54e6be017ee03c4abe54973221",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarMarkRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarMarkChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_mark/{id}": {
+            "get": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Получить производителя ТС",
+                "description": "Получает производителя ТС по идентификатору и возвращает его",
+                "operationId": "ca2074873e945d8e96d931bfc045ca15",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор производителя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarMarkId"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить марку ТС",
+                "description": "Обновляет запись о марке ТС и возвращает ее",
+                "operationId": "7a276761c17572c130626e261bf8bfcf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Существующий идентификатор марки ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarMarkRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarMarkChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Удалить марку ТС",
+                "description": "Удаляет запись о марке ТС",
+                "operationId": "6ccaaecb590b7aa57a36b74ae14aa163",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор марки ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarMarkChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model": {
+            "get": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Получить все модели ТС",
+                "description": "Получить список моделей ТС",
+                "operationId": "367cc04315fead0971150420559e628a",
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelAll"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Создать модель ТС",
+                "description": "Создает новую модель ТС и возвращает ее",
+                "operationId": "6851f699a1f42b2d590238e231d10b0d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model/{id}": {
+            "get": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Получить модель ТС",
+                "description": "Получает модель ТС по идентификатору и возвращает его",
+                "operationId": "6acee4360d1f304c0958a2fb9109233a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelId"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить модель ТС",
+                "description": "Обновляет запись о модели ТС и возвращает ее",
+                "operationId": "f254dd92adc60c48fae24e6c7d3ef817",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Существующий идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Удалить модель ТС",
+                "description": "Удаляет запись о модели ТС",
+                "operationId": "6e81a7da5101a04d433226efa2f6cb2d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model/{id}/mark": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить марку ТС",
+                "description": "Обновляет марку ТС",
+                "operationId": "8696e6128719f6802701ca757988b14c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelMark"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model/{id}/type": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить тип кузова у модели ТС",
+                "description": "Обновляет тип кузова у модели ТС",
+                "operationId": "b60ecef45427c9cd961d5ca3409e4339",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelType"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model/{id}/fuel": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить тип топлива у модели ТС",
+                "description": "Обновляет тип топлива у модели ТС",
+                "operationId": "eefa0c0c49e3458ad3a1117bcee1f466",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelFuelType"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car_model/{id}/gearbox": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить тип коробки передач у модели ТС",
+                "description": "Обновляет тип коробки передач у модели ТС",
+                "operationId": "e9cee412a09aff3a1a17a43aff3fa973",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelGearBoxType"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
                                         }
                                     ]
                                 }
@@ -2720,10 +3824,6 @@
             "ArendatorRequest": {
                 "title": "ArendatorRequest",
                 "properties": {
-                    "id": {
-                        "type": "uuid",
-                        "example": "af42801a-70bb-4966-87d6-d53ead3015b5"
-                    },
                     "default_bill_id": {
                         "type": "uuid",
                         "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
@@ -3066,6 +4166,10 @@
                 "properties": {
                     "data": {
                         "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                            },
                             "model_id": {
                                 "type": "uuid",
                                 "example": "0b4932f2-5c19-4de2-9ddc-17ce2375d164"
@@ -3110,8 +4214,8 @@
                 },
                 "type": "object"
             },
-            "CarManufacturerAll": {
-                "title": "CarManufacturerAll",
+            "CarMarkAll": {
+                "title": "CarMarkAll",
                 "properties": {
                     "data": {
                         "type": "array",
@@ -3123,7 +4227,7 @@
                                 },
                                 "name": {
                                     "type": "string",
-                                    "example": "General Motors"
+                                    "example": "Volvo"
                                 }
                             },
                             "type": "object"
@@ -3132,18 +4236,18 @@
                 },
                 "type": "object"
             },
-            "CarManufacturerId": {
-                "title": "CarManufacturerId",
+            "CarMarkId": {
+                "title": "CarMarkId",
                 "properties": {
                     "data": {
                         "properties": {
                             "id": {
                                 "type": "uuid",
-                                "example": "24a0f5c9-0a83-4b79-8bb2-173fa979749b"
+                                "example": "46a4eeeb-e7d7-3d25-aa7a-496a94d44e75"
                             },
                             "name": {
                                 "type": "string",
-                                "example": "General Motors"
+                                "example": "Toyota"
                             }
                         },
                         "type": "object"
@@ -3151,38 +4255,253 @@
                 },
                 "type": "object"
             },
-            "CarModel": {
-                "title": "CarModel",
+            "CarMarkRequest": {
+                "title": "CarMarkRequest",
                 "properties": {
-                    "id": {
-                        "type": "uuid",
-                        "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
-                    },
-                    "mark_id": {
-                        "type": "uuid",
-                        "example": "81591380-f082-4657-b737-9cf8e25fa48a"
-                    },
                     "name": {
                         "type": "string",
-                        "example": "911"
+                        "example": "BMW"
                     }
                 },
                 "type": "object"
             },
-            "CarMark": {
-                "title": "CarMark",
+            "CarMarkChange": {
+                "title": "CarMarkChange",
                 "properties": {
-                    "id": {
-                        "type": "uuid",
-                        "example": "09d92bd9-c054-4495-83cb-3c9bb5ea4c57"
-                    },
-                    "manufacturer_id": {
-                        "type": "uuid",
-                        "example": "a26c1313-c227-4a81-97fa-6f978b5c4996"
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "6c117024-ff60-3020-bf74-dedddabc7dac"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Audi"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelAll": {
+                "title": "CarModelAll",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "uuid",
+                                    "example": "b650e982-2e20-38be-8468-a378dcd2b4cf"
+                                },
+                                "mark_id": {
+                                    "type": "string",
+                                    "example": "a7e3fc62-97ae-3344-89b3-d86483d06afb"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Volvo"
+                                },
+                                "car_type": {
+                                    "type": "string",
+                                    "example": "sedan"
+                                },
+                                "fuel_type": {
+                                    "type": "string",
+                                    "example": "diesel"
+                                },
+                                "door_count": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "seat_count": {
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "gear_box": {
+                                    "type": "string",
+                                    "example": "manual"
+                                },
+                                "engine_power": {
+                                    "type": "integer",
+                                    "example": 140
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelId": {
+                "title": "CarModelId",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "7513ae02-514e-38c9-bfa8-a70c14742d1c"
+                            },
+                            "mark_id": {
+                                "type": "string",
+                                "example": "fbd8d2e1-056e-3f40-adf6-35408b6aba67"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "710"
+                            },
+                            "car_type": {
+                                "type": "string",
+                                "example": "small"
+                            },
+                            "fuel_type": {
+                                "type": "string",
+                                "example": "diesel"
+                            },
+                            "door_count": {
+                                "type": "integer",
+                                "example": 4
+                            },
+                            "seat_count": {
+                                "type": "integer",
+                                "example": 4
+                            },
+                            "gear_box": {
+                                "type": "string",
+                                "example": "automatic"
+                            },
+                            "engine_power": {
+                                "type": "integer",
+                                "example": 300
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelRequest": {
+                "title": "CarModelRequest",
+                "properties": {
+                    "mark_id": {
+                        "type": "string",
+                        "example": "1c1b68db-b6d5-3eaf-b0f2-b0be31c8e397"
                     },
                     "name": {
                         "type": "string",
-                        "example": "Porsche"
+                        "example": "Renegade"
+                    },
+                    "car_type": {
+                        "type": "string",
+                        "example": "sedan"
+                    },
+                    "fuel_type": {
+                        "type": "string",
+                        "example": "gasoline"
+                    },
+                    "door_count": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "seat_count": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "gear_box": {
+                        "type": "string",
+                        "example": "manual"
+                    },
+                    "engine_power": {
+                        "type": "integer",
+                        "example": 220
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelChange": {
+                "title": "CarModelChange",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "example": "da8bdb3f-75b4-33da-9201-c2cbed141eff"
+                            },
+                            "mark_id": {
+                                "type": "string",
+                                "example": "8619b523-32a3-3dda-aab3-cdcc25f9decf"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Gonow"
+                            },
+                            "car_type": {
+                                "type": "string",
+                                "example": "convertible"
+                            },
+                            "fuel_type": {
+                                "type": "string",
+                                "example": "hybrid"
+                            },
+                            "door_count": {
+                                "type": "integer",
+                                "example": 4
+                            },
+                            "seat_count": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "gear_box": {
+                                "type": "string",
+                                "example": "automatic"
+                            },
+                            "engine_power": {
+                                "type": "integer",
+                                "example": 152
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelMark": {
+                "title": "CarModelMark",
+                "properties": {
+                    "mark_id": {
+                        "type": "string",
+                        "example": "cf94810c-2bdb-32d9-99af-ee674c3c57b0"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelType": {
+                "title": "CarModelType",
+                "properties": {
+                    "car_type": {
+                        "type": "string",
+                        "example": "hatchback"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelFuelType": {
+                "title": "CarModelFuelType",
+                "properties": {
+                    "fuel_type": {
+                        "type": "string",
+                        "example": "gasoline"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelGearBoxType": {
+                "title": "CarModelGearBoxType",
+                "properties": {
+                    "gear_box": {
+                        "type": "string",
+                        "example": "manual"
                     }
                 },
                 "type": "object"

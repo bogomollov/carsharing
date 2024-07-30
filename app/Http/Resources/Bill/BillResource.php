@@ -13,7 +13,7 @@ class BillResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray($request) : array
+    public function toArray(Request $request) : array
     {
         return [
             'id' => $this->id,
@@ -27,7 +27,7 @@ class BillResource extends JsonResource
     public function withResponse(Request $request, JsonResponse $response): void
     {
         if (!$request->isMethod('DELETE')) {
-            $response->header('Location', "bill/{$this->id}");
+            $response->header('Location', $request->getRequestUri());
         }
     }
 }

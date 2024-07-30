@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CarsStatus;
 use App\Models\Car;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Car\StoreRequest;
@@ -9,6 +10,9 @@ use App\Http\Requests\Car\UpdateRequest;
 use App\Http\Requests\Car\UpdateStatusRequest;
 use App\Http\Resources\Car\CarResource;
 use App\Services\CarService;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Client\Request as ClientRequest;
+use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
@@ -192,8 +196,7 @@ class CarController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $c = Car::create($request->validated());
-        return CarResource::make($c)->resolve();
+        return new CarResource(Car::create($request->validated()));
     }
 
     /**
@@ -315,10 +318,9 @@ class CarController extends Controller
      *      ),
      * ),
      */
-    public function destroy(Car $id)
+    public function destroy(Car $id, CarService $carService)
     {
-        $id->delete();
-        return new CarResource($id);
+        return $carService->setStatus($id, CarsStatus::Expectation);
     }
 
     /**

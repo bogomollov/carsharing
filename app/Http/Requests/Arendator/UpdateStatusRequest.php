@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Arendator;
 
-use App\Enums\ArendatorsStatus;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateStatusRequest extends FormRequest
@@ -24,7 +22,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required', new EnumValue(ArendatorsStatus::class),
+            'status' => 'required|string',
         ];
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Arendator;
-use App\Models\Bill;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Car;
 
-class BillsSeeder extends Seeder
+class CarSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //Bill::factory()->create();
+        //
     }
 }

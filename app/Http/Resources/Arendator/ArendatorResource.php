@@ -13,7 +13,7 @@ class ArendatorResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray($request) : array
+    public function toArray(Request $request) : array
     {
         return [
             'id' => $this->id,
@@ -31,7 +31,7 @@ class ArendatorResource extends JsonResource
     public function withResponse(Request $request, JsonResponse $response): void
     {
         if (!$request->isMethod('DELETE')) {
-            $response->header('Location', "arendator/{$this->id}");
+            $response->header('Location', $request->getRequestUri());
         }
     }
 }

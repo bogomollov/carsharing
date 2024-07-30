@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RentsStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,12 @@ class Rent extends Model
         'end_datetime',
         'rented_time',
         'total_price',
+    ];
+
+    protected $hidden = ['total_price'];
+
+    protected $casts = [
+        'status' => RentsStatus::class,
     ];
 
     protected function serializeDate(DateTimeInterface $date)

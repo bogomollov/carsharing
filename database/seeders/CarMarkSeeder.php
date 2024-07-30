@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\CarMark;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Arendator;
 
-class ArendatorsSeeder extends Seeder
+class CarMarkSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Arendator::factory()->count(20)->create();
+        CarMark::factory()->create();
     }
 }

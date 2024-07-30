@@ -2,31 +2,27 @@
 
 namespace App\Services;
 
+use App\Enums\ArendatorsStatus;
 use App\Enums\BillsStatus;
 use App\Http\Resources\Arendator\ArendatorResource;
 use App\Models\Arendator;
 use App\Models\Bill;
-use Illuminate\Http\JsonResponse;
-use App\Services\BillService;
 
 class ArendatorService
 {
-    protected $billService;
-
-    public function __construct(BillService $billService) {
-        $this->billService = $billService;
-    }
-
-    public function getStatus($id) : string {
-        return Arendator::find($id)->status;
+    public function getStatus(Arendator $arendator) : string {
+        return $arendator->status;
     }
 
     public function setStatus(Arendator $arendator, $status) {
-        if ($arendator->status == $status) {
-            return response()->json(['error' => "User already has this status"], 422);
+        if ($this->getStatus($arendator) == $status) {
+            return response()->json([
+                'status' => 422,
+                'message' => "Arendator already has '$status' status"
+            ], 422);
         }
-        if ($status == 'deleted') {
-            $arendator->status = $status;
+        elseif ($status == ArendatorsStatus::Deleted) {
+            $arendator->status = ArendatorsStatus::Deleted;
             $arendator->update();
             $arendator->delete();
         }
@@ -45,14 +41,17 @@ class ArendatorService
             BillsStatus::Blocked,
         ];
 
-        if (!$bill) {
-            return response()->json(['error' => "No such payment account exists"], 404);
-        }
         if ($arendator->default_bill_id === $bill_id) {
-            return response()->json(['error' => "Bill with id '$bill' is already the default bill"], 422);
+            return response()->json([
+                'status' => 422,
+                'message' => "Bill with id '$bill_id' is already the default bill"
+            ], 422);
         }
-        if (in_array($bill->status, $badBillStatuses)) {
-            return response()->json(['error' => "Bill with status '$bill->status' cannot be selected as the default bill"], 400);
+        elseif (in_array($bill->status, $badBillStatuses)) {
+            return response()->json([
+                'status' => 400,
+                'message' => "Bill with status '$bill->status' cannot be selected as the default bill"
+            ], 400);
         }
         else {
             $arendator->default_bill_id = $bill_id;

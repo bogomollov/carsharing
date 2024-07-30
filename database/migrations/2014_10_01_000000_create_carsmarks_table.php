@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carsmodels', function (Blueprint $table) {
+        Schema::create('carsmarks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('mark_id')->comment("Идентификатор марки ТС");
-            $table->string('name')->unique()->comment("Название модели ТС");
+            $table->string('name')->unique()->comment("Марка ТС");
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carsmodels');
+        Schema::dropIfExists('carsmarks');
     }
 };

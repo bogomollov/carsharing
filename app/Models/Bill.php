@@ -30,12 +30,9 @@ class Bill extends Model
        'balance',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'status' => BillsStatus::class,
-        ];
-    }
+    protected $casts = [
+        'status' => BillsStatus::class,
+    ];
 
     protected function serializeDate(DateTimeInterface $date)
     {

@@ -25,6 +25,8 @@ class Transaction extends Model
         'modification',
     ];
 
+    protected $hidden = ['modification'];
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

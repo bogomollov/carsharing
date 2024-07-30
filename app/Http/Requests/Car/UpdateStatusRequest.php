@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Car;
 
-use App\Enums\CarsStatus;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateStatusRequest extends FormRequest
@@ -24,7 +22,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', new EnumValue(CarsStatus::class)],
+            'status' => 'required|string',
         ];
     }
 }

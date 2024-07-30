@@ -13,18 +13,23 @@ class BillService
         return $bill->status;
     }
 
-    public function setBillStatus(Bill $bill, $status) {
-        if ($this->getStatus($bill) === $status) {
+    public function setStatus(Bill $bill, $status) {
+        if ($this->getStatus($bill) == $status) {
             return response()->json([
                 'status' => 422,
                 'message' => "Bill already has '$status' status"
             ], 422);
         }
+        elseif ($status == BillsStatus::Closed) {
+            $bill->status = BillsStatus::Closed;
+            $bill->update();
+            $bill->delete();
+        }
         else {
             $bill->status = $status;
             $bill->update();
-            return new BillResource($bill);
         }
+        return new BillResource($bill);
     }
 
     public function updateArendatorsCount($id) {
@@ -37,7 +42,10 @@ class BillService
         $bill = Bill::find($id);
 
         if ($bill->type == $type) {
-            return response()->json(["error" => "This status is already set"], 422);
+            return response()->json([
+                'status' => 422,
+                'message' => "This status is already set"
+            ], 422);
         }
         elseif ($bill->arendators_count > 1)
         {

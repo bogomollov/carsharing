@@ -18,6 +18,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "braces": "^3.0.3",
+        "follow-redirects": "^1.15.6",
         "vue-axios": "^3.5.2"
     }
 }
