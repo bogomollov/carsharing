@@ -11,4 +11,5 @@ final class FuelsType extends Enum
     const Hybrid = 'hybrid';
     const Plugin_Hybrid = 'plugin-hybrid';
     const Electric = 'electric';
+    const Natural_Gas = 'natural-gas';
 }

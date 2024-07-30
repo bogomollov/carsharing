@@ -15,14 +15,14 @@ composer i
 docker exec -it laravel bash
 ```
 
-4. Обновление и установка зависимостей NPM
-```sh
-npm update --save
-```
-
-5. Запуск миграции таблиц БД
+4. Запуск миграции таблиц БД
 ```sh
 php artisan migrate --seed
+```
+
+5. Установка зависимостей NPM
+```sh
+npm i
 ```
 
 6. Запуск Vite
