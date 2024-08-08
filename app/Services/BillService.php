@@ -38,16 +38,10 @@ class BillService
         $bill->update();
     }
 
-    public function updateBillType($id, $type) {
+    public function updateBillType($id) {
         $bill = Bill::find($id);
 
-        if ($bill->type == $type) {
-            return response()->json([
-                'status' => 422,
-                'message' => "This status is already set"
-            ], 422);
-        }
-        elseif ($bill->arendators_count > 1)
+        if ($bill->arendators_count > 1)
         {
             $bill->type = BillsType::Corporated;
             $bill->update();
@@ -64,8 +58,7 @@ class BillService
         return new BillResource($bill);
     }
 
-    public function modificateBalance($id, float $modification) {
-        $bill = Bill::find($id);
+    public function modificateBalance($bill, float $modification) {
         $bill->balance += $modification;
         $bill->update();
     }

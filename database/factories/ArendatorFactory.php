@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\ArendatorsStatus;
-use App\Models\Arendator;
 use App\Models\Bill;
 
 /**
@@ -25,8 +24,11 @@ class ArendatorFactory extends Factory
             'last_name' => fake()->lastName(),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->firstName(),
-            'passport_series' => fake()->unique()->numerify('## ##'),
+            'passport_series' => fake()->numerify('## ##'),
             'passport_number' => fake()->unique()->numerify('######'),
+            'driverlicense_series' =>fake()->numerify('## ##'),
+            'driverlicense_number' => fake()->unique()->numerify('######'),
+            'driverlicense_date' => fake()->date('d.m.Y'),
             'phone' => fake()->unique()->numerify('79########'),
             'status' => ArendatorsStatus::getRandomValue()
         ];

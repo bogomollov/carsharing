@@ -2,7 +2,9 @@
 
 namespace App\Observers;
 
+use App\Models\Bill;
 use App\Models\Transaction;
+use App\Services\BillService;
 use Illuminate\Support\Facades\Cache as Redis;
 
 class TransactionObserver
@@ -13,6 +15,8 @@ class TransactionObserver
     public function created(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
+        $billService = new BillService();
+        $billService->modificateBalance(Bill::find($transaction->bill_id), $transaction->modification);
     }
 
     /**
@@ -22,6 +26,8 @@ class TransactionObserver
     {
         Redis::forget('transaction_index');
         Redis::forget($transaction);
+        $billService = new BillService();
+        $billService->modificateBalance(Bill::find($transaction->bill_id), $transaction->modification);
     }
 
     /**
@@ -31,6 +37,8 @@ class TransactionObserver
     {
         Redis::forget('transaction_index');
         Redis::forget($transaction);
+        $billService = new BillService();
+        $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
 
     /**
@@ -39,6 +47,8 @@ class TransactionObserver
     public function restored(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
+        $billService = new BillService();
+        $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
 
     /**
@@ -47,5 +57,7 @@ class TransactionObserver
     public function forceDeleted(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
+        $billService = new BillService();
+        $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
 }

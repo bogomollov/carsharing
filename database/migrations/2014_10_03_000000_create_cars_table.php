@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignUuid('model_id')->nullable()->references('id')->on('carsmodels')->nullOnDelete()->comment("Идентификатор модели ТС");
             $table->string('status')->comment("Статус ТС");
             $table->unsignedInteger('mileage')->comment("Пробег ТС");
-            $table->string("license_plate")->unique()->comment("Номер ТС");
+            $table->string("license_plate")->unique()->comment("Регистрационный знак ТС")->unique('license_plate');
             $table->string("vin")->unique()->comment("Идентификационный номер ТС");
             $table->string('location')->comment("Координаты текущего местоположения ТС");
-            $table->unsignedInteger('price_minute')->nullable()->comment("Минутная цена аренды");
+            $table->decimal('price_minute',100,2)->nullable()->comment("Минутная цена аренды");
             $table->timestamps();
             $table->softDeletes();
         });

@@ -22,9 +22,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid',
-            'car_id' => 'required|uuid',
-            'arendator_id' => 'required|uuid',
+            'car_id' => 'exists:cars,id|required|uuid',
+            'arendator_id' => 'exists:arendators,id|required|uuid',
             'status' => 'required|string',
             'start_datetime' => 'required|string',
             'end_datetime' => 'required|string',

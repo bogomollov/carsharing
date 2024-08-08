@@ -11,6 +11,7 @@ use App\Http\Requests\Arendator\UpdateRequest;
 use App\Http\Requests\Arendator\UpdateStatusRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
 use App\Services\ArendatorService;
+use App\Services\BillService;
 use Faker\Provider\FakeCarData;
 use Faker\Provider\FakeCarHelper;
 use Illuminate\Http\Request;
@@ -455,6 +456,6 @@ class ArendatorController extends Controller
      *
      */
     public function setStatus(UpdateStatusRequest $request, Arendator $id, ArendatorService $arendatorService) {
-        return $arendatorService->setStatus($id, $request->validated()['status']);
+        return $arendatorService->setStatus($id, $request['status']);
     }
 }

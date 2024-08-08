@@ -22,28 +22,12 @@ use App\Http\Controllers\TransactionController;
 |
 */
 
-// Route::apiResources(['cars' => CarsController::class,'arendators' => ArendatorsController::class]);
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-// Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
-//     Route::post('login', [AuthController::class, 'login']);
-//     Route::post('logout', [AuthController::class, 'logout']);
-//     Route::post('refresh', [AuthController::class, 'refresh']);
-//     Route::post('me', [AuthController::class, 'me']);
-//     Route::get('users', [ArendatorController::class, 'index']);
-//     Route::get('users/{id}', [ArendatorController::class, 'show']);
-//     Route::post('users/create', [ArendatorController::class, 'store']);
-//     Route::put('users/{id}/update', [ArendatorController::class, 'update']);
-//     Route::delete('users/{id}/delete', [ArendatorController::class, 'destroy']);
-//     Route::get('cars', [CarController::class, 'index']);
-//     Route::get('cars/{id}', [CarController::class, 'show']);
-//     Route::post('cars/create', [CarController::class, 'store']);
-//     Route::put('cars/{id}/update', [CarController::class, 'update']);
-//     Route::delete('cars/{id}/delete', [CarController::class, 'destroy']);
-// });
+Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+});
 
 Route::group(['middleware' => 'api'], function () {
     Route::get('arendator', [ArendatorController::class, 'index']);
@@ -87,13 +71,14 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('rent', [RentController::class, 'index']);
     Route::get('rent/{id}', [RentController::class, 'show']);
-    Route::post('rent/create', [RentController::class, 'store']);
-    Route::put('rent/{id}/update', [RentController::class, 'update']);
-    Route::delete('rent/{id}/delete', [RentController::class, 'destroy']);
+    Route::post('rent', [RentController::class, 'store']);
+    Route::put('rent/{id}', [RentController::class, 'update']);
+    Route::delete('rent/{id}', [RentController::class, 'destroy']);
+    Route::patch('rent/{id}', [RentController::class, 'closeRent']);
 
     Route::get('transaction', [TransactionController::class, 'index']);
     Route::get('transaction/{id}', [TransactionController::class, 'show']);
-    Route::post('transaction/create', [TransactionController::class, 'store']);
-    Route::put('transaction/{id}/update', [TransactionController::class, 'update']);
-    Route::delete('transaction/{id}/delete', [TransactionController::class, 'destroy']);
+    Route::post('transaction', [TransactionController::class, 'store']);
+    Route::put('transaction/{id}', [TransactionController::class, 'update']);
+    Route::delete('transaction/{id}', [TransactionController::class, 'destroy']);
 });

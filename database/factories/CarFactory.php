@@ -18,17 +18,16 @@ class CarFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = (new \Faker\Factory())::create();
-        $faker->addProvider(new \Faker\Provider\FakeCar($faker));
+        $this->faker->addProvider(new \Faker\Provider\FakeCar($this->faker));
         return [
             'id' => fake()->uuid(),
             'model_id' => CarModel::factory(),
             'status' => CarsStatus::getRandomValue(),
-            'mileage' => fake()->numberBetween(30000, 100000),
-            'license_plate' => $faker->vehicleRegistration('[A-Z]{1}[0-9]{3}[A-Z]{2} [0-9]{2}'),
-            'vin' => strtoupper($faker->vin),
+            'mileage' => fake()->numberBetween(5000, 500000),
+            'license_plate' => $this->faker->vehicleRegistration('[A-Z]{1}[0-9]{3}[A-Z]{2} [0-9]{2}'),
+            'vin' => strtoupper($this->faker->vin),
             'location' => fake()->randomFloat(2, -35, -50) . ' ' . fake()->randomFloat(2, -35, -50),
-            'price_minute' => fake()->numberBetween(3, 18)
+            'price_minute' => fake()->randomFloat(2, 2, 5)
         ];
     }
 }

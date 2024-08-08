@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('rents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('car_id')->comment("Идентификатор ТС");
-            $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
+            $table->foreignUuid('car_id')->nullable()->constrained('cars')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор ТС");
+            $table->foreignUuid('arendator_id')->nullable()->constrained('arendators')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор арендатора");
             $table->string('status')->comment("Статус аренды");
             $table->dateTime('start_datetime')->nullable()->comment("Дата и время начала аренды");
             $table->dateTime('end_datetime')->nullable()->comment("Дата и время окончания аренды");

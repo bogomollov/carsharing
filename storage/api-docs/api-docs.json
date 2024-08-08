@@ -2875,7 +2875,87 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Rent"
+                                            "$ref": "#/components/schemas/RentAll"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Аренды"
+                ],
+                "summary": "Открыть аренду",
+                "description": "Открывает новую аренду и возвращает её",
+                "operationId": "a69e2de6ea6a1c45c6b2030eb91aa4ee",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/RentOpen"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/RentChange"
                                         }
                                     ]
                                 }
@@ -2955,7 +3035,7 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Rent"
+                                            "$ref": "#/components/schemas/RentId"
                                         }
                                     ]
                                 }
@@ -3005,199 +3085,23 @@
                         }
                     }
                 }
-            }
-        },
-        "/rent/create": {
-            "post": {
-                "tags": [
-                    "Аренды"
-                ],
-                "summary": "Открыть аренду",
-                "description": "Открывает новую аренду и возвращает её",
-                "operationId": "f04e399c825147b1fde2caac47a19442",
-                "parameters": [
-                    {
-                        "name": "car_id",
-                        "in": "path",
-                        "description": "Идентификатор ТС",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "88315283-5248-416f-b788-567b981b6d89"
-                        }
-                    },
-                    {
-                        "name": "arendator_id",
-                        "in": "path",
-                        "description": "Идентификатор арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "324f2c0d-0217-47a5-a3a1-0555d7f10a0a"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/RentOpen"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Успех",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Rent"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Не авторизован",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response401"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response403"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Не найдено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response404"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/rent/{id}/update": {
+            },
             "put": {
                 "tags": [
                     "Аренды"
                 ],
                 "summary": "Обновить аренду",
                 "description": "Обновляет аренду и возвращает её",
-                "operationId": "5d96c342a6cdad62f048578c81f819c9",
+                "operationId": "1da6f84c3115600c23f00652702a63b9",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Существующий идентификатор аренды",
+                        "description": "Идентификатор аренды",
                         "required": true,
                         "schema": {
                             "type": "string",
                             "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
-                        }
-                    },
-                    {
-                        "name": "car_id",
-                        "in": "query",
-                        "description": "Новый идентификатор ТС",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "324f2c0d-0217-47a5-a3a1-0555d7f10a0a"
-                        }
-                    },
-                    {
-                        "name": "arendator_id",
-                        "in": "query",
-                        "description": "Новый идентификатор арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "324f2c0d-0217-47a5-a3a1-0555d7f10a0a"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Новый статус аренды",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "open"
-                        }
-                    },
-                    {
-                        "name": "start_datetime",
-                        "in": "query",
-                        "description": "Новая дата и время начала аренды",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "2024-07-06 19:52:25"
-                        }
-                    },
-                    {
-                        "name": "end_datetime",
-                        "in": "query",
-                        "description": "Новая дата и время окончания аренды",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "2024-07-06 19:52:25"
-                        }
-                    },
-                    {
-                        "name": "rented_time",
-                        "in": "query",
-                        "description": "Новое общее время аренды",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 720
-                        }
-                    },
-                    {
-                        "name": "total_price",
-                        "in": "query",
-                        "description": "Новая итоговая цена аренды",
-                        "required": true,
-                        "schema": {
-                            "type": "numeric",
-                            "example": 8658.32
                         }
                     }
                 ],
@@ -3208,7 +3112,7 @@
                             "schema": {
                                 "allOf": [
                                     {
-                                        "$ref": "#/components/schemas/Rent"
+                                        "$ref": "#/components/schemas/RentRequest"
                                     }
                                 ]
                             }
@@ -3223,7 +3127,7 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Rent"
+                                            "$ref": "#/components/schemas/RentChange"
                                         }
                                     ]
                                 }
@@ -3273,20 +3177,18 @@
                         }
                     }
                 }
-            }
-        },
-        "/rent/{id}/delete": {
+            },
             "delete": {
                 "tags": [
                     "Аренды"
                 ],
-                "summary": "Закрыть аренду",
-                "description": "Закрывает аренду",
-                "operationId": "b84a9c2e9afe4688edd05459ac3f6c48",
+                "summary": "Удалить запись об аренде",
+                "description": "Удаляет запись об аренде и возвращает её",
+                "operationId": "cb255c00aa9019013c9607eb633bc2d9",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "Идентификатор аренды",
                         "required": true,
                         "schema": {
@@ -3303,7 +3205,85 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/RentClose"
+                                            "$ref": "#/components/schemas/RentChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Аренды"
+                ],
+                "summary": "Закрыть аренду",
+                "description": "Закрывает аренду и возвращает её",
+                "operationId": "5eab73b8a1d4cf6533b59636865320d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор аренды",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ff7f36b1-1cab-35b9-9b3f-969bb0e92109"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/RentChange"
                                         }
                                     ]
                                 }
@@ -3371,7 +3351,87 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Transaction"
+                                            "$ref": "#/components/schemas/TransactionAll"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Транзакции"
+                ],
+                "summary": "Создать транзакцию",
+                "description": "Создает новую транзакцию и возвращает её",
+                "operationId": "de78ad9289df9a2132cf6e4aaef4f328",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/TransactionRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/TransactionChange"
                                         }
                                     ]
                                 }
@@ -3451,7 +3511,7 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Transaction"
+                                            "$ref": "#/components/schemas/TransactionId"
                                         }
                                     ]
                                 }
@@ -3501,179 +3561,23 @@
                         }
                     }
                 }
-            }
-        },
-        "/transaction/create": {
-            "post": {
-                "tags": [
-                    "Транзакции"
-                ],
-                "summary": "Создать транзакцию",
-                "description": "Создает новую транзакцию и возвращает её",
-                "operationId": "1ca56c697366694665bd78a005137594",
-                "parameters": [
-                    {
-                        "name": "arendator_id",
-                        "in": "path",
-                        "description": "Идентификатор арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "8f9a9586-4879-39d7-9040-423e5297cbc8"
-                        }
-                    },
-                    {
-                        "name": "bill_id",
-                        "in": "path",
-                        "description": "Идентификатор счета",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
-                        }
-                    },
-                    {
-                        "name": "modification",
-                        "in": "path",
-                        "description": "Изменение баланса",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "-500.00"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/TransactionCreate"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Успех",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Transaction"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Не авторизован",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response401"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Доступ запрещен",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response403"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Не найдено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/Response404"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/transaction/{id}/update": {
+            },
             "put": {
                 "tags": [
                     "Транзакции"
                 ],
                 "summary": "Обновить транзакцию",
                 "description": "Обновляет запись о транзакции и возвращает её",
-                "operationId": "53af45dfdf96830a6076396d82af771a",
+                "operationId": "7874314751de7c31cdd34d7f823efa9a",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Существующий идентификатор транзакции",
+                        "description": "Идентификатор транзакции",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "1bbf9e65-a2ec-46e8-b155-5dac60831817"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "query",
-                        "description": "Новый идентификатор транзакции",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "bf03e5f6-b32c-4c3c-9435-6c4900c5ee22"
-                        }
-                    },
-                    {
-                        "name": "arendator_id",
-                        "in": "query",
-                        "description": "Новый идентификатор арендатора",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
-                        }
-                    },
-                    {
-                        "name": "bill_id",
-                        "in": "query",
-                        "description": "Новый идентификатор счета",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "5z7490a8-f20e-32eb-87f4-3630d5999c0b"
-                        }
-                    },
-                    {
-                        "name": "modification",
-                        "in": "query",
-                        "description": "Новое изменение счета",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "-500.00"
+                            "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
                         }
                     }
                 ],
@@ -3684,7 +3588,7 @@
                             "schema": {
                                 "allOf": [
                                     {
-                                        "$ref": "#/components/schemas/Transaction"
+                                        "$ref": "#/components/schemas/TransactionRequest"
                                     }
                                 ]
                             }
@@ -3699,7 +3603,7 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Transaction"
+                                            "$ref": "#/components/schemas/TransactionChange"
                                         }
                                     ]
                                 }
@@ -3749,16 +3653,14 @@
                         }
                     }
                 }
-            }
-        },
-        "/transaction/{id}/delete": {
+            },
             "delete": {
                 "tags": [
                     "Транзакции"
                 ],
                 "summary": "Удалить транзакцию",
                 "description": "Удаляет транзакцию",
-                "operationId": "78f1e8935c2328e773e5c3107eb59106",
+                "operationId": "22dd471f6a695a94ebe27cca053f86a3",
                 "parameters": [
                     {
                         "name": "id",
@@ -3779,7 +3681,7 @@
                                 "schema": {
                                     "oneOf": [
                                         {
-                                            "$ref": "#/components/schemas/Transaction"
+                                            "$ref": "#/components/schemas/TransactionChange"
                                         }
                                     ]
                                 }
@@ -4626,13 +4528,94 @@
                 },
                 "type": "object"
             },
-            "Rent": {
-                "title": "Rent",
+            "RentAll": {
+                "title": "RentAll",
                 "properties": {
-                    "id": {
-                        "type": "uuid",
-                        "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
-                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "uuid",
+                                    "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                                },
+                                "car_id": {
+                                    "type": "uuid",
+                                    "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                                },
+                                "arendator_id": {
+                                    "type": "uuid",
+                                    "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "open"
+                                },
+                                "start_datetime": {
+                                    "type": "string",
+                                    "example": "2024-07-06 19:52:25"
+                                },
+                                "end_datetime": {
+                                    "type": "string",
+                                    "example": "2024-07-06 19:52:25"
+                                },
+                                "rented_time": {
+                                    "type": "integer",
+                                    "example": 720
+                                },
+                                "total_price": {
+                                    "type": "decimal",
+                                    "example": 8658.32
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "RentId": {
+                "title": "RentId",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                            },
+                            "car_id": {
+                                "type": "uuid",
+                                "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                            },
+                            "arendator_id": {
+                                "type": "uuid",
+                                "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                            },
+                            "status": {
+                                "type": "string",
+                                "example": "open"
+                            },
+                            "start_datetime": {
+                                "type": "string",
+                                "example": "2024-07-06 19:52:25"
+                            },
+                            "end_datetime": {
+                                "type": "string",
+                                "example": "2024-07-06 19:52:25"
+                            },
+                            "rented_time": {
+                                "type": "integer",
+                                "example": 720
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "RentRequest": {
+                "title": "RentRequest",
+                "properties": {
                     "car_id": {
                         "type": "uuid",
                         "example": "40644966-2862-35d0-a7c6-ad87c512625a"
@@ -4664,6 +4647,49 @@
                 },
                 "type": "object"
             },
+            "RentChange": {
+                "title": "RentChange",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                            },
+                            "car_id": {
+                                "type": "uuid",
+                                "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                            },
+                            "arendator_id": {
+                                "type": "uuid",
+                                "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                            },
+                            "status": {
+                                "type": "string",
+                                "example": "open"
+                            },
+                            "start_datetime": {
+                                "type": "string",
+                                "example": "2024-07-06 19:52:25"
+                            },
+                            "end_datetime": {
+                                "type": "string",
+                                "example": "2024-07-06 19:52:25"
+                            },
+                            "rented_time": {
+                                "type": "integer",
+                                "example": 720
+                            },
+                            "total_price": {
+                                "type": "decimal",
+                                "example": 8658.32
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "RentOpen": {
                 "title": "RentOpen",
                 "properties": {
@@ -4688,42 +4714,104 @@
                 },
                 "type": "object"
             },
-            "Transaction": {
-                "title": "Transaction",
+            "TransactionAll": {
+                "title": "TransactionAll",
                 "properties": {
-                    "id": {
-                        "type": "uuid",
-                        "example": "c62bf9d4-865f-49da-ba56-ab4fa7528698"
-                    },
-                    "arendator_id": {
-                        "type": "uuid",
-                        "example": "ae05a42b-9464-43df-83ed-dea6acf36f41"
-                    },
-                    "bill_id": {
-                        "type": "uuid",
-                        "example": "4d380caf-18a7-31e8-93ed-e5d2b5d93251"
-                    },
-                    "modification": {
-                        "type": "decimal",
-                        "example": 200.22
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "uuid",
+                                    "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                                },
+                                "arendator_id": {
+                                    "type": "uuid",
+                                    "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                                },
+                                "bill_id": {
+                                    "type": "uuid",
+                                    "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                                },
+                                "modification": {
+                                    "type": "string",
+                                    "example": "-200.00"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
             },
-            "TransactionCreate": {
-                "title": "TransactionCreate",
+            "TransactionId": {
+                "title": "TransactionId",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                            },
+                            "arendator_id": {
+                                "type": "uuid",
+                                "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                            },
+                            "bill_id": {
+                                "type": "uuid",
+                                "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                            },
+                            "modification": {
+                                "type": "string",
+                                "example": "-200.00"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionRequest": {
+                "title": "TransactionRequest",
                 "properties": {
                     "arendator_id": {
                         "type": "uuid",
-                        "example": "ae05a42b-9464-43df-83ed-dea6acf36f41"
+                        "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
                     },
                     "bill_id": {
                         "type": "uuid",
-                        "example": "4d380caf-18a7-31e8-93ed-e5d2b5d93251"
+                        "example": "40644966-2862-35d0-a7c6-ad87c512625a"
                     },
                     "modification": {
-                        "type": "decimal",
-                        "example": 200.22
+                        "type": "string",
+                        "example": "-200.00"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionChange": {
+                "title": "TransactionChange",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "type": "uuid",
+                                "example": "beceda62-2656-3617-97b9-b686a7d36e3b"
+                            },
+                            "arendator_id": {
+                                "type": "uuid",
+                                "example": "63f081c5-1967-322f-9c2a-7f7b116441fc"
+                            },
+                            "bill_id": {
+                                "type": "uuid",
+                                "example": "40644966-2862-35d0-a7c6-ad87c512625a"
+                            },
+                            "modification": {
+                                "type": "string",
+                                "example": "-200.00"
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -4778,5 +4866,27 @@
                 "scheme": "bearer"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Арендаторы",
+            "description": "Арендаторы"
+        },
+        {
+            "name": "Счета",
+            "description": "Счета"
+        },
+        {
+            "name": "Машины",
+            "description": "Машины"
+        },
+        {
+            "name": "Аренды",
+            "description": "Аренды"
+        },
+        {
+            "name": "Транзакции",
+            "description": "Транзакции"
+        }
+    ]
 }

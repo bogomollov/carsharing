@@ -10,6 +10,12 @@ use App\Models\Bill;
 
 class ArendatorService
 {
+    protected $billService;
+
+    public function __construct(BillService $billService) {
+        $this->billService = $billService;
+    }
+
     public function getStatus(Arendator $arendator) : string {
         return $arendator->status;
     }
@@ -35,19 +41,14 @@ class ArendatorService
 
     public function setDefaultBill(Arendator $arendator, $bill_id) {
         $bill = Bill::find($bill_id);
-        $badBillStatuses = [
-            BillsStatus::Frozen,
-            BillsStatus::Closed,
-            BillsStatus::Blocked,
-        ];
 
-        if ($arendator->default_bill_id === $bill_id) {
+        if ($arendator->default_bill_id == $bill_id) {
             return response()->json([
                 'status' => 422,
                 'message' => "Bill with id '$bill_id' is already the default bill"
             ], 422);
         }
-        elseif (in_array($bill->status, $badBillStatuses)) {
+        elseif ($bill->status != BillsStatus::Open) {
             return response()->json([
                 'status' => 400,
                 'message' => "Bill with status '$bill->status' cannot be selected as the default bill"
@@ -56,6 +57,9 @@ class ArendatorService
         else {
             $arendator->default_bill_id = $bill_id;
             $arendator->update();
+
+            $this->billService->updateArendatorsCount($bill_id);
+            $this->billService->updateBillType($bill_id);
             return new ArendatorResource($arendator);
         }
     }

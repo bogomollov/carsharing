@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('arendator_id')->comment("Идентификатор арендатора");
-            $table->foreignUuid('bill_id')->comment("Идентификатор счёта");
-            $table->decimal('modification',10,2)->comment("Изменение баланса");
+            $table->foreignUuid('arendator_id')->nullable()->constrained('arendators')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор арендатора");
+            $table->foreignUuid('bill_id')->nullable()->constrained('bills')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор счёта");
+            $table->decimal('modification',100,2)->comment("Изменение баланса");
             $table->timestamps();
             $table->softDeletes();
         });

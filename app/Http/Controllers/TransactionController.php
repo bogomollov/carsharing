@@ -8,8 +8,6 @@ use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Services\BillService;
-use App\Services\TransactionService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache as Redis;
 
 class TransactionController extends Controller
@@ -26,7 +24,7 @@ class TransactionController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Transaction")
+     *                  @OA\Schema(ref="#/components/schemas/TransactionAll")
      *              }
      *          )
      *      ),
@@ -90,7 +88,7 @@ class TransactionController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Transaction")
+     *                  @OA\Schema(ref="#/components/schemas/TransactionId")
      *              }
      *          )
      *      ),
@@ -140,46 +138,25 @@ class TransactionController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/transaction/create",
+     *      path="/transaction",
      *      summary="Создать транзакцию",
      *      description="Создает новую транзакцию и возвращает её",
      *      tags={"Транзакции"},
      *      @OA\RequestBody(
-     *          request="TransactionCreate",
+     *          request="TransactionRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/TransactionCreate")
+     *              @OA\Schema(ref="#/components/schemas/TransactionRequest")
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="arendator_id",
-     *          description="Идентификатор арендатора",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="8f9a9586-4879-39d7-9040-423e5297cbc8")
-     *      ),
-     *      @OA\Parameter(
-     *          name="bill_id",
-     *          description="Идентификатор счета",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b")
-     *      ),
-     *      @OA\Parameter(
-     *          name="modification",
-     *          description="Изменение баланса",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="-500.00")
-     *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Transaction")
+     *                  @OA\Schema(ref="#/components/schemas/TransactionChange")
      *              }
      *          )
      *      ),
@@ -213,71 +190,40 @@ class TransactionController extends Controller
      * ),
      *
      */
-    public function store(StoreRequest $request, BillService $billService)
+    public function store(StoreRequest $request)
     {
-        $a = Transaction::create($request->validated());
-        $billService->modificateBalance($request->bill_id, $request->modification);
-        return TransactionResource::make($a)->resolve();
-
+        return new TransactionResource(Transaction::create($request->validated()));
     }
 
     /**
      *
      * @OA\Put(
-     *      path="/transaction/{id}/update",
+     *      path="/transaction/{id}",
      *      summary="Обновить транзакцию",
      *      description="Обновляет запись о транзакции и возвращает её",
      *      tags={"Транзакции"},
      *      @OA\RequestBody(
-     *          request="Transaction",
+     *          request="TransactionRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Transaction")
+     *              @OA\Schema(ref="#/components/schemas/TransactionRequest")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Существующий идентификатор транзакции",
+     *          description="Идентификатор транзакции",
      *          required=true,
      *          in="path",
-     *          @OA\Schema(type="string", example="1bbf9e65-a2ec-46e8-b155-5dac60831817")
-     *      ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Новый идентификатор транзакции",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="bf03e5f6-b32c-4c3c-9435-6c4900c5ee22")
-     *      ),
-     *      @OA\Parameter(
-     *          name="arendator_id",
-     *          description="Новый идентификатор арендатора",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b")
-     *      ),
-     *      @OA\Parameter(
-     *          name="bill_id",
-     *          description="Новый идентификатор счета",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="5z7490a8-f20e-32eb-87f4-3630d5999c0b")
-     *      ),
-     *      @OA\Parameter(
-     *          name="modification",
-     *          description="Новое изменение счета",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="-500.00")
+     *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Transaction")
+     *                  @OA\Schema(ref="#/components/schemas/TransactionChange")
      *              }
      *          )
      *      ),
@@ -311,16 +257,15 @@ class TransactionController extends Controller
      * ),
      *
      */
-    public function update(UpdateRequest $request, Transaction $id, BillService $billService)
+    public function update(UpdateRequest $request, Transaction $id)
     {
         $id->update($request->validated());
-        $billService->modificateBalance(Bill::find($request->bill_id), $request->modification);
         return new TransactionResource($id);
     }
     /**
      *
      * @OA\Delete(
-     *      path="/transaction/{id}/delete",
+     *      path="/transaction/{id}",
      *      summary="Удалить транзакцию",
      *      description="Удаляет транзакцию",
      *      tags={"Транзакции"},
@@ -336,7 +281,7 @@ class TransactionController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Transaction")
+     *                  @OA\Schema(ref="#/components/schemas/TransactionChange")
      *              }
      *          )
      *      ),

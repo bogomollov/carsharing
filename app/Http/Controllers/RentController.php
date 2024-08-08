@@ -7,6 +7,7 @@ use App\Http\Requests\Rent\OpenRequest;
 use App\Models\Rent;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Http\Requests\Rent\UpdateRequest;
+use App\Http\Requests\Rent\UpdateStatusRequest;
 use App\Http\Resources\Rent\RentResource;
 use App\Services\RentService;
 
@@ -24,7 +25,7 @@ class RentController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *                  @OA\Schema(ref="#/components/schemas/RentAll")
      *              }
      *          )
      *      ),
@@ -89,7 +90,7 @@ class RentController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *                  @OA\Schema(ref="#/components/schemas/RentId")
      *              }
      *          )
      *      ),
@@ -139,12 +140,12 @@ class RentController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/rent/create",
+     *      path="/rent",
      *      summary="Открыть аренду",
      *      description="Открывает новую аренду и возвращает её",
      *      tags={"Аренды"},
      *      @OA\RequestBody(
-     *          request="Rent",
+     *          request="RentOpen",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
@@ -152,26 +153,12 @@ class RentController extends Controller
      *          }
      *      )    
      *  ),
-     *      @OA\Parameter(
-     *          name="car_id",
-     *          description="Идентификатор ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="88315283-5248-416f-b788-567b981b6d89")
-     *      ),
-     *      @OA\Parameter(
-     *          name="arendator_id",
-     *          description="Идентификатор арендатора",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
-     *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *                  @OA\Schema(ref="#/components/schemas/RentChange")
      *              }
      *          )
      *      ),
@@ -207,87 +194,39 @@ class RentController extends Controller
      */
     public function store(OpenRequest $request, RentService $rentService)
     {
-        return $rentService->open($request->arendator_id, $request->car_id);
+        $val = $request->validated();
+        return $rentService->open($val['arendator_id'], $val['car_id']);
     }
 
     /**
      *
      * @OA\Put(
-     *      path="/rent/{id}/update",
+     *      path="/rent/{id}",
      *      summary="Обновить аренду",
      *      description="Обновляет аренду и возвращает её",
      *      tags={"Аренды"},
      *      @OA\RequestBody(
-     *          request="Rent",
+     *          request="RentRequest",
      *          required=true,
      *      @OA\JsonContent(
      *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/Rent")
+     *              @OA\Schema(ref="#/components/schemas/RentRequest")
      *          }
      *      )    
      *  ),
      *      @OA\Parameter(
      *          name="id",
-     *          description="Существующий идентификатор аренды",
+     *          description="Идентификатор аренды",
      *          required=true,
      *          in="path",
      *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
-     *      ),
-     *      @OA\Parameter(
-     *          name="car_id",
-     *          description="Новый идентификатор ТС",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
-     *      ),
-     *      @OA\Parameter(
-     *          name="arendator_id",
-     *          description="Новый идентификатор арендатора",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="324f2c0d-0217-47a5-a3a1-0555d7f10a0a")
-     *      ),
-     *      @OA\Parameter(
-     *          name="status",
-     *          description="Новый статус аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="open")
-     *      ),
-     *      @OA\Parameter(
-     *          name="start_datetime",
-     *          description="Новая дата и время начала аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
-     *      ),
-     *      @OA\Parameter(
-     *          name="end_datetime",
-     *          description="Новая дата и время окончания аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="string", example="2024-07-06 19:52:25")
-     *      ),
-     *      @OA\Parameter(
-     *          name="rented_time",
-     *          description="Новое общее время аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="integer", example=720)
-     *      ),
-     *      @OA\Parameter(
-     *          name="total_price",
-     *          description="Новая итоговая цена аренды",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(type="numeric", example=8658.32)
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Rent")
+     *                  @OA\Schema(ref="#/components/schemas/RentChange")
      *              }
      *          )
      *      ),
@@ -329,15 +268,15 @@ class RentController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/rent/{id}/delete",
-     *      summary="Закрыть аренду",
-     *      description="Закрывает аренду",
+     *      path="/rent/{id}",
+     *      summary="Удалить запись об аренде",
+     *      description="Удаляет запись об аренде и возвращает её",
      *      tags={"Аренды"},
      *      @OA\Parameter(
      *          name="id",
      *          description="Идентификатор аренды",
      *          required=true,
-     *          in="query",
+     *          in="path",
      *          @OA\Schema(type="string", example="beceda62-2656-3617-97b9-b686a7d36e3b")
      *      ),
      *      @OA\Response(
@@ -345,7 +284,7 @@ class RentController extends Controller
      *          description="Успех",
      *          @OA\JsonContent(
      *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/RentClose")
+     *                  @OA\Schema(ref="#/components/schemas/RentChange")
      *              }
      *          )
      *      ),
@@ -379,8 +318,66 @@ class RentController extends Controller
      * ),
      *
      */
-    public function destroy(CloseRequest $request, RentService $rentService)
+    public function destroy(Rent $id)
     {
-        return $rentService->close($request->id);
+        $id->delete();
+        return new RentResource($id);
+    }
+
+    /**
+     *
+     * @OA\Patch(
+     *      path="/rent/{id}",
+     *      summary="Закрыть аренду",
+     *      description="Закрывает аренду и возвращает её",
+     *      tags={"Аренды"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор аренды",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ff7f36b1-1cab-35b9-9b3f-969bb0e92109")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/RentChange")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     *
+     */
+    public function closeRent(Rent $id, RentService $rentService) {
+        return $rentService->close($id);
     }
 }

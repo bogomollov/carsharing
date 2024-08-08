@@ -22,9 +22,9 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'arendator_id' => 'required|uuid',
-            'bill_id' => 'required|uuid',
-            'modification' => 'required|numeric',
+            'arendator_id' => 'exists:arendators,id|required|uuid',
+            'bill_id' => 'exists:bills,id|required|uuid',
+            'modification' => 'required|string',
         ];
     }
 }
