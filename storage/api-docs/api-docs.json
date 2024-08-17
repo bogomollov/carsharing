@@ -2483,6 +2483,100 @@
                 }
             }
         },
+        "/car_model/{id}/class": {
+            "patch": {
+                "tags": [
+                    "Машины"
+                ],
+                "summary": "Обновить класс ТС по престижу",
+                "description": "Обновляет класс ТС по престижу",
+                "operationId": "2ce4464b4f6dbb923f1fcfe1cc720a65",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор модели ТС",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/CarModelClass"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/CarModelChange"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response401"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Доступ запрещен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response403"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Не найдено",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/car_model/{id}/type": {
             "patch": {
                 "tags": [
@@ -4283,6 +4377,10 @@
                                     "type": "string",
                                     "example": "Volvo"
                                 },
+                                "car_class": {
+                                    "type": "string",
+                                    "example": "comfort"
+                                },
                                 "car_type": {
                                     "type": "string",
                                     "example": "sedan"
@@ -4339,6 +4437,10 @@
                                 "type": "string",
                                 "example": "710"
                             },
+                            "car_class": {
+                                "type": "string",
+                                "example": "comfort"
+                            },
                             "car_type": {
                                 "type": "string",
                                 "example": "small"
@@ -4387,6 +4489,10 @@
                     "name": {
                         "type": "string",
                         "example": "Renegade"
+                    },
+                    "car_class": {
+                        "type": "string",
+                        "example": "comfort"
                     },
                     "car_type": {
                         "type": "string",
@@ -4440,6 +4546,10 @@
                                 "type": "string",
                                 "example": "Gonow"
                             },
+                            "car_class": {
+                                "type": "string",
+                                "example": "comfort"
+                            },
                             "car_type": {
                                 "type": "string",
                                 "example": "convertible"
@@ -4484,6 +4594,16 @@
                     "mark_id": {
                         "type": "string",
                         "example": "cf94810c-2bdb-32d9-99af-ee674c3c57b0"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelClass": {
+                "title": "CarModelClass",
+                "properties": {
+                    "car_class": {
+                        "type": "string",
+                        "example": "comfort"
                     }
                 },
                 "type": "object"

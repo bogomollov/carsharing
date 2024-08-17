@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\CarsType;
+use App\Enums\CarsClasses;
+use App\Enums\CarsTypes;
 use App\Enums\DrivesType;
 use App\Enums\FuelsType;
 use App\Enums\GearBoxesType;
@@ -26,6 +27,7 @@ class CarModel extends Model
         'id',
         'mark_id',
         'name',
+        'car_class',
         'car_type',
         'fuel_type',
         'door_count',
@@ -35,7 +37,8 @@ class CarModel extends Model
     ];
 
     protected $casts = [
-        'car_type' => CarsType::class,
+        'car_class' => CarsClasses::class,
+        'car_type' => CarsTypes::class,
         'fuel_type' => FuelsType::class,
         'gear_box' => GearBoxesType::class,
         'drive_type' => DrivesType::class,

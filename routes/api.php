@@ -64,6 +64,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::put('car_model/{id}', [CarModelController::class, 'update']);
     Route::delete('car_model/{id}', [CarModelController::class, 'destroy']);
     Route::patch('car_model/{id}/mark', [CarModelController::class, 'setMark']);
+    Route::patch('car_model/{id}/class', [CarModelController::class, 'setClass']);
     Route::patch('car_model/{id}/type', [CarModelController::class, 'setType']);
     Route::patch('car_model/{id}/fuel', [CarModelController::class, 'setFuelType']);
     Route::patch('car_model/{id}/gearbox', [CarModelController::class, 'setGearBox']);

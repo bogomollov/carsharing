@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class CarsType extends Enum
+final class CarsTypes extends Enum
 {
     const Hatchback = 'hatchback';
     const Sedan = 'sedan';

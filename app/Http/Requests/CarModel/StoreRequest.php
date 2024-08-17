@@ -24,6 +24,7 @@ class StoreRequest extends FormRequest
         return [
             'mark_id' => 'exists:carsmarks,id|required|uuid',
             'name' => 'required|string',
+            'car_class' => 'required|string',
             'car_type' => 'required|string',
             'fuel_type' => 'required|string',
             'door_count' => 'required|integer',

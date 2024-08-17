@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CarsClasses;
 use App\Enums\DrivesType;
 use App\Models\CarMark;
 use Faker\Provider\FakeCar;
@@ -29,6 +30,7 @@ class CarModelFactory extends Factory
             'name' => function (array $attributes) {
                 return FakeCarHelper::getRandomElementFromArray(FakeCarData::$brandsWithModels[CarMark::find($attributes['mark_id'])->name]);
             },
+            'car_class' => CarsClasses::getRandomValue(),
             'car_type' => $this->faker->vehicleType,
             'fuel_type' => $this->faker->vehicleFuelType,
             'door_count' => $this->faker->vehicleDoorCount,

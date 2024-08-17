@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('mark_id')->nullable()->references('id')->on('carsmarks')->nullOnDelete()->comment("Идентификатор бренда");
             $table->string('name')->comment("Название модели ТС")->unique('model_name');
+            $table->string('car_class')->comment('Класс ТС по престижу');
             $table->string('car_type')->comment('Тип кузова');
             $table->string('fuel_type')->comment('Тип топлива');
             $table->integer('door_count')->comment('Количество автомобильных дверей');

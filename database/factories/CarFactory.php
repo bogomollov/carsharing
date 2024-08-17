@@ -25,9 +25,9 @@ class CarFactory extends Factory
             'status' => CarsStatus::getRandomValue(),
             'mileage' => fake()->numberBetween(5000, 500000),
             'license_plate' => $this->faker->vehicleRegistration('[A-Z]{1}[0-9]{3}[A-Z]{2} [0-9]{2}'),
-            'vin' => strtoupper($this->faker->vin),
-            'location' => fake()->randomFloat(2, -35, -50) . ' ' . fake()->randomFloat(2, -35, -50),
-            'price_minute' => fake()->randomFloat(2, 2, 5)
+            'vin' => strtoupper($this->faker->unique()->vin),
+            'location' => fake()->unique()->randomFloat(6, 55.70, 55.88) . ' ' . fake()->randomFloat(6, 37.37, 37.58),
+            'price_minute' => fake()->randomFloat(2, 8, 25)
         ];
     }
 }

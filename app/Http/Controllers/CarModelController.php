@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CarModel\StoreRequest;
+use App\Http\Requests\CarModel\UpdateClassRequest;
 use App\Http\Requests\CarModel\UpdateDriveTypeRequest;
 use App\Http\Requests\CarModel\UpdateFuelTypeRequest;
 use App\Http\Requests\CarModel\UpdateGearBoxTypeRequest;
@@ -387,6 +388,73 @@ class CarModelController extends Controller
      */
     public function setMark(UpdateMarkRequest $request, CarModel $id) {
         $id->mark_id = $request->validated()['mark_id'];
+        $id->update();
+        return new CarModelResource($id);
+    }
+
+    /**
+     * 
+     * @OA\Patch(
+     *      path="/car_model/{id}/class",
+     *      summary="Обновить класс ТС по престижу",
+     *      description="Обновляет класс ТС по престижу",
+     *      tags={"Машины"},
+     *      @OA\RequestBody(
+     *          request="CarModelClass",
+     *          required=true,
+     *      @OA\JsonContent(
+     *          allOf={
+     *              @OA\Schema(ref="#/components/schemas/CarModelClass")
+     *          }
+     *      )    
+     *  ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Идентификатор модели ТС",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/CarModelChange")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Не авторизован",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response401")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Доступ запрещен",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response403")
+     *              }
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Не найдено",
+     *          @OA\JsonContent(
+     *              oneOf={
+     *                  @OA\Schema(ref="#/components/schemas/Response404")
+     *              }
+     *          )
+     *      ),
+     * ),
+     */
+    public function setClass(UpdateClassRequest $request, CarModel $id) {
+        $id->car_class = $request->validated()['car_class'];
         $id->update();
         return new CarModelResource($id);
     }

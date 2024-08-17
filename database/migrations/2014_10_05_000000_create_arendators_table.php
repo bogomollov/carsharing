@@ -16,6 +16,8 @@ return new class extends Migration
     {
         Schema::create('arendators', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('email')->unique()->comment("Почта арендатора");
+            $table->string('password')->comment("Пароль арендатора");
             $table->foreignUuid('default_bill_id')->nullable()->constrained('bills')->cascadeOnUpdate()->nullOnDelete()->comment("Выбранный пользователем счет по умолчанию");
             $table->string('last_name')->comment("Фамилия арендатора");
             $table->string('first_name')->comment("Имя арендатора");
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->string('driverlicense_date')->comment("Дата выдачи удостоверения");
             $table->unsignedBigInteger('phone')->comment("Номер телефона")->unique('phone');
             $table->enum('status', ArendatorsStatus::getValues())->default(ArendatorsStatus::Active)->comment("Статус аккаунта");
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

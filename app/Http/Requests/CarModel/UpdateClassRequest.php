@@ -4,7 +4,7 @@ namespace App\Http\Requests\CarModel;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateClassRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mark_id' => 'exists:carsmarks,id|required|uuid',
-            'name' => 'required|string',
             'car_class' => 'required|string',
-            'car_type' => 'required|string',
-            'fuel_type' => 'required|string',
-            'door_count' => 'required|integer',
-            'seat_count' => 'required|integer',
-            'gear_box' => 'required|string',
-            'engine_power' => 'required|integer',
         ];
     }
 }
