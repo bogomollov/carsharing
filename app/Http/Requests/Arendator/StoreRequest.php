@@ -22,6 +22,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'email' => 'required|string',
+            'password' => 'required|string',
             'default_bill_id' => 'exists:bills,id|required|uuid',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
@@ -29,6 +31,9 @@ class StoreRequest extends FormRequest
             'status' => 'required|string',
             'passport_series' => 'required|string',
             'passport_number' => 'required|string',
+            'driverlicense_series' => 'required|string',
+            'driverlicense_number' => 'required|string',
+            'driverlicense_date' => 'required|string',
             'phone' => 'required|integer',
         ];
     }

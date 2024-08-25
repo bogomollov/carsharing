@@ -29,6 +29,9 @@ class Arendator extends Authenticatable implements JWTSubject
         'status',
         'passport_series',
         'passport_number',
+        'driverlicense_series',
+        'driverlicense_number',
+        'driverlicense_date',
         'phone',
     ];
 

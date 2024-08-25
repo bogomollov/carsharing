@@ -1,50 +1,129 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './reset.css';
 
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
+#app {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+:root {
+  --color-white: #ffffff;
+  --color-gray: #dadada;
+  --color-light-gray: #f2f2f2;
+
+  --color-dark: #2e2e2e;
+  --color-dark-gray: #3c3c3c;
+
+  --color-blue: #5181ff;
+  --color-blue-hover: #608CFF;
+  --color-selection: rgb(32%, 51%, 100%, 0.2);
+
+  --color-background: var(--color-white);
+  --color-text: var(--color-dark-gray);
+
+  --text-h1: 69px;
+  --text-weight-h1: 600;
+
+  --text-h3: 44px;
+  --text-h6: 22px;
+  --text-p: 18px;
+
+  --text-weight-default: 500;
+
+  --section-gap: 150px;
+}
+
+::selection, ::-moz-selection {
+  background: var(--color-selection);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-weight: var(--text-weight-h1);
+  color: var(--color-blue);
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: var(--text-weight-default);
+}
+
+h6 {
+  font-size: var(--text-h6);
+  font-weight: var(--text-weight-default);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-dark);
+    --color-text: var(--color-white);
+  }
+}
+
+@media (prefers-color-scheme: white) {
+  :root {
+    --color-background: var(--color-white);
+    --color-text: var(--color-dark);
+  }
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+  border: none;
   margin: 0;
   padding: 0;
-  border: 0;
-  outline: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  box-sizing: border-box;
+h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select {
+  font-family: "Noto Sans", sans-serif;
+  font-style: normal;
+  background-color: transparent;
 }
 
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
+a, input, button {
+  font-size: var(--text-p);
+  font-weight: 500;
 }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+button, input[type="submit"] {
+  display: inline-block;
+  box-shadow: none;
+  background: none;
+  cursor: pointer;
 }
 
-input, select {
-  vertical-align:middle;
+a, a:link, a:visited, a:hover  {
+  text-decoration: none;
 }
 
-nav ul, ol, ul {
-  list-style: none;
+aside, nav, footer, header, section, main {
+	display: block;
+}
+
+ul, ul li {
+	list-style: none;
+}
+
+img, svg {
+	max-width: 100%;
+	height: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+input::-ms-clear {
+	display: none;
+}
+
+input:focus, input:active,
+button:focus, button:active {
+  outline: none;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
 }

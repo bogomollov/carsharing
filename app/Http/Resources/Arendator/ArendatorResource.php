@@ -17,6 +17,8 @@ class ArendatorResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'email' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->email),
+            'password' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->password),
             'default_bill_id' => $this->default_bill_id,
             'last_name' => $this->last_name,
             'first_name' => $this->first_name,
@@ -24,6 +26,9 @@ class ArendatorResource extends JsonResource
             'status' => $this->status,
             'passport_series' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->passport_series),
             'passport_number' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->passport_number),
+            'driverlicense_series' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->driverlicense_series),
+            'driverlicense_number' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->driverlicense_number),
+            'driverlicense_date' => $this->when(in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH']), $this->driverlicense_date),
             'phone' => $this->phone,
         ];
     }
