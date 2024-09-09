@@ -1,6 +1,8 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
+import Button from '@/Components/Button.vue';
+
 defineProps({
     canLogin: {
         type: Boolean,
@@ -21,7 +23,7 @@ defineProps({
             </div>
             <div class="title-down">
                 <h6>Поминутная аренда машины в любой точке города</h6>
-                <button>Начать поездку</button>
+                <Button><Link :href="route('register')">Начать поездку</Link></Button>
             </div>
         </div>
     </GuestLayout>

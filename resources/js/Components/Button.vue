@@ -1,31 +1,60 @@
+<script setup>
+const props = defineProps({
+    color: {
+        type: String,
+        default: 'white',
+    }
+});
+</script>
+
 <template>
-    <button>
+    <button :class="['btn', `btn_${color}`]">
         <slot />
     </button>
 </template>
-<style>
-.blue {
-    background-color: var(--color-blue);
-    color: var(--color-white);
-}
-.blue:hover {
-    background-color: var(--color-blue-hover);
-}
+<style lang="scss">
+.btn {
+    border-radius: 10px;
+    padding: 12px 18px;
+    transition: .2s;
 
-.gray {
-    background-color: var(--color-gray);
-    color: var(--color-dark);
-}
-.gray:hover {
-    background-color: var(--color-light-gray);
-}
+    &_white {
+        background-color: transparent;
+        border: 1px solid var(--color-light-gray);
+        padding: 14px 18px;
+        a {
+            color: var(--color-dark-gray);
+        }
 
-.white-blue {
-    background-color: transparent;
-    color: var(--color-dark);
-}
-.white-blue:hover {
-    background-color: var(--color-blue-hover);
-    color: var(--color-white);
+        &:enabled:hover {
+            background-color: var(--color-blue-hover);
+            border: 1px solid var(--color-blue-hover);
+            a {
+                color: var(--color-white);
+            }
+        }
+    }
+    
+    &_blue {
+        background-color: var(--color-blue);
+        a {
+            color: var(--color-white);
+        }
+
+        &:enabled:hover {
+            background-color: var(--color-blue-hover);
+        }
+    }
+
+    &_gray {
+        background-color: var(--color-light-gray);
+        a {
+            color: var(--color-dark-gray);
+        }
+        
+        &:enabled:hover {
+            background-color: var(--color-gray);
+        }
+    }
 }
 </style>

@@ -1,11 +1,12 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 </script>
 
 <template>
     <header>
-        <Link :href="route('welcome')" class="logo">Drive</Link>
+        <ApplicationLogo />
         <div class="menu">
             <Link :href="route('login')">О нас</Link>
             <Link :href="route('login')">Автопарк</Link>
@@ -13,8 +14,8 @@ import Button from '@/Components/Button.vue';
             <Link :href="route('login')">FAQ</Link>
         </div>
         <div class="auth">
-            <Button class="blue"><Link :href="route('login')">Вход</Link></Button>
-            <Link :href="route('register')">Регистрация</Link>
+            <Button color="gray"><Link :href="route('login')">Войти</Link></Button>
+            <Button color="blue"><Link :href="route('register')">Создать аккаунт</Link></Button>
         </div>
     </header>
     <section class="content">
@@ -41,20 +42,6 @@ header {
   user-select: none;
 }
 
-.logo {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-size: 30px;
-  font-style: normal;
-  color: var(--color-dark);
-  cursor: pointer;
-}
-
-.logo:hover {
-  font-family: "Montserrat Alternates", sans-serif;
-}
-
 .menu {
   display: flex;
   gap: 40px;
@@ -71,6 +58,8 @@ header {
 }
 
 .auth {
+  display: flex;
+  gap: 30px;
   font-size: var(--text-p);
   font-weight: 500;
 }

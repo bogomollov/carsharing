@@ -1,5 +1,4 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/Button.vue';
@@ -18,7 +17,6 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
         <Head title="Confirm Password" />
 
         <div class="mb-4 text-sm text-gray-600">
@@ -39,12 +37,5 @@ const submit = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
-
-            <div class="flex justify-end mt-4">
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Confirm
-                </PrimaryButton>
-            </div>
         </form>
-    </GuestLayout>
 </template>

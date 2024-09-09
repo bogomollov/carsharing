@@ -24,6 +24,7 @@
   --text-weight-h1: 600;
 
   --text-h3: 44px;
+  --text-h4: 35px;
   --text-h6: 22px;
   --text-p: 18px;
 
@@ -93,7 +94,7 @@ button, input[type="submit"] {
   cursor: pointer;
 }
 
-a, a:link, a:visited, a:hover  {
+a, a:link, a:visited, a:hover, a:focus {
   text-decoration: none;
 }
 
