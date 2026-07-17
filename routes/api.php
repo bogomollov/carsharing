@@ -46,6 +46,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::patch('bills/{id}/status', [BillController::class, 'setStatus']);
 
     Route::get('cars', [CarController::class, 'index']);
+    Route::get('cars/positions', [CarController::class, 'positions']);
     Route::get('cars/{id}', [CarController::class, 'show']);
     Route::post('cars', [CarController::class, 'store']);
     Route::put('cars/{id}', [CarController::class, 'update']);

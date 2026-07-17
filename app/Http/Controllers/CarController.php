@@ -387,4 +387,29 @@ class CarController extends Controller
     public function setStatus(UpdateStatusRequest $request, Car $id, CarService $carService) {
         return $carService->setStatus($id, $request->validated()['status']);
     }
+
+    /**
+     *
+     * @OA\Get(
+     *      path="/cars/positions",
+     *      summary="Получить текущие координаты арендованных ТС",
+     *      description="Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте",
+     *      tags={"Машины"},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Успех",
+     *      ),
+     * ),
+     */
+    public function positions()
+    {
+        return Car::query()
+            ->where('status', CarsStatus::Rented)
+            ->get(['id', 'location'])
+            ->map(fn (Car $car) => [
+                'id' => $car->id,
+                'latitude' => $car->latitude,
+                'longitude' => $car->longitude,
+            ]);
+    }
 }

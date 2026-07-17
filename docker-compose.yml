@@ -66,6 +66,38 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    reverb:
+        image: sail-8.4/app
+        container_name: 'reverb'
+        command: php artisan reverb:start --host=0.0.0.0 --port=8080
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${REVERB_SERVER_PORT:-8080}:8080'
+        environment:
+            WWWUSER: '1337'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - laravel
+    cars-simulator:
+        image: sail-8.4/app
+        container_name: 'cars-simulator'
+        command: php artisan cars:simulate-movement
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            WWWUSER: '1337'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - laravel
+            - pgsql
+            - reverb
     rabbitmq:
         image: rabbitmq:3.13.0-management
         container_name: 'rabbitmq'

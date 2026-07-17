@@ -44,4 +44,19 @@ class Car extends Model
     public function car() {
         return $this->belongsTo(Rent::class, 'id', 'car_id');
     }
+
+    public function getLatitudeAttribute(): float
+    {
+        return (float) explode(' ', $this->location)[0];
+    }
+
+    public function getLongitudeAttribute(): float
+    {
+        return (float) explode(' ', $this->location)[1];
+    }
+
+    public function setCoordinates(float $latitude, float $longitude): void
+    {
+        $this->location = "{$latitude} {$longitude}";
+    }
 }
