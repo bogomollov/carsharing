@@ -30,7 +30,7 @@ const submit = () => {
 </script>
 
 <template>
-    <!-- <GuestLayout> -->
+    <GuestLayout>
         <Head title="Авторизация" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -84,5 +84,5 @@ const submit = () => {
             </div>
             
         </form>
-    <!-- </GuestLayout> -->
+    </GuestLayout>
 </template>
