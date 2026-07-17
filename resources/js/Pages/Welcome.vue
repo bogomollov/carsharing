@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import Button from '@/Components/Button.vue';
+import FleetMiniMap from '@/Components/FleetMiniMap.vue';
 
 defineProps({
     canLogin: {
@@ -25,6 +26,7 @@ defineProps({
                 <h6>Поминутная аренда машины в любой точке города</h6>
                 <Button><Link :href="route('register')">Начать поездку</Link></Button>
             </div>
+            <FleetMiniMap />
         </div>
     </GuestLayout>
 </template>
