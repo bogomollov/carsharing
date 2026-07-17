@@ -30,6 +30,10 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'api'], function () {
+    Route::get('cars/positions', [CarController::class, 'positions']);
+});
+
+Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::get('arendators', [ArendatorController::class, 'index']);
     Route::get('arendators/{id}', [ArendatorController::class, 'show']);
     Route::post('arendators', [ArendatorController::class, 'store']);
@@ -46,7 +50,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::patch('bills/{id}/status', [BillController::class, 'setStatus']);
 
     Route::get('cars', [CarController::class, 'index']);
-    Route::get('cars/positions', [CarController::class, 'positions']);
     Route::get('cars/{id}', [CarController::class, 'show']);
     Route::post('cars', [CarController::class, 'store']);
     Route::put('cars/{id}', [CarController::class, 'update']);
