@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'arendators',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'arendators',
         ],
         'api' => [
             'driver' => 'jwt',
@@ -70,6 +70,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'arendators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Arendator::class,
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -98,6 +103,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'arendators' => [
+            'provider' => 'arendators',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
