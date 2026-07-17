@@ -25,7 +25,12 @@ php artisan migrate --seed
 npm i
 ```
 
-6. Запуск Vite
+6. Создание учетной записи администратора
+```sh
+php artisan users:create-admin
+```
+
+7. Запуск Vite
 ```sh
 npm run dev
 ```
