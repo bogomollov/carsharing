@@ -13,6 +13,7 @@ use App\Http\Requests\CarModel\UpdateTypeRequest;
 use App\Http\Resources\CarModel\CarModelResource;
 use App\Models\CarModel;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache as Redis;
 use OpenApi\Attributes as OA;
 
@@ -30,7 +31,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('car_model_index');
         if ($cache) {
@@ -58,7 +59,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(CarModel $id)
+    public function show(CarModel $id): CarModelResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -84,7 +85,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): CarModelResource
     {
         return new CarModelResource(CarModel::create($request->validated()));
     }
@@ -105,7 +106,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, CarModel $id)
+    public function update(UpdateRequest $request, CarModel $id): CarModelResource
     {
         $id->update($request->validated());
         return new CarModelResource($id);
@@ -126,7 +127,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function destroy(CarModel $id)
+    public function destroy(CarModel $id): CarModelResource
     {
         $id->delete();
         return new CarModelResource($id);
@@ -148,7 +149,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setMark(UpdateMarkRequest $request, CarModel $id) {
+    public function setMark(UpdateMarkRequest $request, CarModel $id): CarModelResource {
         $id->mark_id = $request->validated()['mark_id'];
         $id->update();
         return new CarModelResource($id);
@@ -170,7 +171,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setClass(UpdateClassRequest $request, CarModel $id) {
+    public function setClass(UpdateClassRequest $request, CarModel $id): CarModelResource {
         $id->car_class = $request->validated()['car_class'];
         $id->update();
         return new CarModelResource($id);
@@ -192,7 +193,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setType(UpdateTypeRequest $request, CarModel $id) {
+    public function setType(UpdateTypeRequest $request, CarModel $id): CarModelResource {
         $id->car_type = $request->validated()['car_type'];
         $id->update();
         return new CarModelResource($id);
@@ -214,7 +215,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setFuelType(UpdateFuelTypeRequest $request, CarModel $id) {
+    public function setFuelType(UpdateFuelTypeRequest $request, CarModel $id): CarModelResource {
         $id->fuel_type = $request->validated()['fuel_type'];
         $id->update();
         return new CarModelResource($id);
@@ -236,7 +237,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setGearBox(UpdateGearBoxTypeRequest $request, CarModel $id) {
+    public function setGearBox(UpdateGearBoxTypeRequest $request, CarModel $id): CarModelResource {
         $id->gear_box = $request->validated()['gear_box'];
         $id->update();
         return new CarModelResource($id);
@@ -258,7 +259,7 @@ class CarModelController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function setDriveType(UpdateDriveTypeRequest $request, CarModel $id) {
+    public function setDriveType(UpdateDriveTypeRequest $request, CarModel $id): CarModelResource {
         $id->drive_type = $request->validated()['drive_type'];
         $id->update();
         return new CarModelResource($id);

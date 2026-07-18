@@ -536,6 +536,32 @@ use OpenApi\Attributes as OA;
     ],
 )]
 #[OA\Schema(
+    schema: 'Response400',
+    title: 'Response400',
+    properties: [
+        new OA\Property(property: 'status', type: 'integer', example: '400'),
+        new OA\Property(property: 'message', type: 'string', example: 'Bad Request'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'Response422',
+    title: 'Response422',
+    properties: [
+        new OA\Property(property: 'status', type: 'integer', example: '422'),
+        new OA\Property(property: 'message', type: 'string', example: 'Unprocessable Entity'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'CarPositions',
+    title: 'CarPositions',
+    type: 'array',
+    items: new OA\Items(properties: [
+        new OA\Property(property: 'id', type: 'uuid', example: 'ca327b1a-ed73-41c6-afe0-1eca33866ec3'),
+        new OA\Property(property: 'latitude', type: 'number', example: 55.751244),
+        new OA\Property(property: 'longitude', type: 'number', example: 37.618423),
+    ]),
+)]
+#[OA\Schema(
     schema: 'AuthLoginRequest',
     title: 'AuthLoginRequest',
     properties: [

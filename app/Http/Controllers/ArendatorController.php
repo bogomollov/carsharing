@@ -11,7 +11,9 @@ use App\Http\Requests\Arendator\UpdateRequest;
 use App\Http\Requests\Arendator\UpdateStatusRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
 use App\Services\ArendatorService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Attributes as OA;
 
 class ArendatorController extends Controller
@@ -28,7 +30,7 @@ class ArendatorController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('arendator_index');
         if ($cache) {
@@ -56,7 +58,7 @@ class ArendatorController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(Arendator $id)
+    public function show(Arendator $id): ArendatorResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -82,7 +84,7 @@ class ArendatorController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): ArendatorResource
     {
         return new ArendatorResource(Arendator::create($request->validated()));
     }
@@ -103,7 +105,7 @@ class ArendatorController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, Arendator $id)
+    public function update(UpdateRequest $request, Arendator $id): ArendatorResource
     {
         $id->update($request->validated());
         return new ArendatorResource($id);
@@ -122,9 +124,10 @@ class ArendatorController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'Пользователь уже удален', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function destroy(Arendator $id, ArendatorService $arendatorService)
+    public function destroy(Arendator $id, ArendatorService $arendatorService): ArendatorResource|JsonResponse
     {
         return $arendatorService->setStatus($id, ArendatorsStatus::Deleted);
     }
@@ -143,9 +146,11 @@ class ArendatorController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 400, description: 'Счет нельзя выбрать по умолчанию', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response400')])),
+            new OA\Response(response: 422, description: 'Счет уже установлен по умолчанию', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function setDefaultBill(UpdateDefaultBillRequest $request, Arendator $id, ArendatorService $arendatorService) {
+    public function setDefaultBill(UpdateDefaultBillRequest $request, Arendator $id, ArendatorService $arendatorService): ArendatorResource|JsonResponse {
         return $arendatorService->setDefaultBill($id, $request['default_bill_id']);
     }
 
@@ -163,9 +168,10 @@ class ArendatorController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'Статус уже установлен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function setStatus(UpdateStatusRequest $request, Arendator $id, ArendatorService $arendatorService) {
+    public function setStatus(UpdateStatusRequest $request, Arendator $id, ArendatorService $arendatorService): ArendatorResource|JsonResponse {
         return $arendatorService->setStatus($id, $request['status']);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\CarMark\UpdateRequest;
 use App\Http\Resources\CarMark\CarMarkResource;
 use Illuminate\Support\Facades\Cache as Redis;
 use App\Models\CarMark;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Attributes as OA;
 
 class CarMarkController extends Controller
@@ -23,7 +24,7 @@ class CarMarkController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('car_mark_index');
         if ($cache) {
@@ -51,7 +52,7 @@ class CarMarkController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(CarMark $id)
+    public function show(CarMark $id): CarMarkResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -77,7 +78,7 @@ class CarMarkController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): CarMarkResource
     {
         return new CarMarkResource(CarMark::create($request->validated()));
     }
@@ -98,7 +99,7 @@ class CarMarkController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, CarMark $id)
+    public function update(UpdateRequest $request, CarMark $id): CarMarkResource
     {
         $id->update($request->validated());
         return new CarMarkResource($id);
@@ -119,7 +120,7 @@ class CarMarkController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function destroy(CarMark $id)
+    public function destroy(CarMark $id): CarMarkResource
     {
         $id->delete();
         return new CarMarkResource($id);

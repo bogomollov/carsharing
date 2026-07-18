@@ -10,6 +10,8 @@ use App\Http\Requests\Bill\StoreRequest;
 use App\Http\Requests\Bill\UpdateRequest;
 use App\Http\Requests\Bill\UpdateStatusRequest;
 use App\Services\BillService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Attributes as OA;
 
 class BillController extends Controller
@@ -26,7 +28,7 @@ class BillController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('bill_index');
         if ($cache) {
@@ -54,7 +56,7 @@ class BillController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(Bill $id)
+    public function show(Bill $id): BillResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -80,7 +82,7 @@ class BillController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): BillResource
     {
         return new BillResource(Bill::create($request->validated()));
     }
@@ -101,7 +103,7 @@ class BillController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, Bill $id)
+    public function update(UpdateRequest $request, Bill $id): BillResource
     {
         $id->update($request->validated());
         return new BillResource($id);
@@ -120,9 +122,10 @@ class BillController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'Счет уже закрыт', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function destroy(Bill $id, BillService $billService)
+    public function destroy(Bill $id, BillService $billService): BillResource|JsonResponse
     {
         return $billService->setStatus($id, BillsStatus::Closed);
     }
@@ -141,9 +144,10 @@ class BillController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'Статус уже установлен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function setStatus(UpdateStatusRequest $request, Bill $id, BillService $billService) {
+    public function setStatus(UpdateStatusRequest $request, Bill $id, BillService $billService): BillResource|JsonResponse {
         return $billService->setStatus($id, $request['status']);
     }
 }

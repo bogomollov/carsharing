@@ -12,7 +12,10 @@ use App\Http\Resources\Car\CarResource;
 use App\Services\CarService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Client\Request as ClientRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 use OpenApi\Attributes as OA;
 
 class CarController extends Controller
@@ -29,7 +32,7 @@ class CarController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('car_index');
         if ($cache) {
@@ -57,7 +60,7 @@ class CarController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(Car $id)
+    public function show(Car $id): CarResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -83,7 +86,7 @@ class CarController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): CarResource
     {
         return new CarResource(Car::create($request->validated()));
     }
@@ -104,7 +107,7 @@ class CarController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, Car $id)
+    public function update(UpdateRequest $request, Car $id): CarResource
     {
         $id->update($request->validated());
         return new CarResource($id);
@@ -123,9 +126,10 @@ class CarController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'ТС уже в статусе ожидания', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function destroy(Car $id, CarService $carService)
+    public function destroy(Car $id, CarService $carService): CarResource|JsonResponse
     {
         return $carService->setStatus($id, CarsStatus::Expectation);
     }
@@ -144,9 +148,10 @@ class CarController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 422, description: 'Статус уже установлен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response422')])),
         ],
     )]
-    public function setStatus(UpdateStatusRequest $request, Car $id, CarService $carService) {
+    public function setStatus(UpdateStatusRequest $request, Car $id, CarService $carService): CarResource|JsonResponse {
         return $carService->setStatus($id, $request->validated()['status']);
     }
 
@@ -156,10 +161,10 @@ class CarController extends Controller
         description: 'Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте',
         tags: ['Машины'],
         responses: [
-            new OA\Response(response: 200, description: 'Успех'),
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(ref: '#/components/schemas/CarPositions')),
         ],
     )]
-    public function positions()
+    public function positions(): Collection
     {
         return Car::query()
             ->where('status', CarsStatus::Rented)

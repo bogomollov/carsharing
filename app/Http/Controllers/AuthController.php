@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -29,7 +30,7 @@ class AuthController extends Controller
             new OA\Response(response: 401, description: 'Неверные учетные данные', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/AuthLoginError')])),
         ],
     )]
-    public function login()
+    public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
 
@@ -51,7 +52,7 @@ class AuthController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/AuthUnauthenticated')])),
         ],
     )]
-    public function me()
+    public function me(): JsonResponse
     {
         return response()->json(auth('api')->user());
     }
@@ -67,7 +68,7 @@ class AuthController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/AuthUnauthenticated')])),
         ],
     )]
-    public function logout()
+    public function logout(): JsonResponse
     {
         auth('api')->logout();
 
@@ -85,7 +86,7 @@ class AuthController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/AuthUnauthenticated')])),
         ],
     )]
-    public function refresh()
+    public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth('api')->refresh());
     }
@@ -94,10 +95,8 @@ class AuthController extends Controller
      * Get the token array structure.
      *
      * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,

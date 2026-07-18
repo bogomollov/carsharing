@@ -413,6 +413,20 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Пользователь уже удален",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -507,6 +521,34 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Счет нельзя выбрать по умолчанию",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response400"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Счет уже установлен по умолчанию",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -596,6 +638,20 @@
                                     "oneOf": [
                                         {
                                             "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Статус уже установлен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
                                         }
                                     ]
                                 }
@@ -1189,6 +1245,20 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Счет уже закрыт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1278,6 +1348,20 @@
                                     "oneOf": [
                                         {
                                             "$ref": "#/components/schemas/Response404"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Статус уже установлен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
                                         }
                                     ]
                                 }
@@ -1681,6 +1765,20 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "ТС уже в статусе ожидания",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1775,6 +1873,20 @@
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "description": "Статус уже установлен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response422"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1789,7 +1901,14 @@
                 "operationId": "99e815e052008383fa5cdbb7d59f141d",
                 "responses": {
                     "200": {
-                        "description": "Успех"
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CarPositions"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -3626,6 +3745,20 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "У арендатора нет счета по умолчанию",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Response400"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -5234,6 +5367,55 @@
                     }
                 },
                 "type": "object"
+            },
+            "Response400": {
+                "title": "Response400",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": "400"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Bad Request"
+                    }
+                },
+                "type": "object"
+            },
+            "Response422": {
+                "title": "Response422",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "example": "422"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Unprocessable Entity"
+                    }
+                },
+                "type": "object"
+            },
+            "CarPositions": {
+                "title": "CarPositions",
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "uuid",
+                            "example": "ca327b1a-ed73-41c6-afe0-1eca33866ec3"
+                        },
+                        "latitude": {
+                            "type": "number",
+                            "example": 55.751244
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "example": 37.618423
+                        }
+                    },
+                    "type": "object"
+                }
             },
             "AuthLoginRequest": {
                 "title": "AuthLoginRequest",

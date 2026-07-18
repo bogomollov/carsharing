@@ -10,6 +10,8 @@ use App\Http\Requests\Rent\UpdateRequest;
 use App\Http\Requests\Rent\UpdateStatusRequest;
 use App\Http\Resources\Rent\RentResource;
 use App\Services\RentService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use OpenApi\Attributes as OA;
 
 class RentController extends Controller
@@ -26,7 +28,7 @@ class RentController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('rent_index');
         if ($cache) {
@@ -54,7 +56,7 @@ class RentController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(Rent $id)
+    public function show(Rent $id): RentResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -80,7 +82,7 @@ class RentController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(OpenRequest $request, RentService $rentService)
+    public function store(OpenRequest $request, RentService $rentService): RentResource|JsonResponse
     {
         $val = $request->validated();
         return $rentService->open($val['arendator_id'], $val['car_id']);
@@ -102,7 +104,7 @@ class RentController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, Rent $id)
+    public function update(UpdateRequest $request, Rent $id): RentResource
     {
         $id->update($request->validated());
         return new RentResource($id);
@@ -123,7 +125,7 @@ class RentController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function destroy(Rent $id)
+    public function destroy(Rent $id): RentResource
     {
         $id->delete();
         return new RentResource($id);
@@ -142,9 +144,10 @@ class RentController extends Controller
             new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
             new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+            new OA\Response(response: 400, description: 'У арендатора нет счета по умолчанию', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response400')])),
         ],
     )]
-    public function closeRent(Rent $id, RentService $rentService) {
+    public function closeRent(Rent $id, RentService $rentService): RentResource|JsonResponse {
         return $rentService->close($id);
     }
 }

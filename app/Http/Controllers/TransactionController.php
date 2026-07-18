@@ -8,6 +8,7 @@ use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Bill;
 use App\Models\Transaction;
 use App\Services\BillService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache as Redis;
 use OpenApi\Attributes as OA;
 
@@ -25,7 +26,7 @@ class TransactionController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $cache = Redis::get('transaction_index');
         if ($cache) {
@@ -53,7 +54,7 @@ class TransactionController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function show(Transaction $id)
+    public function show(Transaction $id): TransactionResource
     {
         $cache = Redis::get($id->id);
         if ($cache) {
@@ -79,7 +80,7 @@ class TransactionController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): TransactionResource
     {
         return new TransactionResource(Transaction::create($request->validated()));
     }
@@ -100,7 +101,7 @@ class TransactionController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function update(UpdateRequest $request, Transaction $id)
+    public function update(UpdateRequest $request, Transaction $id): TransactionResource
     {
         $id->update($request->validated());
         return new TransactionResource($id);
@@ -121,7 +122,7 @@ class TransactionController extends Controller
             new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
         ],
     )]
-    public function destroy(Transaction $id)
+    public function destroy(Transaction $id): TransactionResource
     {
         $id->delete();
         return new TransactionResource($id);
