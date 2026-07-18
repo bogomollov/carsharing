@@ -28,7 +28,7 @@ class CarObserver
     public function updated(Car $car): void
     {
         Redis::forget('car_index');
-        Redis::forget($car);
+        Redis::forget($car->id);
     }
 
     /**
@@ -37,7 +37,7 @@ class CarObserver
     public function deleted(Car $car): void
     {
         Redis::forget('car_index');
-        Redis::forget($car);
+        Redis::forget($car->id);
     }
 
     /**

@@ -33,7 +33,9 @@ class CarModel extends Model
         'door_count',
         'seat_count',
         'gear_box',
+        'drive_type',
         'engine_power',
+        'year',
     ];
 
     protected $casts = [

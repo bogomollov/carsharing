@@ -23,7 +23,7 @@ class Car extends Model
         'status',
         'mileage',
         'license_plate',
-        'year',
+        'vin',
         'location',
         'price_minute',
     ];

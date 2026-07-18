@@ -30,7 +30,9 @@ class UpdateRequest extends FormRequest
             'door_count' => 'required|integer',
             'seat_count' => 'required|integer',
             'gear_box' => 'required|string',
+            'drive_type' => 'required|string',
             'engine_power' => 'required|integer',
+            'year' => 'required|integer',
         ];
     }
 }

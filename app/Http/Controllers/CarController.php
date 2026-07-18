@@ -129,13 +129,13 @@ class CarController extends Controller
      */
     public function show(Car $id)
     {
-        $cache = Redis::get($id);
+        $cache = Redis::get($id->id);
         if ($cache) {
             return $cache;
         }
         else {
             $cache = new CarResource($id);
-            Redis::put($id, $cache, now()->addMinutes(10));
+            Redis::put($id->id, $cache, now()->addMinutes(10));
             return $cache;
         }
     }

@@ -124,13 +124,13 @@ class TransactionController extends Controller
      */
     public function show(Transaction $id)
     {
-        $cache = Redis::get($id);
+        $cache = Redis::get($id->id);
         if ($cache) {
             return $cache;
         }
         else {
             $cache = new TransactionResource($id);
-            Redis::put($id, $cache, now()->addMinutes(10));
+            Redis::put($id->id, $cache, now()->addMinutes(10));
             return $cache;
         }
     }

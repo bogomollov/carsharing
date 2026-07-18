@@ -128,13 +128,13 @@ class ArendatorController extends Controller
      */
     public function show(Arendator $id)
     {
-        $cache = Redis::get($id);
+        $cache = Redis::get($id->id);
         if ($cache) {
             return $cache;
         }
         else {
             $cache = new ArendatorResource($id);
-            Redis::put($id, $cache, now()->addMinutes(10));
+            Redis::put($id->id, $cache, now()->addMinutes(10));
             return $cache;
         }
     }
