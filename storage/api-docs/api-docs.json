@@ -605,6 +605,196 @@
                 }
             }
         },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Аутентификация"
+                ],
+                "summary": "Войти",
+                "description": "Аутентифицирует пользователя по email и паролю и возвращает JWT",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "$ref": "#/components/schemas/AuthLoginRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthToken"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Неверные учетные данные",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthLoginError"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/me": {
+            "post": {
+                "tags": [
+                    "Аутентификация"
+                ],
+                "summary": "Получить текущего пользователя",
+                "description": "Возвращает пользователя, соответствующего переданному JWT",
+                "operationId": "d80381cd6c0b37d694845cb9058dbe5e",
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthUnauthenticated"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Аутентификация"
+                ],
+                "summary": "Выйти",
+                "description": "Аннулирует переданный JWT",
+                "operationId": "0d29c740dc06d77602af8095bf4654cc",
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthLogoutResponse"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthUnauthenticated"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Аутентификация"
+                ],
+                "summary": "Обновить токен",
+                "description": "Обновляет переданный JWT и возвращает новый",
+                "operationId": "f6c9683ed975ace7d035a09e6e2a9332",
+                "responses": {
+                    "200": {
+                        "description": "Успех",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthToken"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Не авторизован",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthUnauthenticated"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/bills": {
             "get": {
                 "tags": [
@@ -5044,6 +5234,90 @@
                     }
                 },
                 "type": "object"
+            },
+            "AuthLoginRequest": {
+                "title": "AuthLoginRequest",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "admin@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthToken": {
+                "title": "AuthToken",
+                "properties": {
+                    "access_token": {
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                    },
+                    "token_type": {
+                        "type": "string",
+                        "example": "bearer"
+                    },
+                    "expires_in": {
+                        "type": "integer",
+                        "example": 3600
+                    }
+                },
+                "type": "object"
+            },
+            "AuthUser": {
+                "title": "AuthUser",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "admin@example.com"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "example": "2024-07-06 19:52:25"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthLoginError": {
+                "title": "AuthLoginError",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthLogoutResponse": {
+                "title": "AuthLogoutResponse",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully logged out"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthUnauthenticated": {
+                "title": "AuthUnauthenticated",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Unauthenticated."
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -5058,6 +5332,10 @@
         {
             "name": "Арендаторы",
             "description": "Арендаторы"
+        },
+        {
+            "name": "Аутентификация",
+            "description": "Аутентификация"
         },
         {
             "name": "Счета",

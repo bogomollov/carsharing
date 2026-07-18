@@ -535,6 +535,54 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'message', type: 'string', example: 'Not Found'),
     ],
 )]
+#[OA\Schema(
+    schema: 'AuthLoginRequest',
+    title: 'AuthLoginRequest',
+    properties: [
+        new OA\Property(property: 'email', type: 'string', example: 'admin@example.com'),
+        new OA\Property(property: 'password', type: 'string', example: 'password'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'AuthToken',
+    title: 'AuthToken',
+    properties: [
+        new OA\Property(property: 'access_token', type: 'string', example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...'),
+        new OA\Property(property: 'token_type', type: 'string', example: 'bearer'),
+        new OA\Property(property: 'expires_in', type: 'integer', example: 3600),
+    ],
+)]
+#[OA\Schema(
+    schema: 'AuthUser',
+    title: 'AuthUser',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'name', type: 'string', example: 'Admin'),
+        new OA\Property(property: 'email', type: 'string', example: 'admin@example.com'),
+        new OA\Property(property: 'email_verified_at', type: 'string', example: '2024-07-06 19:52:25'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'AuthLoginError',
+    title: 'AuthLoginError',
+    properties: [
+        new OA\Property(property: 'error', type: 'string', example: 'Unauthorized'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'AuthLogoutResponse',
+    title: 'AuthLogoutResponse',
+    properties: [
+        new OA\Property(property: 'message', type: 'string', example: 'Successfully logged out'),
+    ],
+)]
+#[OA\Schema(
+    schema: 'AuthUnauthenticated',
+    title: 'AuthUnauthenticated',
+    properties: [
+        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.'),
+    ],
+)]
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
