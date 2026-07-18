@@ -45,6 +45,6 @@ defineProps({
     gap: 30px;
 }
 h6 {
-    color: var(--color-dark-gray);
+    color: var(--color-text);
 }
 </style>

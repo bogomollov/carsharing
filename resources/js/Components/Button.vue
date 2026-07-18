@@ -23,7 +23,7 @@ const props = defineProps({
         border: 1px solid var(--color-light-gray);
         padding: 14px 18px;
         a {
-            color: var(--color-dark-gray);
+            color: var(--color-text);
         }
 
         &:enabled:hover {

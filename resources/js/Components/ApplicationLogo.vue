@@ -13,7 +13,7 @@ import { Link } from '@inertiajs/vue3';
   font-weight: 500;
   font-size: var(--text-h4);
   font-style: normal;
-  color: var(--color-dark);
+  color: var(--color-text);
   cursor: pointer;
 
   &:hover {

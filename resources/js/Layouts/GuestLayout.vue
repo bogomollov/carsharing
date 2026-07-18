@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import ThemeButton from '@/Components/ThemeButton.vue';
 </script>
 
 <template>
@@ -14,6 +15,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
             <Link :href="route('login')">FAQ</Link>
         </div>
         <div class="auth">
+            <ThemeButton />
             <Button color="gray"><Link :href="route('login')">Войти</Link></Button>
             <Button color="blue"><Link :href="route('register')">Создать аккаунт</Link></Button>
         </div>
@@ -50,11 +52,11 @@ header {
 }
 
 .menu a {
-  color: var(--color-dark-gray);
+  color: var(--color-text);
 }
 
 .menu a:hover {
-  color: var(--color-dark);
+  color: var(--color-blue);
 }
 
 .auth {
