@@ -102,7 +102,7 @@ services:
     cars-location-consumer:
         image: sail-8.4/app
         container_name: 'cars-location-consumer'
-        command: php artisan queue:work rabbitmq --queue=api --tries=3 --sleep=1
+        command: sh -c "php artisan rabbitmq:queue-declare api rabbitmq && php artisan queue:work rabbitmq --queue=api --tries=3 --sleep=1"
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         environment:
