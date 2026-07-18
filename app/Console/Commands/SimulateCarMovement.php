@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\CarsStatus;
-use App\Events\CarMoved;
+use App\Jobs\UpdateCarLocation;
 use App\Models\Car;
 use Illuminate\Console\Command;
 
@@ -13,7 +13,7 @@ class SimulateCarMovement extends Command
                             {--interval=2 : Seconds to wait between movement ticks}
                             {--step=0.0006 : Maximum degrees a car can drift per tick}';
 
-    protected $description = 'Continuously nudges every rented car\'s virtual coordinates and broadcasts the new position';
+    protected $description = 'Continuously nudges every rented car\'s virtual coordinates and publishes the new position to RabbitMQ';
 
     private const LAT_MIN = 55.70;
     private const LAT_MAX = 55.88;
@@ -25,7 +25,7 @@ class SimulateCarMovement extends Command
         $interval = (int) $this->option('interval');
         $step = (float) $this->option('step');
 
-        $this->info("Simulating car movement every {$interval}s (max step {$step}°). Press Ctrl+C to stop.");
+        $this->info("Publishing car movement every {$interval}s (max step {$step}°) to RabbitMQ. Press Ctrl+C to stop.");
 
         while (true) {
             Car::query()
@@ -34,10 +34,7 @@ class SimulateCarMovement extends Command
                     $latitude = $this->drift($car->latitude, $step, self::LAT_MIN, self::LAT_MAX);
                     $longitude = $this->drift($car->longitude, $step, self::LNG_MIN, self::LNG_MAX);
 
-                    $car->setCoordinates($latitude, $longitude);
-                    $car->saveQuietly();
-
-                    event(new CarMoved($car));
+                    UpdateCarLocation::dispatch($car->id, $latitude, $longitude)->onConnection('rabbitmq');
                 });
 
             sleep($interval);
