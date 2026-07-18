@@ -18,7 +18,7 @@ class ArendatorController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/arendator",
+     *      path="/arendators",
      *      summary="Получить всех пользователей",
      *      description="Получить пользователей",
      *      tags={"Арендаторы"},
@@ -76,7 +76,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Get(
-     *      path="/arendator/{id}",
+     *      path="/arendators/{id}",
      *      summary="Получить пользователя",
      *      description="Получает пользователя по идентификатору и возвращает его",
      *      tags={"Арендаторы"},
@@ -142,7 +142,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/arendator",
+     *      path="/arendators",
      *      summary="Создать пользователя",
      *      description="Создает нового пользователя и возвращает его",
      *      tags={"Арендаторы"},
@@ -202,7 +202,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Put(
-     *      path="/arendator/{id}",
+     *      path="/arendators/{id}",
      *      summary="Обновить пользователя",
      *      description="Обновляет запись о пользователе и возвращает его",
      *      tags={"Арендаторы"},
@@ -269,7 +269,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/arendator/{id}",
+     *      path="/arendators/{id}",
      *      summary="Удалить пользователя",
      *      description="Удаляет запись о пользователе",
      *      tags={"Арендаторы"},
@@ -327,7 +327,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Patch(
-     *      path="/arendator/{id}/bill",
+     *      path="/arendators/{id}/bill",
      *      summary="Изменить счет по умолчанию",
      *      description="Изменяет счет по умолчанию у арендатора",
      *      tags={"Арендаторы"},
@@ -393,7 +393,7 @@ class ArendatorController extends Controller
     /**
      *
      * @OA\Patch(
-     *      path="/arendator/{id}/status",
+     *      path="/arendators/{id}/status",
      *      summary="Изменить статус пользователя",
      *      description="Изменяет статус у пользователя",
      *      tags={"Арендаторы"},

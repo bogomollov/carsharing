@@ -16,7 +16,7 @@ class BillController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/bill",
+     *      path="/bills",
      *      summary="Получить все счета",
      *      description="Получить счета",
      *      tags={"Счета"},
@@ -74,7 +74,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Get(
-     *      path="/bill/{id}",
+     *      path="/bills/{id}",
      *      summary="Получить счет",
      *      description="Получает счет по идентификатору и возвращает его",
      *      tags={"Счета"},
@@ -140,7 +140,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/bill",
+     *      path="/bills",
      *      summary="Создать счет",
      *      description="Создает новый счет и возвращает его",
      *      tags={"Счета"},
@@ -200,7 +200,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Put(
-     *      path="/bill/{id}",
+     *      path="/bills/{id}",
      *      summary="Обновить счет",
      *      description="Обновляет данные счета и возвращает его",
      *      tags={"Счета"},
@@ -267,7 +267,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/bill/{id}",
+     *      path="/bills/{id}",
      *      summary="Удалить счет",
      *      description="Удаляет запись о счете",
      *      tags={"Счета"},
@@ -325,7 +325,7 @@ class BillController extends Controller
     /**
      *
      * @OA\Patch(
-     *      path="/bill/{id}/status",
+     *      path="/bills/{id}/status",
      *      summary="Обновить статус счета",
      *      description="Обновляет статус счета",
      *      tags={"Счета"},

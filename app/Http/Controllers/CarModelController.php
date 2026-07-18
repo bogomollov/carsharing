@@ -20,7 +20,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car_model",
+     *      path="/car-models",
      *      summary="Получить все модели ТС",
      *      description="Получить список моделей ТС",
      *      tags={"Машины"},
@@ -78,7 +78,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car_model/{id}",
+     *      path="/car-models/{id}",
      *      summary="Получить модель ТС",
      *      description="Получает модель ТС по идентификатору и возвращает его",
      *      tags={"Машины"},
@@ -144,7 +144,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Post(
-     *      path="/car_model",
+     *      path="/car-models",
      *      summary="Создать модель ТС",
      *      description="Создает новую модель ТС и возвращает ее",
      *      tags={"Машины"},
@@ -203,7 +203,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Put(
-     *      path="/car_model/{id}",
+     *      path="/car-models/{id}",
      *      summary="Обновить модель ТС",
      *      description="Обновляет запись о модели ТС и возвращает ее",
      *      tags={"Машины"},
@@ -270,7 +270,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Delete(
-     *      path="/car_model/{id}",
+     *      path="/car-models/{id}",
      *      summary="Удалить модель ТС",
      *      description="Удаляет запись о модели ТС",
      *      tags={"Машины"},
@@ -328,7 +328,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/mark",
+     *      path="/car-models/{id}/mark",
      *      summary="Обновить марку ТС",
      *      description="Обновляет марку ТС",
      *      tags={"Машины"},
@@ -395,7 +395,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/class",
+     *      path="/car-models/{id}/class",
      *      summary="Обновить класс ТС по престижу",
      *      description="Обновляет класс ТС по престижу",
      *      tags={"Машины"},
@@ -462,7 +462,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/type",
+     *      path="/car-models/{id}/type",
      *      summary="Обновить тип кузова у модели ТС",
      *      description="Обновляет тип кузова у модели ТС",
      *      tags={"Машины"},
@@ -529,7 +529,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/fuel",
+     *      path="/car-models/{id}/fuel",
      *      summary="Обновить тип топлива у модели ТС",
      *      description="Обновляет тип топлива у модели ТС",
      *      tags={"Машины"},
@@ -596,7 +596,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/gearbox",
+     *      path="/car-models/{id}/gearbox",
      *      summary="Обновить тип коробки передач у модели ТС",
      *      description="Обновляет тип коробки передач у модели ТС",
      *      tags={"Машины"},
@@ -663,7 +663,7 @@ class CarModelController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car_model/{id}/drive",
+     *      path="/car-models/{id}/drive",
      *      summary="Обновить тип привода у модели ТС",
      *      description="Обновляет тип привода у модели ТС",
      *      tags={"Машины"},

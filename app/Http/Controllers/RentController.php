@@ -16,7 +16,7 @@ class RentController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/rent",
+     *      path="/rents",
      *      summary="Получить все аренды",
      *      description="Получить аренды",
      *      tags={"Аренды"},
@@ -74,7 +74,7 @@ class RentController extends Controller
     /**
      *
      * @OA\Get(
-     *      path="/rent/{id}",
+     *      path="/rents/{id}",
      *      summary="Получить аренду",
      *      description="Получает аренду по идентификатору и возвращает его",
      *      tags={"Аренды"},
@@ -140,7 +140,7 @@ class RentController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/rent",
+     *      path="/rents",
      *      summary="Открыть аренду",
      *      description="Открывает новую аренду и возвращает её",
      *      tags={"Аренды"},
@@ -201,7 +201,7 @@ class RentController extends Controller
     /**
      *
      * @OA\Put(
-     *      path="/rent/{id}",
+     *      path="/rents/{id}",
      *      summary="Обновить аренду",
      *      description="Обновляет аренду и возвращает её",
      *      tags={"Аренды"},
@@ -268,7 +268,7 @@ class RentController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/rent/{id}",
+     *      path="/rents/{id}",
      *      summary="Удалить запись об аренде",
      *      description="Удаляет запись об аренде и возвращает её",
      *      tags={"Аренды"},
@@ -327,7 +327,7 @@ class RentController extends Controller
     /**
      *
      * @OA\Patch(
-     *      path="/rent/{id}",
+     *      path="/rents/{id}",
      *      summary="Закрыть аренду",
      *      description="Закрывает аренду и возвращает её",
      *      tags={"Аренды"},

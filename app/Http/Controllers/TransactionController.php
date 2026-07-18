@@ -15,7 +15,7 @@ class TransactionController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/transaction",
+     *      path="/transactions",
      *      summary="Получить все транзакции",
      *      description="Получить транзакции",
      *      tags={"Транзакции"},
@@ -72,7 +72,7 @@ class TransactionController extends Controller
     /**
      *
      * @OA\Get(
-     *      path="/transaction/{id}",
+     *      path="/transactions/{id}",
      *      summary="Получить транзакцию",
      *      description="Получает транзакцию по идентификатору и возвращает её",
      *      tags={"Транзакции"},
@@ -138,7 +138,7 @@ class TransactionController extends Controller
     /**
      *
      * @OA\Post(
-     *      path="/transaction",
+     *      path="/transactions",
      *      summary="Создать транзакцию",
      *      description="Создает новую транзакцию и возвращает её",
      *      tags={"Транзакции"},
@@ -198,7 +198,7 @@ class TransactionController extends Controller
     /**
      *
      * @OA\Put(
-     *      path="/transaction/{id}",
+     *      path="/transactions/{id}",
      *      summary="Обновить транзакцию",
      *      description="Обновляет запись о транзакции и возвращает её",
      *      tags={"Транзакции"},
@@ -265,7 +265,7 @@ class TransactionController extends Controller
     /**
      *
      * @OA\Delete(
-     *      path="/transaction/{id}",
+     *      path="/transactions/{id}",
      *      summary="Удалить транзакцию",
      *      description="Удаляет транзакцию",
      *      tags={"Транзакции"},

@@ -13,7 +13,7 @@ class CarMarkController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car_mark",
+     *      path="/car-marks",
      *      summary="Получить все марки ТС",
      *      description="Получить список марок ТС",
      *      tags={"Машины"},
@@ -71,7 +71,7 @@ class CarMarkController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car_mark/{id}",
+     *      path="/car-marks/{id}",
      *      summary="Получить производителя ТС",
      *      description="Получает производителя ТС по идентификатору и возвращает его",
      *      tags={"Машины"},
@@ -137,7 +137,7 @@ class CarMarkController extends Controller
     /**
      * 
      * @OA\Post(
-     *      path="/car_mark",
+     *      path="/car-marks",
      *      summary="Создать марку ТС",
      *      description="Создает новую марку ТС и возвращает ее",
      *      tags={"Машины"},
@@ -196,7 +196,7 @@ class CarMarkController extends Controller
     /**
      * 
      * @OA\Put(
-     *      path="/car_mark/{id}",
+     *      path="/car-marks/{id}",
      *      summary="Обновить марку ТС",
      *      description="Обновляет запись о марке ТС и возвращает ее",
      *      tags={"Машины"},
@@ -263,7 +263,7 @@ class CarMarkController extends Controller
     /**
      * 
      * @OA\Delete(
-     *      path="/car_mark/{id}",
+     *      path="/car-marks/{id}",
      *      summary="Удалить марку ТС",
      *      description="Удаляет запись о марке ТС",
      *      tags={"Машины"},

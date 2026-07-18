@@ -19,7 +19,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car",
+     *      path="/cars",
      *      summary="Получить все ТС",
      *      description="Получить список ТС",
      *      tags={"Машины"},
@@ -77,7 +77,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Get(
-     *      path="/car/{id}",
+     *      path="/cars/{id}",
      *      summary="Получить ТС",
      *      description="Получает ТС по идентификатору и возвращает его",
      *      tags={"Машины"},
@@ -143,7 +143,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Post(
-     *      path="/car",
+     *      path="/cars",
      *      summary="Создать ТС",
      *      description="Создает новое ТС и возвращает ее",
      *      tags={"Машины"},
@@ -202,7 +202,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Put(
-     *      path="/car/{id}",
+     *      path="/cars/{id}",
      *      summary="Обновить ТС",
      *      description="Обновляет запись о ТС и возвращает ее",
      *      tags={"Машины"},
@@ -269,7 +269,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Delete(
-     *      path="/car/{id}",
+     *      path="/cars/{id}",
      *      summary="Удалить ТС",
      *      description="Удаляет запись о ТС",
      *      tags={"Машины"},
@@ -326,7 +326,7 @@ class CarController extends Controller
     /**
      * 
      * @OA\Patch(
-     *      path="/car/{id}/status",
+     *      path="/cars/{id}/status",
      *      summary="Обновить статус ТС",
      *      description="Обновляет статус ТС",
      *      tags={"Машины"},
