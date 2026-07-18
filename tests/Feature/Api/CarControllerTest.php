@@ -114,8 +114,16 @@ class CarControllerTest extends TestCase
             ->assertStatus(422);
     }
 
-    public function test_positions_endpoint_is_public_and_returns_only_rented_cars(): void
+    public function test_guest_cannot_view_positions(): void
     {
+        Car::factory()->create(['status' => CarsStatus::Rented]);
+
+        $this->getJson('/api/v1/cars/positions')->assertUnauthorized();
+    }
+
+    public function test_positions_endpoint_requires_auth_and_returns_only_rented_cars(): void
+    {
+        $this->actingAsApiUser();
         $rented = Car::factory()->create([
             'status' => CarsStatus::Rented,
             'location' => '55.751244 37.618423',

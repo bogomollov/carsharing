@@ -29,11 +29,9 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::post('me', [AuthController::class, 'me']);
 });
 
-Route::group(['middleware' => 'api'], function () {
-    Route::get('cars/positions', [CarController::class, 'positions']);
-});
-
 Route::group(['middleware' => ['api', 'auth:api']], function () {
+    Route::get('cars/positions', [CarController::class, 'positions']);
+
     Route::get('arendators', [ArendatorController::class, 'index']);
     Route::get('arendators/{id}', [ArendatorController::class, 'show']);
     Route::post('arendators', [ArendatorController::class, 'store']);

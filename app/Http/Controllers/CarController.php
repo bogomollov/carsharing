@@ -158,10 +158,12 @@ class CarController extends Controller
     #[OA\Get(
         path: '/cars/positions',
         summary: 'Получить текущие координаты арендованных ТС',
-        description: 'Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте',
+        description: 'Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте. Требует авторизации — реальные координаты арендованных ТС не публикуются анонимно.',
         tags: ['Машины'],
+        security: [['bearerAuth' => []]],
         responses: [
             new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(ref: '#/components/schemas/CarPositions')),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
         ],
     )]
     public function positions(): Collection

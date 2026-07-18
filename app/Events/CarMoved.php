@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\Car;
-use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 
@@ -18,7 +18,7 @@ class CarMoved implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('cars-tracking'),
+            new PrivateChannel('cars-tracking'),
         ];
     }
 
