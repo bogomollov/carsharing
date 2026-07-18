@@ -49,14 +49,6 @@ class CarObserver
     }
 
     /**
-     * Handle the Cars "retrieved" event.
-     */
-    public function retrieved(Car $car): void
-    {
-        Redis::forget('car_index');
-    }
-
-    /**
      * Handle the Cars "restored" event.
      */
     public function restored(Car $car): void

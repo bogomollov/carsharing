@@ -61,14 +61,6 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
     }
 
     /**
-     * Handle the Cars "retrieved" event.
-     */
-    public function retrieved(Arendator $arendator): void
-    {
-        Redis::forget('arendator_index');
-    }
-
-    /**
      * Handle the Arendators "restored" event.
      */
     public function restored(Arendator $arendator): void
