@@ -12,54 +12,22 @@ use App\Http\Requests\Arendator\UpdateStatusRequest;
 use App\Http\Resources\Arendator\ArendatorResource;
 use App\Services\ArendatorService;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 class ArendatorController extends Controller
 {
-    /**
-     * 
-     * @OA\Get(
-     *      path="/arendators",
-     *      summary="Получить всех пользователей",
-     *      description="Получить пользователей",
-     *      tags={"Арендаторы"},
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorAll"),
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
+    #[OA\Get(
+        path: '/arendators',
+        summary: 'Получить всех пользователей',
+        description: 'Получить пользователей',
+        tags: ['Арендаторы'],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorAll')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function index()
     {
         $cache = Redis::get('arendator_index');
@@ -73,59 +41,21 @@ class ArendatorController extends Controller
         }
     }
 
-    /**
-     *
-     * @OA\Get(
-     *      path="/arendators/{id}",
-     *      summary="Получить пользователя",
-     *      description="Получает пользователя по идентификатору и возвращает его",
-     *      tags={"Арендаторы"},
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              allOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorId")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+    #[OA\Get(
+        path: '/arendators/{id}',
+        summary: 'Получить пользователя',
+        description: 'Получает пользователя по идентификатору и возвращает его',
+        tags: ['Арендаторы'],
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'deb4ff7a-c16b-4b9f-98db-d3c4e3cda010')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/ArendatorId')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function show(Arendator $id)
     {
         $cache = Redis::get($id->id);
@@ -139,319 +69,102 @@ class ArendatorController extends Controller
         }
     }
 
-    /**
-     *
-     * @OA\Post(
-     *      path="/arendators",
-     *      summary="Создать пользователя",
-     *      description="Создает нового пользователя и возвращает его",
-     *      tags={"Арендаторы"},
-     *      @OA\RequestBody(
-     *          request="ArendatorRequest",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/ArendatorRequest")
-     *          }
-     *      )
-     *  ),
-     *      @OA\Response(
-     *          response=201,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+    #[OA\Post(
+        path: '/arendators',
+        summary: 'Создать пользователя',
+        description: 'Создает нового пользователя и возвращает его',
+        tags: ['Арендаторы'],
+        requestBody: new OA\RequestBody(request: 'ArendatorRequest', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/ArendatorRequest')])),
+        responses: [
+            new OA\Response(response: 201, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function store(StoreRequest $request)
     {
         return new ArendatorResource(Arendator::create($request->validated()));
     }
 
-    /**
-     *
-     * @OA\Put(
-     *      path="/arendators/{id}",
-     *      summary="Обновить пользователя",
-     *      description="Обновляет запись о пользователе и возвращает его",
-     *      tags={"Арендаторы"},
-     *      @OA\RequestBody(
-     *          request="ArendatorRequest",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/ArendatorRequest")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Существующий идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="64a7129a-fc61-3d3f-b44a-837d29f6531a")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+    #[OA\Put(
+        path: '/arendators/{id}',
+        summary: 'Обновить пользователя',
+        description: 'Обновляет запись о пользователе и возвращает его',
+        tags: ['Арендаторы'],
+        requestBody: new OA\RequestBody(request: 'ArendatorRequest', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/ArendatorRequest')])),
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Существующий идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: '64a7129a-fc61-3d3f-b44a-837d29f6531a')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function update(UpdateRequest $request, Arendator $id)
     {
         $id->update($request->validated());
         return new ArendatorResource($id);
     }
-    /**
-     *
-     * @OA\Delete(
-     *      path="/arendators/{id}",
-     *      summary="Удалить пользователя",
-     *      description="Удаляет запись о пользователе",
-     *      tags={"Арендаторы"},
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+
+    #[OA\Delete(
+        path: '/arendators/{id}',
+        summary: 'Удалить пользователя',
+        description: 'Удаляет запись о пользователе',
+        tags: ['Арендаторы'],
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'deb4ff7a-c16b-4b9f-98db-d3c4e3cda010')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function destroy(Arendator $id, ArendatorService $arendatorService)
     {
         return $arendatorService->setStatus($id, ArendatorsStatus::Deleted);
     }
 
-    /**
-     *
-     * @OA\Patch(
-     *      path="/arendators/{id}/bill",
-     *      summary="Изменить счет по умолчанию",
-     *      description="Изменяет счет по умолчанию у арендатора",
-     *      tags={"Арендаторы"},
-     *      @OA\RequestBody(
-     *          request="ArendatorDefaultBill",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/ArendatorDefaultBill")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+    #[OA\Patch(
+        path: '/arendators/{id}/bill',
+        summary: 'Изменить счет по умолчанию',
+        description: 'Изменяет счет по умолчанию у арендатора',
+        tags: ['Арендаторы'],
+        requestBody: new OA\RequestBody(request: 'ArendatorDefaultBill', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/ArendatorDefaultBill')])),
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'deb4ff7a-c16b-4b9f-98db-d3c4e3cda010')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function setDefaultBill(UpdateDefaultBillRequest $request, Arendator $id, ArendatorService $arendatorService) {
         return $arendatorService->setDefaultBill($id, $request['default_bill_id']);
     }
 
-    /**
-     *
-     * @OA\Patch(
-     *      path="/arendators/{id}/status",
-     *      summary="Изменить статус пользователя",
-     *      description="Изменяет статус у пользователя",
-     *      tags={"Арендаторы"},
-     *      @OA\RequestBody(
-     *          request="ArendatorStatus",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/ArendatorStatus")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="deb4ff7a-c16b-4b9f-98db-d3c4e3cda010")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/ArendatorChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     *
-     */
+    #[OA\Patch(
+        path: '/arendators/{id}/status',
+        summary: 'Изменить статус пользователя',
+        description: 'Изменяет статус у пользователя',
+        tags: ['Арендаторы'],
+        requestBody: new OA\RequestBody(request: 'ArendatorStatus', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/ArendatorStatus')])),
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'deb4ff7a-c16b-4b9f-98db-d3c4e3cda010')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/ArendatorChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function setStatus(UpdateStatusRequest $request, Arendator $id, ArendatorService $arendatorService) {
         return $arendatorService->setStatus($id, $request['status']);
     }

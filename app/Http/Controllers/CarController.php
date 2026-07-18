@@ -13,54 +13,22 @@ use App\Services\CarService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 class CarController extends Controller
 {
-    /**
-     * 
-     * @OA\Get(
-     *      path="/cars",
-     *      summary="Получить все ТС",
-     *      description="Получить список ТС",
-     *      tags={"Машины"},
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarAll")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
+    #[OA\Get(
+        path: '/cars',
+        summary: 'Получить все ТС',
+        description: 'Получить список ТС',
+        tags: ['Машины'],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarAll')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function index()
     {
         $cache = Redis::get('car_index');
@@ -74,59 +42,21 @@ class CarController extends Controller
         }
     }
 
-    /**
-     * 
-     * @OA\Get(
-     *      path="/cars/{id}",
-     *      summary="Получить ТС",
-     *      description="Получает ТС по идентификатору и возвращает его",
-     *      tags={"Машины"},
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор пользователя",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarId")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * )
-     *
-     */
+    #[OA\Get(
+        path: '/cars/{id}',
+        summary: 'Получить ТС',
+        description: 'Получает ТС по идентификатору и возвращает его',
+        tags: ['Машины'],
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор пользователя', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'ca327b1a-ed73-41c6-afe0-1eca33866ec3')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarId')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function show(Car $id)
     {
         $cache = Redis::get($id->id);
@@ -140,267 +70,95 @@ class CarController extends Controller
         }
     }
 
-    /**
-     * 
-     * @OA\Post(
-     *      path="/cars",
-     *      summary="Создать ТС",
-     *      description="Создает новое ТС и возвращает ее",
-     *      tags={"Машины"},
-     *      @OA\RequestBody(
-     *          request="CarRequest",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/CarRequest")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     *  ),
-     */
+    #[OA\Post(
+        path: '/cars',
+        summary: 'Создать ТС',
+        description: 'Создает новое ТС и возвращает ее',
+        tags: ['Машины'],
+        requestBody: new OA\RequestBody(request: 'CarRequest', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/CarRequest')])),
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function store(StoreRequest $request)
     {
         return new CarResource(Car::create($request->validated()));
     }
 
-    /**
-     * 
-     * @OA\Put(
-     *      path="/cars/{id}",
-     *      summary="Обновить ТС",
-     *      description="Обновляет запись о ТС и возвращает ее",
-     *      tags={"Машины"},
-     *      @OA\RequestBody(
-     *          request="Car",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/CarRequest")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Существующий идентификатор ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
+    #[OA\Put(
+        path: '/cars/{id}',
+        summary: 'Обновить ТС',
+        description: 'Обновляет запись о ТС и возвращает ее',
+        tags: ['Машины'],
+        requestBody: new OA\RequestBody(request: 'CarRequest', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/CarRequest')])),
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Существующий идентификатор ТС', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'ca327b1a-ed73-41c6-afe0-1eca33866ec3')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function update(UpdateRequest $request, Car $id)
     {
         $id->update($request->validated());
         return new CarResource($id);
     }
 
-    /**
-     * 
-     * @OA\Delete(
-     *      path="/cars/{id}",
-     *      summary="Удалить ТС",
-     *      description="Удаляет запись о ТС",
-     *      tags={"Машины"},
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
+    #[OA\Delete(
+        path: '/cars/{id}',
+        summary: 'Удалить ТС',
+        description: 'Удаляет запись о ТС',
+        tags: ['Машины'],
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор ТС', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'ca327b1a-ed73-41c6-afe0-1eca33866ec3')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function destroy(Car $id, CarService $carService)
     {
         return $carService->setStatus($id, CarsStatus::Expectation);
     }
 
-    /**
-     * 
-     * @OA\Patch(
-     *      path="/cars/{id}/status",
-     *      summary="Обновить статус ТС",
-     *      description="Обновляет статус ТС",
-     *      tags={"Машины"},
-     *      @OA\RequestBody(
-     *          request="CarStatus",
-     *          required=true,
-     *      @OA\JsonContent(
-     *          allOf={
-     *              @OA\Schema(ref="#/components/schemas/CarStatus")
-     *          }
-     *      )    
-     *  ),
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Идентификатор ТС",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="string", example="ca327b1a-ed73-41c6-afe0-1eca33866ec3")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/CarChange")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Не авторизован",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response401")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Доступ запрещен",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response403")
-     *              }
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Не найдено",
-     *          @OA\JsonContent(
-     *              oneOf={
-     *                  @OA\Schema(ref="#/components/schemas/Response404")
-     *              }
-     *          )
-     *      ),
-     * ),
-     */
+    #[OA\Patch(
+        path: '/cars/{id}/status',
+        summary: 'Обновить статус ТС',
+        description: 'Обновляет статус ТС',
+        tags: ['Машины'],
+        requestBody: new OA\RequestBody(request: 'CarStatus', required: true, content: new OA\JsonContent(allOf: [new OA\Schema(ref: '#/components/schemas/CarStatus')])),
+        parameters: [
+            new OA\Parameter(name: 'id', description: 'Идентификатор ТС', required: true, in: 'path', schema: new OA\Schema(type: 'string', example: 'ca327b1a-ed73-41c6-afe0-1eca33866ec3')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/CarChange')])),
+            new OA\Response(response: 401, description: 'Не авторизован', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response401')])),
+            new OA\Response(response: 403, description: 'Доступ запрещен', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response403')])),
+            new OA\Response(response: 404, description: 'Не найдено', content: new OA\JsonContent(oneOf: [new OA\Schema(ref: '#/components/schemas/Response404')])),
+        ],
+    )]
     public function setStatus(UpdateStatusRequest $request, Car $id, CarService $carService) {
         return $carService->setStatus($id, $request->validated()['status']);
     }
 
-    /**
-     *
-     * @OA\Get(
-     *      path="/cars/positions",
-     *      summary="Получить текущие координаты арендованных ТС",
-     *      description="Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте",
-     *      tags={"Машины"},
-     *      @OA\Response(
-     *          response=200,
-     *          description="Успех",
-     *      ),
-     * ),
-     */
+    #[OA\Get(
+        path: '/cars/positions',
+        summary: 'Получить текущие координаты арендованных ТС',
+        description: 'Возвращает координаты всех ТС, находящихся в аренде, для отображения на карте',
+        tags: ['Машины'],
+        responses: [
+            new OA\Response(response: 200, description: 'Успех'),
+        ],
+    )]
     public function positions()
     {
         return Car::query()
