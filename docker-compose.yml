@@ -51,7 +51,7 @@ services:
             retries: 3
             timeout: 5s
     redis:
-        image: 'redis:alpine'
+        image: 'redis:8.8.0-alpine'
         container_name: 'redis'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
