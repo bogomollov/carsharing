@@ -1,8 +1,44 @@
+<div align="center">
+<h1>Carsharing</h1>
+<p align="center">Платформа краткосрочной аренды автомобилей с отслеживанием местоположения ТС в реальном времени</p>
+</div>
+
+## Стек технологий
+
+- PHP 8.4, Laravel 13
+- PostgreSQL
+- Redis
+- RabbitMQ
+- Laravel Reverb (WebSocket, трансляция местоположения ТС в реальном времени)
+- Laravel Sanctum, JWT Auth
+- L5-Swagger (документация API)
+- Vue 3, Inertia.js, Tailwind CSS, Vite
+- Leaflet (карта местоположения ТС)
+- Docker, Laravel Sail
+
+## Начало работы
+
+1. Клонировать репозиторий
+```bash
+git clone https://github.com/bogomollov/carsharing.git
+```
+
+2. Скопировать файл окружения
+```bash
+cp .env.example .env
+```
+
+3. Установить зависимости Composer
+```bash
+composer install
+```
+
 ## Запуск проекта
 
-1. Установка зависимостей Composer
+1. Открыть проект находясь в WSL консоли
 ```sh
-composer i
+wsl
+cd carsharing
 ```
 
 2. Запуск Laravel Sail
@@ -99,3 +135,9 @@ php artisan l5-swagger:generate
 - balance - баланс счета
 - type - тип счета
 - status - статус счета
+
+## Лицензия
+
+Copyright (c) 2026-present Bogdan Bogomolov<br>
+
+Проект распространяется под лицензией Apache 2.0. Дополнительную информацию см. в [LICENSE](LICENSE)
