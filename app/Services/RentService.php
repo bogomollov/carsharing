@@ -118,7 +118,7 @@ class RentService
     }
 
     public function calculateRentedTime(Rent $rent) {
-        $rent->rented_time = $rent->end_datetime->diffInMinutes($rent->start_datetime);
+        $rent->rented_time = (int) round($rent->end_datetime->diffInMinutes($rent->start_datetime, absolute: true));
         $rent->update();
     }
 

@@ -1,5 +1,9 @@
 @import './reset.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #app {
   max-width: 1320px;
   margin: 0 auto;
@@ -33,6 +37,16 @@
   --section-gap: 150px;
 }
 
+html {
+  background: var(--color-background);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
 ::selection, ::-moz-selection {
   background: var(--color-selection);
 }
@@ -53,6 +67,11 @@ h6 {
   font-weight: var(--text-weight-default);
 }
 
+/*
+ * `prefers-color-scheme` sets the default from the OS setting. The
+ * `data-theme` attribute (toggled by ThemeButton.vue, persisted in
+ * localStorage) always overrides it in either direction.
+ */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--color-dark);
@@ -60,11 +79,14 @@ h6 {
   }
 }
 
-@media (prefers-color-scheme: white) {
-  :root {
-    --color-background: var(--color-white);
-    --color-text: var(--color-dark);
-  }
+:root[data-theme="dark"] {
+  --color-background: var(--color-dark);
+  --color-text: var(--color-white);
+}
+
+:root[data-theme="light"] {
+  --color-background: var(--color-white);
+  --color-text: var(--color-dark-gray);
 }
 
 *,

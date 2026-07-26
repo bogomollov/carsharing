@@ -7,7 +7,6 @@ use App\Enums\DrivesType;
 use App\Models\CarMark;
 use Faker\Provider\FakeCar;
 use Faker\Provider\FakeCarData;
-use Faker\Provider\FakeCarHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,7 +27,7 @@ class CarModelFactory extends Factory
             'id' => fake()->uuid(),
             'mark_id' => CarMark::factory(),
             'name' => function (array $attributes) {
-                return FakeCarHelper::getRandomElementFromArray(FakeCarData::$brandsWithModels[CarMark::find($attributes['mark_id'])->name]);
+                return $this->faker->unique()->randomElement(FakeCarData::$brandsWithModels[CarMark::find($attributes['mark_id'])->name]);
             },
             'car_class' => CarsClasses::getRandomValue(),
             'car_type' => $this->faker->vehicleType,

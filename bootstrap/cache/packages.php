@@ -8,13 +8,13 @@
   ),
   'darkaonline/l5-swagger' => 
   array (
-    'providers' => 
-    array (
-      0 => 'L5Swagger\\L5SwaggerServiceProvider',
-    ),
     'aliases' => 
     array (
       'L5Swagger' => 'L5Swagger\\L5SwaggerFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'L5Swagger\\L5SwaggerServiceProvider',
     ),
   ),
   'inertiajs/inertia-laravel' => 
@@ -29,6 +29,14 @@
     'providers' => 
     array (
       0 => 'Laravel\\Breeze\\BreezeServiceProvider',
+    ),
+  ),
+  'laravel/reverb' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Reverb\\ApplicationManagerServiceProvider',
+      1 => 'Laravel\\Reverb\\ReverbServiceProvider',
     ),
   ),
   'laravel/sail' => 
@@ -75,20 +83,20 @@
   ),
   'spatie/laravel-ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
   'tightenco/ziggy' => 
   array (
     'providers' => 
     array (
-      0 => 'Tightenco\\Ziggy\\ZiggyServiceProvider',
+      0 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
     ),
   ),
   'tymon/jwt-auth' => 

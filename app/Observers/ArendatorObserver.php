@@ -34,7 +34,7 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
     public function updated(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
-        Redis::forget($arendator);
+        Redis::forget($arendator->id);
         $billService = new BillService();
         $billService->updateArendatorsCount($arendator->default_bill_id);
         $billService->updateBillType($arendator->default_bill_id);
@@ -46,7 +46,7 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
     public function deleted(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
-        Redis::forget($arendator);
+        Redis::forget($arendator->id);
         $billService = new BillService();
         $billService->updateArendatorsCount($arendator->default_bill_id);
         $billService->updateBillType($arendator->default_bill_id);
@@ -56,14 +56,6 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
      * Handle the Arendators "deleting" event.
      */
     public function deleting(Arendator $arendator): void
-    {
-        Redis::forget('arendator_index');
-    }
-
-    /**
-     * Handle the Cars "retrieved" event.
-     */
-    public function retrieved(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
     }

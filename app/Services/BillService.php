@@ -34,12 +34,18 @@ class BillService
 
     public function updateArendatorsCount($id) {
         $bill = Bill::find($id);
+        if (!$bill) {
+            return;
+        }
         $bill->arendators_count = $bill->bills->count();
         $bill->update();
     }
 
     public function updateBillType($id) {
         $bill = Bill::find($id);
+        if (!$bill) {
+            return;
+        }
 
         if ($bill->arendators_count > 1)
         {

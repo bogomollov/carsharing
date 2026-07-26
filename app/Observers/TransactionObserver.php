@@ -25,7 +25,7 @@ class TransactionObserver
     public function updated(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
-        Redis::forget($transaction);
+        Redis::forget($transaction->id);
         $billService = new BillService();
         $billService->modificateBalance(Bill::find($transaction->bill_id), $transaction->modification);
     }
@@ -36,7 +36,7 @@ class TransactionObserver
     public function deleted(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
-        Redis::forget($transaction);
+        Redis::forget($transaction->id);
         $billService = new BillService();
         $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
