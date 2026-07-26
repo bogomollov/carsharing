@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Arendator extends Authenticatable implements JWTSubject
 {
-    use HasUuids, HasFactory, SoftDeletes, HasApiTokens, Notifiable;
+    use HasUuids, HasFactory, SoftDeletes, Notifiable;
 
     public $incrementing = false;
     

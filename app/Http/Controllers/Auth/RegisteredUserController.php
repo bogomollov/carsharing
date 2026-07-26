@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\ArendatorsStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Arendator;
 use App\Providers\RouteServiceProvider;
@@ -37,13 +38,12 @@ class RegisteredUserController extends Controller
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
-            'status' => 'required|string',
             'passport_series' => 'required|string',
-            'passport_number' => 'required|string|unique',
+            'passport_number' => 'required|string|unique:'.Arendator::class,
             'driverlicense_series' => 'required|string',
-            'driverlicense_number' => 'required|string|unique',
+            'driverlicense_number' => 'required|string',
             'driverlicense_date' => 'required|string',
-            'phone' => 'required|string|unique',
+            'phone' => 'required|string|unique:'.Arendator::class,
         ]);
 
         $user = Arendator::create([
@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             'last_name' => $request->last_name,
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
-            'status' => $request->status,
+            'status' => ArendatorsStatus::Active,
             'passport_series' => $request->passport_series,
             'passport_number' => $request->passport_number,
             'driverlicense_series' => $request->driverlicense_series,
