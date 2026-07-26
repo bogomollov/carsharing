@@ -11,7 +11,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth('api')->check();
     }
 
     /**
@@ -26,9 +26,9 @@ class UpdateRequest extends FormRequest
             'status' => 'required|string',
             'mileage' => 'required|integer',
             'license_plate' => 'required|string',
-            'year' => 'required|integer',
+            'vin' => 'required|string',
             'location' => 'required|string',
-            'price_minute' => 'required|integer',
+            'price_minute' => 'required|numeric',
         ];
     }
 }
