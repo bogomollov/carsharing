@@ -8,9 +8,7 @@ use App\Models\Rent;
 
 class RentsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         Rent::factory(20)->create();

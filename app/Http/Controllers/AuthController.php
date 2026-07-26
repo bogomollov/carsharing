@@ -8,11 +8,7 @@ use OpenApi\Attributes as OA;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
@@ -91,11 +87,7 @@ class AuthController extends Controller
         return $this->respondWithToken(auth('api')->refresh());
     }
 
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     */
+    
     protected function respondWithToken($token): JsonResponse
     {
         return response()->json([

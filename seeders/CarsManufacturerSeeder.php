@@ -8,9 +8,7 @@ use App\Models\CarsManufacturer;
 
 class CarsManufacturerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run()
     {
         //

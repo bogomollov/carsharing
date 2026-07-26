@@ -9,18 +9,10 @@ use App\Models\Arendator;
 use App\Models\Car;
 use App\Models\Rent;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory>
- */
 class RentFactory extends Factory
 {
     protected $model = Rent::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $beginDateTime = fake()->dateTimeBetween('-365 days','now',null);

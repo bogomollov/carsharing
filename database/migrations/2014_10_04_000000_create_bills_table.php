@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,10 +17,10 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->unsignedBigInteger("arendators_count")->default(1)->comment("Количество пользователей связанных со счётом");
-            $table->decimal('balance', 10,2)->comment("Баланс счёта");
-            $table->string("type")->comment("Тип счёта");
-            $table->string('status')->comment("Статус счёта");
+            $table->unsignedBigInteger("arendators_count")->default(1)->comment("РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃРІСЏР·Р°РЅРЅС‹С… СЃРѕ СЃС‡С‘С‚РѕРј");
+            $table->decimal('balance', 10,2)->comment("Р‘Р°Р»Р°РЅСЃ СЃС‡С‘С‚Р°");
+            $table->string("type")->comment("РўРёРї СЃС‡С‘С‚Р°");
+            $table->string('status')->comment("РЎС‚Р°С‚СѓСЃ СЃС‡С‘С‚Р°");
             $table->timestamps();
             $table->softDeletes();
         });

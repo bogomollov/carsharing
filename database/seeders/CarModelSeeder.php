@@ -7,9 +7,7 @@ use App\Models\CarModel;
 
 class CarModelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run()
     {
         CarModel::factory()->create();

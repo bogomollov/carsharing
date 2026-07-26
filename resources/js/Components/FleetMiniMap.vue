@@ -3,9 +3,6 @@ import { onMounted, onBeforeUnmount, ref } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Illustrative map only: markers below are a client-side simulation and are
-// never derived from real vehicles, rentals, or customer locations. The
-// actual fleet-tracking feed is authenticated and not exposed publicly.
 const MOSCOW_CENTER = [55.7558, 37.6173];
 const LAT_MIN = 55.70;
 const LAT_MAX = 55.88;

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('arendator_id')->nullable()->constrained('arendators')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор арендатора");
-            $table->foreignUuid('bill_id')->nullable()->constrained('bills')->cascadeOnUpdate()->nullOnDelete()->comment("Идентификатор счёта");
-            $table->decimal('modification',100,2)->comment("Изменение баланса");
+            $table->foreignUuid('arendator_id')->nullable()->constrained('arendators')->cascadeOnUpdate()->nullOnDelete()->comment("РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°СЂРµРЅРґР°С‚РѕСЂР°");
+            $table->foreignUuid('bill_id')->nullable()->constrained('bills')->cascadeOnUpdate()->nullOnDelete()->comment("РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‡С‘С‚Р°");
+            $table->decimal('modification',100,2)->comment("РР·РјРµРЅРµРЅРёРµ Р±Р°Р»Р°РЅСЃР°");
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,16 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Enums\CarsStatus;
 use App\Models\CarModel;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class CarFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $this->faker->addProvider(new \Faker\Provider\FakeCar($this->faker));
