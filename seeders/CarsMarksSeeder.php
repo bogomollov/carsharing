@@ -8,9 +8,6 @@ use App\Models\CarsMarks;
 
 class CarsMarksSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $brands = array(

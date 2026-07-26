@@ -8,12 +8,8 @@ use App\Models\CarsManufacturer;
 
 class CarsManufacturerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        //
         $manufacturers_names = array(
             'VAG',
             'General Motors',

@@ -8,12 +8,8 @@ use App\Models\CarsModel;
 
 class CarsModelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        //
         $models = array(
             1 => ['Q6', 'Q3', 'Q5'],
             2 => ['Cayene', '911'],
