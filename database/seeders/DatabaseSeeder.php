@@ -10,9 +10,6 @@ use Database\Seeders\TransactionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->call(CarModelSeeder::class);

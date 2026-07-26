@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Cache as Redis;
 
 class TransactionObserver
 {
-    /**
-     * Handle the Transaction "created" event.
-     */
     public function created(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
@@ -19,9 +16,6 @@ class TransactionObserver
         $billService->modificateBalance(Bill::find($transaction->bill_id), $transaction->modification);
     }
 
-    /**
-     * Handle the Transaction "updated" event.
-     */
     public function updated(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
@@ -30,9 +24,6 @@ class TransactionObserver
         $billService->modificateBalance(Bill::find($transaction->bill_id), $transaction->modification);
     }
 
-    /**
-     * Handle the Transaction "deleted" event.
-     */
     public function deleted(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
@@ -41,9 +32,6 @@ class TransactionObserver
         $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
 
-    /**
-     * Handle the Transaction "restored" event.
-     */
     public function restored(Transaction $transaction): void
     {
         Redis::forget('transaction_index');
@@ -51,9 +39,6 @@ class TransactionObserver
         $billService->modificateBalance(Bill::find($transaction->bill_id), -$transaction->modification);
     }
 
-    /**
-     * Handle the Transaction "force deleted" event.
-     */
     public function forceDeleted(Transaction $transaction): void
     {
         Redis::forget('transaction_index');

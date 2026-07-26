@@ -9,9 +9,6 @@ use App\Services\BillService;
 
 class ArendatorObserver implements ShouldHandleEventsAfterCommit
 {
-    /**
-     * Handle the Arendators "created" event.
-     */
     public function created(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
@@ -20,17 +17,11 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
         $billService->updateBillType($arendator->default_bill_id);
     }
 
-    /**
-     * Handle the Arendators "saved" event.
-     */
     public function saved(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
     }
 
-    /**
-     * Handle the Arendators "updated" event.
-     */
     public function updated(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
@@ -40,9 +31,6 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
         $billService->updateBillType($arendator->default_bill_id);
     }
 
-    /**
-     * Handle the Arendators "deleted" event.
-     */
     public function deleted(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
@@ -52,17 +40,11 @@ class ArendatorObserver implements ShouldHandleEventsAfterCommit
         $billService->updateBillType($arendator->default_bill_id);
     }
 
-    /**
-     * Handle the Arendators "deleting" event.
-     */
     public function deleting(Arendator $arendator): void
     {
         Redis::forget('arendator_index');
     }
 
-    /**
-     * Handle the Arendators "restored" event.
-     */
     public function restored(Arendator $arendator): void
     {
         Redis::forget('arendator_index');

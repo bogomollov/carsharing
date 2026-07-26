@@ -67,11 +67,6 @@ h6 {
   font-weight: var(--text-weight-default);
 }
 
-/*
- * `prefers-color-scheme` sets the default from the OS setting. The
- * `data-theme` attribute (toggled by ThemeButton.vue, persisted in
- * localStorage) always overrides it in either direction.
- */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--color-dark);
